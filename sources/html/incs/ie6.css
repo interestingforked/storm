@@ -1,0 +1,2 @@
+img, div { behavior: url(incs/iepngfix.htc) }
+#layout, #container, #right-wrapper, #col-left, .content {zoom:1;}

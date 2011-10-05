@@ -1,0 +1,35 @@
+.dataGrid {margin-top:20px;width:100%;border-collapse:collapse;border-spacing:0;font-size:12px;}
+.dataGrid th, .dataGrid td {padding:3px;border:1px solid #2b2b2b;}
+.dataGrid th {text-align:left;}
+
+.update-profile {margin-top:20px;}
+.update-profile td {vertical-align:top;}
+select.field {line-height:12px;margin:0 10px 0 0;}
+
+.spec {padding:10px 20px 20px;}
+.spec h4 {padding:0 0 5px;border-bottom:1px solid #fff;}
+.spec table {font-size:12px;}
+.spec table td {padding:3px 20px 3px 3px;}
+
+.modal-content {display:none;}
+
+.formatTitle {height:40px;}
+
+#sitemap a, 
+#sitemap a:visited {color: #FFF;}
+#sitemap a:hover{color:#FF21A6;}
+#sitemap ul {font-size:85%;}
+#sitemap ul li ul {font-size:100%;margin-left:20px;}
+#sitemap ul li ul li ul {font-size:100%;margin-left:20px;}
+#sitemap ul li ul li ul li ul {font-size:100%;margin-left:20px;}
+
+a.button  {
+    background: none repeat scroll 0 0 #1F1F1F;
+    border: 1px solid #FBF80B;
+    color: #FBF80B;
+    padding: 3px 8px 4px;
+    text-transform: uppercase;
+    font-size:70%;
+    text-decoration:none;
+}
+a.button:hover {background-color:#343434;}
