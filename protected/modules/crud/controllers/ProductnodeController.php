@@ -52,7 +52,7 @@ class ProductnodeController extends CrudController {
             }
         }
 
-        $this->render('edit', array(
+        $this->render('new', array(
             'model' => $model,
             'errors' => $errors,
             'colors' => $colors,

@@ -90,9 +90,11 @@ foreach ($products as $product):
         continue;
     }
     $c++;
+    $image = "";
     $link = CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id));
-    $attachetImage = Attachment::model()->getAttachment('product', $product->id);
-    $image = CHtml::image(Image::thumb(Yii::app()->params['images'].$attachetImage->image, 187), $product->content->title);
+    $attachetImage = Attachment::model()->getAttachment('productNode', $product->mainNode->id);
+    if ($attachetImage)
+        $image = CHtml::image(Image::thumb(Yii::app()->params['images'].$attachetImage->image, 187), $product->content->title);
 
 ?>
 <div class="prod-list">

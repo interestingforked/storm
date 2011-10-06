@@ -13,9 +13,10 @@ var paymentData = {
     city: '<?php echo $paymentData->city ?>',
     district: '<?php echo $paymentData->district ?>',
     postcode: '<?php echo $paymentData->postcode ?>',
-    country_id: '<?php echo $paymentData->country_id ?>'
+    district_id: '<?php echo $paymentData->district_id ?>',
+    point_id: '<?php echo $paymentData->point_id ?>'
 }
-var formFields = ['name','surname','phone','email','house','street','city','district','postcode','country_id'];
+var formFields = ['name','surname','phone','email','house','street','city','district','postcode','country_id','district_id','point_id'];
 $(document).ready(function () {
     $('#payment_data').click(function () {
         $('#name').val(paymentData.name);
@@ -28,6 +29,8 @@ $(document).ready(function () {
         $('#district').val(paymentData.district);
         $('#postcode').val(paymentData.postcode);
         $('#country_id').val(paymentData.country_id);
+        $('#district_id').val(paymentData.district_id);
+        $('#point_id').val(paymentData.point_id);
     });
     $('#formdata').submit(function () {
         var accepted = true;
@@ -87,17 +90,61 @@ $(document).ready(function () {
     <dd><?php echo CHtml::textField('street', $data->street, array('class' => 'field')); ?></dd>
     
     <dt><?php echo CHtml::label(Yii::t('app', 'City').' <span class="nec">*</span>', 'city'); ?></dt>
-    <dd><?php echo CHtml::textField('city', $data->city, array('class' => 'field')); ?></dd>
+    <dd>
+    <?php 
+    $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'name' => 'city',
+        'value' => $data->city,
+        'source' => Yii::app()->createUrl('/service/point'),
+        'options' => array(
+            'minLength' => '2',
+            'showAnim' => 'fold',
+            'select' => 'js: function(event, ui) {
+                this.value = ui.item.label;
+                $("#point_id").val(ui.item.id);
+                return false;
+            }',
+        ),
+        'htmlOptions' => array(
+            'maxlength' => 50,
+            'class' => 'field'
+        ),
+    )); 
+    echo CHtml::hiddenField('point_id'); 
+    ?>
+    </dd>
     
     <dt><?php echo CHtml::label(Yii::t('app', 'District').' <span class="nec">*</span>', 'district'); ?></dt>
-    <dd><?php echo CHtml::textField('district', $data->district, array('class' => 'field')); ?></dd>
+    <dd>
+    <?php 
+    $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+        'name' => 'district',
+        'value' => $data->district,
+        'source' => Yii::app()->createUrl('/service/district'),
+        'options' => array(
+            'minLength' => '2',
+            'showAnim' => 'fold',
+            'select' => 'js: function(event, ui) {
+                this.value = ui.item.label;
+                $("#district_id").val(ui.item.id);
+                return false;
+            }',
+        ),
+        'htmlOptions' => array(
+            'maxlength' => 50,
+            'class' => 'field'
+        ),
+    )); 
+    echo CHtml::hiddenField('district_id'); 
+    ?>
+    </dd>
     
     <dt><?php echo CHtml::label(Yii::t('app', 'Postcode').' <span class="nec">*</span>', 'postcode'); ?></dt>
     <dd><?php echo CHtml::textField('postcode', $data->postcode, array('class' => 'field')); ?></dd>
 
     <dt><?php echo CHtml::label(Yii::t('app', 'Country').' <span class="nec">*</span>', 'country_id'); ?></dt>
     <dd><?php echo CHtml::dropDownList('country_id', $data->country_id, $countries, array('class' => 'field')); ?></dd>
-
+    
     <div class="checkout-btns">
         <?php echo CHtml::button(Yii::t('app', 'Back'), array(
             'class' => 'button',

@@ -53,6 +53,7 @@
                  ?>
                  </div>
                  
+                 <?php if ($product->content->additional): ?>
 		 <p><a href="#product_specs" class="modal"><?php echo Yii::t('app', 'Read specification'); ?> &gt;</a></p>
                  <div class="modal-content">
                  <div id="product_specs">
@@ -62,6 +63,7 @@
                      </div>
                  </div>
                  </div>
+                 <?php endif; ?>
 		</div>
 		<div id="price-info">
 		 

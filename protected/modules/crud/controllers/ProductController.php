@@ -64,7 +64,7 @@ class ProductController extends CrudController {
                 $contentModel->module = 'product';
                 $contentModel->module_id = $productModel->id;
                 if ($contentModel->save()) {
-                    $result = Attachment::model()->saveAttachments($attachments, 'product', $productModel->id);
+                    $result = Attachment::model()->saveAttachments($attachments, 'productBig', $productModel->id);
                     if ( ! is_array($result))
                         $transaction->commit();
                         $this->redirect(array('/crud/product'));
@@ -122,7 +122,7 @@ class ProductController extends CrudController {
             }
 
             if ($productModel->save() AND $contentModel->save()) {
-                $result = Attachment::model()->saveAttachments($attachments, 'product', $productModel->id);
+                $result = Attachment::model()->saveAttachments($attachments, 'productBig', $productModel->id);
                 if ( ! is_array($result))
                     $this->redirect(array('/crud/product'));
                 $errors = $result;

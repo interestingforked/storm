@@ -2,11 +2,11 @@
 
 class SoapController extends CController {
 
-    public function actionIndex() {
+    public function actionAddress() {
         $client = new SoapClient("http://www.ponyexpress.ru/tools/address_ws.wsdl");
         
         $request = new PointRequest();
-        /*
+
         $request->latin_names = false;
         $model = new Point();
         $response = $client->getPoints($request);
@@ -19,7 +19,7 @@ class SoapController extends CController {
             $model->title = $element->title;
             $model->save();
         }
-         */
+        
         $request->latin_names = true;
         $response = $client->getPoints($request);
         foreach ($response->point_el AS $element) {
@@ -31,7 +31,15 @@ class SoapController extends CController {
     }
     
     public function actionRate() {
-        $client = new SoapClient("http://www.ponyexpress.ru/tools/address_ws.wsdl");
+        $ponyExpress = new PonyExpressService(Yii::app()->params['ponyExpress']);
+        $response = $ponyExpress->getRate(array(
+            'citycode' => 'SRW004',
+            'region' => 418,
+            'district' => 2626,
+            'count' => 3,
+            'weight' => 0.3,
+        ));
+        print_r($response);
     }
 
 }
@@ -47,15 +55,4 @@ class DistrictRequest {
 }
 class PointRequest {
     public $latin_names;
-}
-class getRateRequest {
-    public $org_citycode;
-    public $dest_citycode;
-    public $dest_region;
-    public $dest_district;
-    public $item_count;
-    public $weight;
-    public $direction;
-    public $delivery_mode;
-    public $currency_code;
 }

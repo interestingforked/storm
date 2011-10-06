@@ -90,19 +90,25 @@ class Classifier extends CActiveRecord {
                     'criteria' => $criteria,
                 ));
     }
-    
-    public function getValue($group, $key) {
+
+    public function getValue($group, $key, $default = '') {
         $classiefier = $this->findByAttributes(array(
             'group' => $group,
             'key' => $key
-        ));
-        return ($classiefier) ? $classiefier->value : '';
+                ));
+        return ($classiefier) ? $classiefier->value : $default;
     }
-    
+
     public function getGroup($group) {
-        return $this->findAllByAttributes(array(
-            'group' => $group,
-        ));
+        return $this->ordered()->findAllByAttributes(array('group' => $group,));
+    }
+
+    public function scopes() {
+        return array(
+            'ordered' => array(
+                'order' => 'value ASC',
+            ),
+        );
     }
 
 }

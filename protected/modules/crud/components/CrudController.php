@@ -11,6 +11,11 @@ class CrudController extends CController {
         parent::init();
         $this->menu = array(
             array(
+                'label' => 'Categories', 
+                'url' => array('/crud/category'),
+                'active' => ($this->getId() == 'category')
+            ),
+            array(
                 'label' => 'Products', 
                 'url' => array('/crud/product'),
                 'active' => ($this->getId() == 'product')
@@ -19,7 +24,12 @@ class CrudController extends CController {
                 'label' => 'Product Nodes', 
                 'url' => array('/crud/productnode'),
                 'active' => ($this->getId() == 'productnode')
-            )
+            ),
+            array(
+                'label' => 'Pages', 
+                'url' => array('/crud/page'),
+                'active' => ($this->getId() == 'page')
+            ),
         );
         $this->classifier = Classifier::model();
     }

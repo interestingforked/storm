@@ -127,12 +127,5 @@ class Order extends CActiveRecord {
             'status' => $status,
         ));
     }
-    
-    public function getByUserId($userId) {
-        return $this->findByAttributes(array(
-            'user_id' => $userId,
-            'status' => 1,
-        ));
-    }
 
 }

@@ -74,6 +74,8 @@ class CheckoutController extends Controller {
                 $orderDetail->save();
             }
             $orderDetail->country_id = $_POST['country_id'];
+            $orderDetail->district_id = $_POST['district_id'];
+            $orderDetail->point_id = $_POST['point_id'];
             $orderDetail->name = $_POST['name'];
             $orderDetail->surname = $_POST['surname'];
             $orderDetail->phone = $_POST['phone'];
@@ -121,6 +123,8 @@ class CheckoutController extends Controller {
                 $orderDetail->save();
             }
             $orderDetail->country_id = $_POST['country_id'];
+            $orderDetail->district_id = $_POST['district_id'];
+            $orderDetail->point_id = $_POST['point_id'];
             $orderDetail->name = $_POST['name'];
             $orderDetail->surname = $_POST['surname'];
             $orderDetail->phone = $_POST['phone'];
@@ -153,9 +157,26 @@ class CheckoutController extends Controller {
         if ( ! $order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
+        
+        $weight = 0;
+        $items = $this->cart->getItems();
+        foreach ($items AS $item) {
+            $productNode = ProductNode::model()->findByPk($item['product_node_id']);
+            $weight += ($productNode->weight * $item['quantity']);
+        }
+        
+        $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
+        $ponyExpress = new PonyExpressService(Yii::app()->params['ponyExpress']);
+        $response = $ponyExpress->getRate(array(
+            'citycode' => $shippingData->point_id,
+            'district' => $shippingData->district_id,
+            'count' => $order->quantity,
+            'weight' => $weight,
+        ));
+        
         if ($_POST) {
             $order->shipping_method = $_POST['delivery_method'];
-            $order->shipping = 0.00;
+            $order->shipping = $_POST['delivery_cost'];
             if ($order->save()) {
                 Yii::app()->controller->redirect(array('/checkout/orderoverview'));
             } else {
@@ -164,6 +185,7 @@ class CheckoutController extends Controller {
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('delivery_method', array(
+            'ponyExpress' => $response,
         ));
     }
     

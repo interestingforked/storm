@@ -91,5 +91,12 @@ return array(
         'currency' => ' Руб',
         'size_limit' => 10 * 1024 * 1024,
         'tmp_upload_dir' => 'assets/tmp/',
+        'ponyExpress' => array(
+            'schema' => 'http://www.ponyexpress.ru/tools/tariff_ws.wsdl',
+            'currency_code' => 'RUB',
+            'org_citycode' => 'MOW',
+            'direction' => 2,
+            'delivery_mode' => 2,
+        )
     ),
 );

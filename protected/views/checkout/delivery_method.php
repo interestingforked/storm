@@ -4,6 +4,18 @@ $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method');
 
 <script type="text/javascript">
 $(document).ready(function () {
+    $('input[name=delivery_method]').click(function () {
+        switch (this.value) {
+            case '1':
+                $('#delivery_cost').val(0);
+                $('#delivery_days').val(0);
+                break;
+            case '2':
+                $('#delivery_cost').val('<?php echo (isset($ponyExpress->tariff_including_vat) ? $ponyExpress->tariff_including_vat : 0) ?>');
+                $('#delivery_days').val('<?php echo (isset($ponyExpress->delivery_days) ? $ponyExpress->delivery_days : 0) ?>');
+                break;
+        }
+    });
 });
 </script>
 
@@ -38,9 +50,22 @@ $(document).ready(function () {
                 <td><?php echo Yii::t('app', 'Free shipping'); ?></td>
                 <td></td>
             </tr>
+            <?php if ($ponyExpress): ?>
+            <tr>
+                <td><input type="radio" name="delivery_method" value="2"/></td>
+                <td><?php echo $ponyExpress->tariff_including_vat.Yii::app()->params['currency']; ?></td>
+                <td><?php echo Yii::t('app', 'Pony Express'); ?></td>
+                <td>
+                    <?php echo Yii::t('app', 'Срок доставки'); ?>: <?php echo $ponyExpress->delivery_days; ?><br/>
+                    <?php echo Yii::t('app', 'Стоимость без НДС'); ?>: <?php echo $ponyExpress->tariff.Yii::app()->params['currency']; ?>
+                </td>
+            </tr>
+            <?php endif; ?>
         </tbody>
     </table> 
-
+    <input type="hidden" name="delivery_cost" id="delivery_cost" value="0.00"/>
+    <input type="hidden" name="delivery_days" id="delivery_days" value="0.00"/>
+    
     <div class="checkout-btns">
         <?php echo CHtml::button(Yii::t('app', 'Back'), array(
             'class' => 'button',

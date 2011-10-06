@@ -415,7 +415,7 @@ input.button  {
     text-transform: uppercase;
     font-size:70%;
 }
-input.field {height:12px;}
+input.field {line-height:12px;}
 form dt {
     float: left;
     clear: both;

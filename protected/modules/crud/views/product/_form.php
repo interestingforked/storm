@@ -20,7 +20,7 @@ $form = $this->beginWidget('CActiveForm', array(
     
     <div class="row">
             <?php echo Chtml::label('Categories','Categories_1'); ?>
-            <?php echo Chtml::dropDownList('Categories[]',$activeCategories[0]->id.' ',$categories,array('id' => 'Categories_1')); ?>
+            <?php echo Chtml::dropDownList('Categories[]',( ! $productModel->isNewRecord ? $activeCategories[0]->id : null).' ',$categories,array('id' => 'Categories_1')); ?>
     </div>
     
     <div class="row">

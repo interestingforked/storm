@@ -29,9 +29,9 @@
     echo implode('<br/>', $categoryList);
     ?></td>
     <td><?php echo Chtml::link($product['product']->content->title, array('/crud/product/edit/'.$product['product']->id)); ?></td>
-    <td><?php echo ($product['product']->active == 1) ? 'Active' : 'Not active'; ?></td>
-    <td><?php echo $product['product']->sort; ?></td>
-    <td><?php echo $product['product']->created; ?></td>
+    <td align="center"><?php echo ($product['product']->active == 1) ? 'Active' : 'Not active'; ?></td>
+    <td align="center"><?php echo $product['product']->sort; ?></td>
+    <td align="center"><?php echo $product['product']->created; ?></td>
     <td align="center">
         <?php
         echo Chtml::link('View', array('/product/'.$product['product']->slug.'-'.$product['product']->id));

@@ -4,6 +4,8 @@
 echo $this->renderPartial('_form', array(
         'errors' => $errors,
         'model' => $model,
+        'colors' => $colors,
+        'sizes' => $sizes,
     )
 );
 ?>

@@ -29,16 +29,16 @@ foreach ($data AS $node):
         echo CHtml::image(Image::thumb(Yii::app()->params['images'].$image->image, 50));
     endif; 
     ?></td>
-    <td><?php echo CHtml::link($product->content->title, array('/crud/product/edit/'.$product->id)); ?></td>
-    <td><?php echo $node->price; ?></td>
-    <td><?php echo $this->classifier->getValue('color', $node->color); ?></td>
-    <td><?php echo $this->classifier->getValue('size', $node->size); ?></td>
-    <td><?php echo ($node->main == 1) ? 'Yes' : 'No'; ?></td>
-    <td><?php echo ($node->new == 1) ? 'Yes' : 'No'; ?></td>
-    <td><?php echo ($node->sale == 1) ? 'Yes' : 'No'; ?></td>
-    <td><?php echo ($node->active == 1) ? 'Active' : 'Not active'; ?></td>
-    <td><?php echo $node->sort; ?></td>
-    <td><?php echo $node->created; ?></td>
+    <td align="center"><?php echo CHtml::link($product->content->title, array('/crud/product/edit/'.$product->id)); ?></td>
+    <td align="right"><?php echo $node->price; ?></td>
+    <td align="center"><?php echo $this->classifier->getValue('color', $node->color, '-'); ?></td>
+    <td align="center"><?php echo $this->classifier->getValue('size', $node->size, '-'); ?></td>
+    <td align="center"><?php echo ($node->main == 1) ? 'Yes' : 'No'; ?></td>
+    <td align="center"><?php echo ($node->new == 1) ? 'Yes' : 'No'; ?></td>
+    <td align="center"><?php echo ($node->sale == 1) ? 'Yes' : 'No'; ?></td>
+    <td align="center"><?php echo ($node->active == 1) ? 'Active' : 'Not active'; ?></td>
+    <td align="center"><?php echo $node->sort; ?></td>
+    <td align="center"><?php echo $node->created; ?></td>
     <td align="center">
         <?php
         echo CHtml::link('View', array('/product/'.$product->slug.'-'.$product->id));
