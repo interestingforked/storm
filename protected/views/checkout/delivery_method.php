@@ -16,6 +16,7 @@ $(document).ready(function () {
                 break;
         }
     });
+    $('input[name=delivery_method]:first').attr('checked', true);
 });
 </script>
 

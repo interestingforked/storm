@@ -255,7 +255,6 @@ class CheckoutController extends Controller {
                     $order->discount = '- '.$coupon->value.Yii::app()->params['currency'];
             }
             $order->key = $order->id.'-'.$order->user_id.$order->cart_id;
-            $order->status = 2;
             if ($order->save()) {
                 
                 $orderItem = new OrderItem();
@@ -293,7 +292,7 @@ class CheckoutController extends Controller {
     
     public function actionConfirmation() {
         $messages = null;
-        $order = Order::model()->getByUserId(Yii::app()->user->id, 2);
+        $order = Order::model()->getByUserId(Yii::app()->user->id);
         if ( ! $order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
@@ -313,6 +312,7 @@ class CheckoutController extends Controller {
             $headers = "MIME-Version: 1.0\r\nFrom: $adminEmail\r\nReply-To: $adminEmail\r\nContent-Type: text/html; charset=utf-8";
             if (mail($email,'=?UTF-8?B?'.base64_encode($subject).'?=',$mail,$headers)) {
                 $order->sent = 1;
+                $order->status = 2;
                 $order->save();
             }
         }
