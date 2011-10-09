@@ -68,10 +68,9 @@ class CheckoutController extends Controller {
             }
             $orderDetail = OrderDetail::model()->getOrderPaymentData($order->id);
             if ( ! $orderDetail) {
-                $orderDetail = new OrderDetail();
+                $orderDetail = $paymentData;
                 $orderDetail->order_id = $order->id;
                 $orderDetail->type = 'payment';
-                $orderDetail->save();
             }
             $orderDetail->country_id = $_POST['country_id'];
             $orderDetail->district_id = $_POST['district_id'];

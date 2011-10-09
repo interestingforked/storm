@@ -76,7 +76,7 @@
                                                                             <?php
                                                                             $attachedImage = Attachment::model()->getAttachment('productNode', $item['product_node_id']);
                                                                             if ($attachedImage):
-                                                                                echo CHtml::image(Image::thumb(Yii::app()->params['images'].$attachedImage->image, 63));
+                                                                                echo CHtml::image(Yii::app()->getBaseUrl(true).Image::thumb(Yii::app()->params['images'].$attachedImage->image, 63));
                                                                             endif;
                                                                             ?>
                                                                         </td>

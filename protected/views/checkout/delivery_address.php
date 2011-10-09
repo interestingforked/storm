@@ -16,7 +16,7 @@ var paymentData = {
     district_id: '<?php echo $paymentData->district_id ?>',
     point_id: '<?php echo $paymentData->point_id ?>'
 }
-var formFields = ['name','surname','phone','email','house','street','city','district','postcode','country_id','district_id','point_id'];
+var formFields = ['name','surname','phone','email','house','street','city','postcode','country_id','point_id'];
 $(document).ready(function () {
     $('#payment_data').click(function () {
         $('#name').val(paymentData.name);
@@ -114,7 +114,7 @@ $(document).ready(function () {
     ?>
     </dd>
     
-    <dt><?php echo CHtml::label(Yii::t('app', 'District').' <span class="nec">*</span>', 'district'); ?></dt>
+    <dt><?php echo CHtml::label(Yii::t('app', 'District'), 'district'); ?></dt>
     <dd>
     <?php 
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(

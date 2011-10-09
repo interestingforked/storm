@@ -3,7 +3,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Your data');
 ?>
 
 <script type="text/javascript">
-var formFields = ['name','surname','phone','email','house','street','city','district','postcode','country_id','district_id','point_id'];
+var formFields = ['name','surname','phone','email','house','street','city','postcode','country_id','point_id'];
 $(document).ready(function () {
     $('#formdata').submit(function () {
         var accepted = true;
@@ -78,7 +78,7 @@ $(document).ready(function () {
     ?>
     </dd>
     
-    <dt><?php echo CHtml::label(Yii::t('app', 'District').' <span class="nec">*</span>', 'district'); ?></dt>
+    <dt><?php echo CHtml::label(Yii::t('app', 'District'), 'district'); ?></dt>
     <dd>
     <?php 
     $this->widget('zii.widgets.jui.CJuiAutoComplete', array(
