@@ -40,6 +40,18 @@
             <?php echo $form->dropDownList($model,'sale',array(0 => 'No', 1 => 'Yes')); ?>
             <?php echo $form->error($model,'sale'); ?>
     </div>
+    
+    <div class="row">
+            <?php echo $form->labelEx($model,'preorder'); ?>
+            <?php echo $form->dropDownList($model,'preorder',array(0 => 'No', 1 => 'Yes')); ?>
+            <?php echo $form->error($model,'preorder'); ?>
+    </div>
+    
+    <div class="row">
+            <?php echo $form->labelEx($model,'notify'); ?>
+            <?php echo $form->dropDownList($model,'notify',array(0 => 'No', 1 => 'Yes')); ?>
+            <?php echo $form->error($model,'notify'); ?>
+    </div>
 
     <div class="row">
             <?php echo $form->labelEx($model,'price'); ?>

@@ -186,6 +186,7 @@ class CheckoutController extends Controller {
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('delivery_method', array(
             'ponyExpress' => $response,
+            'point' => $shippingData->point_id,
         ));
     }
     
@@ -296,6 +297,25 @@ class CheckoutController extends Controller {
         $order = Order::model()->getByUserId(Yii::app()->user->id, 2);
         if ( ! $order) {
             Yii::app()->controller->redirect(array('/checkout'));
+        }
+        if ($order->sent != 1) {
+            $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
+            $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
+            $items = $order->items;
+            $mail = $this->renderPartial('//mails/confirm', array(
+                'order' => $order,
+                'payment' => $paymentData,
+                'shipping' => $shippingData,
+                'items' => $items
+            ), true);
+            $subject = 'STORM - Подтверждение заказа';
+            $adminEmail = Yii::app()->params['adminEmail'];
+            $email = Yii::app()->user->email;
+            $headers = "MIME-Version: 1.0\r\nFrom: $adminEmail\r\nReply-To: $adminEmail\r\nContent-Type: text/html; charset=utf-8";
+            if (mail($email,'=?UTF-8?B?'.base64_encode($subject).'?=',$mail,$headers)) {
+                $order->sent = 1;
+                $order->save();
+            }
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('confirmation', array(

@@ -92,17 +92,24 @@ class Page extends CActiveRecord {
         return $this->findAll("parent_id > 0");
     }
 
-    public function getListed($id = '') {
+    public function getListed($id = '', $visibleAll = false) {
         $subitems = array();
         if ($this->childs)
             foreach ($this->childs as $child) {
-                $subitems[] = $child->getListed($id);
+                $subitems[] = $child->getListed($id, $visibleAll);
             }
+        
         $pageContent = Content::model()->getModuleContent('page', $this->id);
+        $active = (preg_match("/" . str_replace("/", "\/", $this->slug) . "/", $id) > 0);
+        $parent = $this->getparent;
+        $activeParent = false;
+        if ($parent)
+            $activeParent = (preg_match("/" . str_replace("/", "\/", $parent->slug) . "/", $id) > 0);
         $returnarray = array(
             'label' => (isset($pageContent->title)) ? $pageContent->title : '',
             'url' => array('/' . $this->slug),
-            'active' => (preg_match("/" . str_replace("/", "\/", $this->slug) . "/", $id) > 0),
+            'active' => $active,
+            'visible' => ($active OR $activeParent OR $this->parent_id == 1 OR $visibleAll)
         );
         if ($subitems != array())
             $returnarray = array_merge($returnarray, array('items' => $subitems));

@@ -44,12 +44,14 @@ $(document).ready(function () {
                 <th align="left"><?php echo Yii::t('app', 'Delivery method'); ?></th>
                 <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
             </tr>
+            <?php if ($point == 'MOW'): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="1" checked="checked"/></td>
                 <td>0.00 <?php echo Yii::app()->params['currency']; ?></td>
                 <td><?php echo Yii::t('app', 'Free shipping'); ?></td>
                 <td></td>
             </tr>
+            <?php endif; ?>
             <?php if ($ponyExpress): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="2"/></td>

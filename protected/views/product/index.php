@@ -81,7 +81,7 @@
 		 <p>
 		  <select onchange="location.href='?node='+this.options[this.selectedIndex].value" class="color-select" id="" name="">
                       <?php foreach($colors AS $ck => $cv): ?>
-                          <option value="<?php echo $ck; ?>" <?php echo (isset($_GET['node']) AND $_GET['node'] == $ck) ? 'selected' : ''; ?>><?php echo $this->classifier->getValue('color', $cv); ?></option>
+                          <option value="<?php echo $ck; ?>" <?php echo ((isset($_GET['node']) AND $_GET['node'] == $ck) OR $ck == $product->mainNode->id) ? 'selected' : ''; ?>><?php echo $this->classifier->getValue('color', $cv); ?></option>
                       <?php endforeach; ?>
 		  </select>
 		  <span class="smaller">(<?php echo Yii::t('app', 'select to view/buy'); ?>)</span>
@@ -92,7 +92,7 @@
 		 <p>
 		  <select onchange="" class="color-select" id="" name="">
                       <?php foreach($sizes AS $sk => $sv): ?>
-                          <option value="<?php echo $sk; ?>" <?php echo (isset($_GET['node']) AND $_GET['node'] == $ck) ? 'selected' : ''; ?>><?php echo $this->classifier->getValue('size', $sv); ?></option>
+                          <option value="<?php echo $sk; ?>" <?php echo ((isset($_GET['node']) AND $_GET['node'] == $sk) OR $sk == $product->mainNode->id) ? 'selected' : ''; ?>><?php echo $this->classifier->getValue('size', $sv); ?></option>
                       <?php endforeach; ?>
 		  </select>
 		  <span class="smaller">(<?php echo Yii::t('app', 'select to view/buy'); ?>)</span>
@@ -113,7 +113,9 @@
                      <?php echo $product->mainNode->price; ?></h4>
                  <div class="buy">
                  <?php if ($product->mainNode->quantity == 0): ?>
-                    <span id="Availability" style="display:none;"><?php echo Yii::t('app', 'Not available'); ?></span>
+                    <?php if ($product->mainNode->notify == 0): ?>
+                    <span id="Availability"><?php echo Yii::t('app', 'Not available'); ?></span>
+                    <?php else: ?>
                     <span id="email" style="padding:5px 0 0 0;">
                     <?php 
                     echo CHtml::beginForm(array('/product/notify'));
@@ -134,6 +136,7 @@
                     echo CHtml::endForm(); 
                     ?>
                     </span>
+                    <?php endif; ?>
                  <?php else: ?>
 		  <span id="BuyButton" style="">
                     <?php 

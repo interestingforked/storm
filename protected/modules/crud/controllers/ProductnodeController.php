@@ -45,6 +45,13 @@ class ProductnodeController extends CrudController {
             }
             
             if ($model->save()) {
+                
+                if ($model->main == 1) {
+                    ProductNode::model()->updateAll(array(
+                        'main' => 0
+                    ), "product_id = {$model->product_id} AND main = 1");
+                }
+                
                 $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id);
                 if ( ! is_array($result))
                     $this->redirect(array('/crud/productnode/index/'.$model->product_id));
@@ -90,6 +97,13 @@ class ProductnodeController extends CrudController {
             }
             
             if ($model->save()) {
+                
+                if ($model->main == 1) {
+                    ProductNode::model()->updateAll(array(
+                        'main' => 0
+                    ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
+                }
+                
                 $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id);
                 if ( ! is_array($result))
                     $this->redirect(array('/crud/productnode/index/'.$model->product_id));

@@ -46,13 +46,13 @@ class ProductNode extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('product_id, price', 'required'),
-            array('active, main, new, sale, quantity, sort', 'numerical', 'integerOnly' => true),
+            array('active, main, new, preorder, notify, quantity, sort', 'numerical', 'integerOnly' => true),
             array('product_id', 'length', 'max' => 11),
             array('price, old_price', 'length', 'max' => 15),
             array('color, size', 'length', 'max' => 30),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, product_id, active, main, new, sale, price, old_price, quantity, sort, color, size, created', 'safe', 'on' => 'search'),
+            array('id, product_id, active, main, new, sale, preorder, notify, price, old_price, quantity, sort, color, size, created', 'safe', 'on' => 'search'),
         );
     }
 
@@ -78,6 +78,8 @@ class ProductNode extends CActiveRecord {
             'main' => 'Main',
             'new' => 'New',
             'sale' => 'Sale',
+            'preorder' => 'Preorder',
+            'notify' => 'Notify',
             'price' => 'Price',
             'old_price' => 'Old Price',
             'quantity' => 'Quantity',

@@ -106,7 +106,7 @@ $(document).ready(function () {
                 'style' => 'background-color: rgb(31, 31, 31);',
                 'onclick' => "location.href='".CHtml::normalizeUrl(array('/checkout/deliverymethod'))."'",
             )); ?>
-            <?php echo CHtml::submitButton(Yii::t('app', 'Continue'), array(
+            <?php echo CHtml::submitButton(Yii::t('app', 'Подтвердить заказ'), array(
                 'class' => 'button',
                 'onmouseout' => "this.style.backgroundColor='#1F1F1F'",
                 'onmouseover' => "this.style.backgroundColor='#343434'",

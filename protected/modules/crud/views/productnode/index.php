@@ -6,11 +6,14 @@
         <th>Image</th>
         <th>Product</th>
         <th>Price</th>
+        <th>Quantity</th>
         <th>Color</th>
         <th>Size</th>
         <th>Main</th>
         <th>New</th>
         <th>Sale</th>
+        <th>Preorder</th>
+        <th>Notify</th>
         <th>Status</th>
         <th>Sort</th>
         <th>Created</th>
@@ -31,11 +34,14 @@ foreach ($data AS $node):
     ?></td>
     <td align="center"><?php echo CHtml::link($product->content->title, array('/crud/product/edit/'.$product->id)); ?></td>
     <td align="right"><?php echo $node->price; ?></td>
+    <td align="center"><?php echo $node->quantity; ?></td>
     <td align="center"><?php echo $this->classifier->getValue('color', $node->color, '-'); ?></td>
     <td align="center"><?php echo $this->classifier->getValue('size', $node->size, '-'); ?></td>
     <td align="center"><?php echo ($node->main == 1) ? 'Yes' : 'No'; ?></td>
     <td align="center"><?php echo ($node->new == 1) ? 'Yes' : 'No'; ?></td>
     <td align="center"><?php echo ($node->sale == 1) ? 'Yes' : 'No'; ?></td>
+    <td align="center"><?php echo ($node->preorder == 1) ? 'Yes' : 'No'; ?></td>
+    <td align="center"><?php echo ($node->notify == 1) ? 'Yes' : 'No'; ?></td>
     <td align="center"><?php echo ($node->active == 1) ? 'Active' : 'Not active'; ?></td>
     <td align="center"><?php echo $node->sort; ?></td>
     <td align="center"><?php echo $node->created; ?></td>
