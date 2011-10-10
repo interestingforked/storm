@@ -7,12 +7,16 @@ class WishlistDatabase {
 
     public function __construct() {
         $this->wishlist = Wishlist::model()->getByUserId(Yii::app()->user->id);
-        $this->items = $this->wishlist->items;
+		if ($this->wishlist) {
+			$this->items = $this->wishlist->items;
+		}
     }
     
     private function refresh() {
         $this->wishlist = Wishlist::model()->getByUserId(Yii::app()->user->id);
-        $this->items = $this->wishlist->items;
+        if ($this->wishlist) {
+			$this->items = $this->wishlist->items;
+		}
     }
 
     public function create() {

@@ -110,7 +110,7 @@ $(document).ready(function () {
             'class' => 'field'
         ),
     )); 
-    echo CHtml::hiddenField('point_id'); 
+    echo CHtml::hiddenField('point_id', $data->point_id); 
     ?>
     </dd>
     
@@ -135,7 +135,7 @@ $(document).ready(function () {
             'class' => 'field'
         ),
     )); 
-    echo CHtml::hiddenField('district_id'); 
+    echo CHtml::hiddenField('district_id', $data->district_id); 
     ?>
     </dd>
     

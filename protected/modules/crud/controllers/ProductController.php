@@ -5,7 +5,7 @@ class ProductController extends CrudController {
     public function actionIndex() {
         $data = array();
 
-        $products = Product::model()->findAll();
+        $products = Product::model()->ordered()->findAll();
         foreach ($products AS $product) {
             $categories = array();
             foreach ($product->categories AS $category) {
@@ -13,7 +13,7 @@ class ProductController extends CrudController {
                 $category->content = Content::model()->getModuleContent('category', $category->id);
                 $productCategory[] = $category;
                 $parent = $category->getparent;
-                if ($parent) {
+                if ($parent AND $parent->parent_id > 0) {
                     $parent->content = Content::model()->getModuleContent('category', $parent->id);
                     array_unshift($productCategory, $parent);
                 }
@@ -37,14 +37,14 @@ class ProductController extends CrudController {
         $category = Category::model()->findByPk(1);
         $categories = $category->getOptionList();
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model, 'product');
-
         $errors = array();
         
         if (isset($_POST['Product'])) {
             $productModel->attributes = $_POST['Product'];
             $contentModel->attributes = $_POST['Content'];
+            
+            $maxNumber = Product::model()->getMaxNumber(date('ym'));
+            $productModel->number = $maxNumber;
 
             $postCategories = array();
             foreach ($_POST['Categories'] AS $postCategory) {
@@ -91,12 +91,22 @@ class ProductController extends CrudController {
     public function actionEdit($id) {
         $productModel = Product::model()->findByPk($id);
         $contentModel = Content::model()->getModuleContent('product', $id);
-        $categoryModels = $productModel->categories;
-
+        
         $attachmentModels = Attachment::model()->getAttachments(array('product','productBig'), $id);
         
         $category = Category::model()->findByPk(1);
         $categories = $category->getOptionList();
+        $selectedCategories = array();
+        foreach ($productModel->categories AS $selectedCategory) {
+            $selectedCategories[] = $selectedCategory->id.' ';
+        }
+        $activeCategories = array();
+        foreach ($categories AS $key => $value) {
+            if (in_array($key, $selectedCategories)) {
+                $activeCategories[$key] = $value;
+                unset($categories[$key]);
+            }
+        }
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model, 'product');
@@ -108,7 +118,7 @@ class ProductController extends CrudController {
             $contentModel->attributes = $_POST['Content'];
 
             $postCategories = array();
-            foreach ($_POST['Categories'] AS $postCategory) {
+            foreach ($_POST['SelectedCategories'] AS $postCategory) {
                 $postCategories[] = (int) trim($postCategory);
             }
             $productModel->setRelationRecords('categories', $postCategories);
@@ -134,7 +144,7 @@ class ProductController extends CrudController {
         $this->render('edit', array(
             'errors' => $errors,
             'categories' => $categories,
-            'activeCategories' => $categoryModels,
+            'activeCategories' => $activeCategories,
             'productModel' => $productModel,
             'contentModel' => $contentModel,
             'attachmentModels' => $attachmentModels,
@@ -142,16 +152,11 @@ class ProductController extends CrudController {
     }
 
     public function actionDelete($id) {
-        if (Yii::app()->request->isPostRequest) {
-            // we only allow deletion via POST request
-            $this->loadModel('Product', $id)->delete();
-
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        }
-        else
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+		$productModel = Product::model()->findByPk($id);
+		$productModel->deleted = 1;
+		$productModel->save();
+		
+		$this->redirect(array('/crud/product'));
     }
 
 }

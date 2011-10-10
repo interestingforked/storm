@@ -122,10 +122,18 @@ class Order extends CActiveRecord {
     }
     
     public function getByUserId($userId, $status = 1) {
-        return $this->findByAttributes(array(
+        return $this->ordered()->findByAttributes(array(
             'user_id' => $userId,
             'status' => $status,
         ));
+    }
+    
+    public function scopes() {
+        return array(
+            'ordered' => array(
+                'order' => 'id DESC',
+            ),
+        );
     }
 
 }

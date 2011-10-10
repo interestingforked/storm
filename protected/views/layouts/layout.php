@@ -51,8 +51,6 @@ if ( ! empty($this->background)) {
 ?>
 <body>
 
-<pre><?php //print_r(Yii::app()->getUrlManager()); ?></pre>
-    
 <div id="layout" <?php echo $class; ?>>
  <div id="container">
   <div id="right-wrapper">

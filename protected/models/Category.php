@@ -119,9 +119,10 @@ class Category extends CActiveRecord {
     public function getOptionList($parent = '') {
         $subitems = array();
         $categoryContent = Content::model()->getModuleContent('category', $this->id);
+		$title = (isset($categoryContent->title)) ? $categoryContent->title : '';
         if ($this->childs)
             foreach ($this->childs as $child) {
-                $subitems[] = $child->getOptionList($categoryContent->title);
+                $subitems[] = $child->getOptionList($title);
         }
         if ($this->id > 1) {
             $returnArray[$this->id.' '] = ($parent?$parent.' > ':'').$categoryContent->title;

@@ -3,6 +3,7 @@
 <table class="data">
     <tr>
         <th>ID</th>
+        <th>Number</th>
         <th>URL</th>
         <th>Categories</th>
         <th>Title</th>
@@ -14,6 +15,7 @@
 <?php foreach ($data AS $product): ?>
 <tr>
     <td align="center"><?php echo $product['product']->id; ?></td>
+    <td align="center"><?php echo $product['product']->number; ?></td>
     <td><?php echo $product['product']->slug; ?></td>
     <td><?php 
     $categoryList = array();
@@ -34,7 +36,7 @@
     <td align="center"><?php echo $product['product']->created; ?></td>
     <td align="center">
         <?php
-        echo Chtml::link('View', array('/product/'.$product['product']->slug.'-'.$product['product']->id));
+        echo Chtml::link('View', array('/product/'.$product['product']->slug.'-'.$product['product']->number));
         echo ' / ';
         echo Chtml::link('Edit', array('/crud/product/edit/'.$product['product']->id));
         echo ' / ';

@@ -32,7 +32,9 @@ class CheckoutController extends Controller {
         $orderId = ($order) ? $order->id : 0;
         $paymentData = OrderDetail::model()->getOrderPaymentData($orderId);
         if ( ! $paymentData) {
-            $paymentData = new OrderDetail();
+            $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 2);
+            if ($oldOrder)
+                $paymentData = OrderDetail::model()->getOrderPaymentData($oldOrder->id);
         }
         
         if ($_POST) {
@@ -68,7 +70,7 @@ class CheckoutController extends Controller {
             }
             $orderDetail = OrderDetail::model()->getOrderPaymentData($order->id);
             if ( ! $orderDetail) {
-                $orderDetail = $paymentData;
+                $orderDetail = new OrderDetail();
                 $orderDetail->order_id = $order->id;
                 $orderDetail->type = 'payment';
             }
@@ -110,7 +112,9 @@ class CheckoutController extends Controller {
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
         if ( ! $shippingData) {
-            $shippingData = new OrderDetail();
+            $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 2);
+            if ($oldOrder)
+                $shippingData = OrderDetail::model()->getOrderShipingData($oldOrder->id);
         }
         
         if ($_POST) {

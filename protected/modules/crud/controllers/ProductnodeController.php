@@ -27,9 +27,6 @@ class ProductnodeController extends CrudController {
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-        
         $errors = array();
 
         if (isset($_POST['ProductNode'])) {
@@ -49,7 +46,7 @@ class ProductnodeController extends CrudController {
                 if ($model->main == 1) {
                     ProductNode::model()->updateAll(array(
                         'main' => 0
-                    ), "product_id = {$model->product_id} AND main = 1");
+                    ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
                 }
                 
                 $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id);
@@ -126,16 +123,10 @@ class ProductnodeController extends CrudController {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        if (Yii::app()->request->isPostRequest) {
-            // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
-
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        }
-        else
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+		$model = ProductNode::model()->findByPk($id);
+		$model->deleted = 1;
+		$model->save();
+		$this->redirect(array('/crud/productnode/index/'.$model->product_id));
     }
 
 }

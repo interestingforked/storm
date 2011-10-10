@@ -3,6 +3,8 @@
  $sizes = array();
  $images = array();
  foreach ($product->productNodes AS $node):
+	if ($node->active == 0)
+		continue;
      if ( ! empty($node->color))
         $colors[$node->id] = $node->color;
      if ( ! empty($node->size))

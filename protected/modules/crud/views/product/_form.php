@@ -1,5 +1,26 @@
 <div class="form">
-
+<script type="text/javascript">
+$(function() {
+    $('.select_buttons').click(function(){
+        var arr = $(this).attr("name").split("2");
+        var from = arr[0];
+        var to = arr[1];
+        $("#" + from + " option:selected").each(function(){
+            $("#" + to).append($(this).clone());
+            $(this).remove();
+        });
+    });
+    $('#submit').click(function() {
+        $('#categories option').each(function(index) {
+            $(this).attr('selected',true);
+        });
+        $('#selected_categories option').each(function(index) {
+            $(this).attr('selected',true);
+        });		
+        return true;
+    });
+});
+</script>
 <?php 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'product-form',
@@ -20,7 +41,24 @@ $form = $this->beginWidget('CActiveForm', array(
     
     <div class="row">
             <?php echo Chtml::label('Categories','Categories_1'); ?>
-            <?php echo Chtml::dropDownList('Categories[]',( ! $productModel->isNewRecord ? $activeCategories[0]->id : null).' ',$categories,array('id' => 'Categories_1')); ?>
+            <span style="display:block;float:left;width:200px;">
+            <?php 
+            echo Chtml::listBox('Categories[]', null, $categories,
+                    array('id' => 'categories', 'size' => 6, 'style' => 'width:200px;', 'multiple' => 'multiple')); 
+            ?>
+            </span>
+            <span style="display:block;float:left;width:100px;text-align:center;padding-top:30px;">
+            <?php echo Chtml::button('     >>     ', array('name' => 'categories2selected_categories', 'class' => 'select_buttons')); ?>
+            <br/>
+            <?php echo Chtml::button('     <<     ', array('name' => 'selected_categories2categories', 'class' => 'select_buttons')); ?>
+            </span>
+            <span style="display:block;float:left;width:200px;">
+            <?php
+            echo Chtml::listBox('SelectedCategories[]', null, $activeCategories,
+                    array('id' => 'selected_categories', 'size' => 6, 'style' => 'width:200px;', 'multiple' => 'multiple')); 
+            ?>
+            </span>
+            <div class="clear"></div>
     </div>
     
     <div class="row">
@@ -113,7 +151,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     
     <div class="row buttons">
-            <?php echo CHtml::submitButton($productModel->isNewRecord ? 'Create' : 'Save'); ?>
+            <?php echo CHtml::submitButton($productModel->isNewRecord ? 'Create' : 'Save', array('id' => 'submit')); ?>
     </div>
     
 <?php $this->endWidget(); ?>

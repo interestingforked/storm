@@ -42,11 +42,11 @@ class Product extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('active, sort', 'numerical', 'integerOnly' => true),
+            array('active, sort, number, deleted', 'numerical', 'integerOnly' => true),
             array('slug', 'length', 'max' => 250),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, active, sort, slug, created', 'safe', 'on' => 'search'),
+            array('id, active, sort, slug, number, deleted, created', 'safe', 'on' => 'search'),
         );
     }
 
@@ -86,13 +86,27 @@ class Product extends CActiveRecord {
             'active' => 'Active',
             'sort' => 'Sort',
             'slug' => 'Slug',
+            'number' => 'Number',
+            'deleted' => 'Deleted',
             'created' => 'Created',
         );
     }
 
     public function defaultScope() {
         return array(
+            'condition' => $this->getTableAlias(false, false) . '.deleted = 0',
             'order' => $this->getTableAlias(false, false) . '.sort ASC',
+        );
+    }
+
+    public function scopes() {
+        return array(
+            'ordered' => array(
+                'order' => 'id ASC',
+            ),
+            'all' => array(
+                'condition' => $this->getTableAlias(false, false) . '.deleted != 1 AND ' . $this->getTableAlias(false, false) . '.active in (0,1)',
+            ),
         );
     }
 
@@ -110,6 +124,10 @@ class Product extends CActiveRecord {
                     'criteria' => $criteria,
                 ));
     }
+    
+    public function getByNumber($number) {
+        return $this->findByAttributes(array('number' => $number));
+    }
 
     public function getProduct($id = 0) {
         $this->content = Content::model()->getModuleContent('product', $this->id);
@@ -123,6 +141,16 @@ class Product extends CActiveRecord {
             }
         }
         return $this;
+    }
+
+    public function getMaxNumber($date = null) {
+        if (!$date)
+            $date = date('ym');
+        $maxNumber = $this->findBySql("SELECT SUBSTRING(MAX(number),5) AS number FROM products WHERE SUBSTRING(number,1,4) = '{$date}'");
+        if ( ! $maxNumber)
+            return sprintf("%s%03s", $date, 1);
+        else
+            return sprintf("%s%03s", $date, ((int)$maxNumber->number) + 1);
     }
 
 }

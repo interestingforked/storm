@@ -33,6 +33,8 @@ function changeNode(formId, nodeId) {
             $colors = array();
             $sizes = array();
             foreach ($item['product']->productNodes AS $node):
+			 if ($node->active == 0)
+				continue;
              if ( ! empty($node->color))
                 $colors[$node->id] = $node->color;
              if ( ! empty($node->size))
@@ -54,7 +56,7 @@ function changeNode(formId, nodeId) {
                     echo CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'].$attachedImage->image, 60), 
                         $item['product']->content->title, array(
                             'id' => 'thumbnail', 'class' => 'prod-details', 'alt' => $attachedImage->alt,
-                        )), array('/product/'.$item['product']->slug.'-'.$item['product']->id),
+                        )), array('/product/'.$item['product']->slug.'-'.$item['product']->number),
                         array('title' => $item['product']->content->title));
                 endif;
                 ?>
