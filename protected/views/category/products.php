@@ -112,7 +112,8 @@ foreach ($products as $product):
     </p>
 </div>
 <?php
-    if (in_array($c, array(3,6,9))) {
+    //if (in_array($c, array(3,6,9,))) {
+    if ($c % 3 == 0) {
         echo '<div class="hr-products"><hr/></div>';
     }
     if ($i == $limit AND !$viewAll) {
