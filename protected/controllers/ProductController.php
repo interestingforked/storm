@@ -22,7 +22,7 @@ class ProductController extends Controller {
         }
         $productId = explode('-', $productId);
         $productId = end($productId);
-        $productModel = Product::model()->getByNumber($productId);
+        $productModel = Product::model()->findByPk($productId);
         
         $nodeId = (isset($_GET['node']) AND $_GET['node'] > 0) ? $_GET['node'] : 0;
         $product = $productModel->getProduct($nodeId);

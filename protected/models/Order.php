@@ -127,6 +127,16 @@ class Order extends CActiveRecord {
             'status' => $status,
         ));
     }
+	
+	public function getMaxNumber($date = null) {
+        if (!$date)
+            $date = date('ym');
+        $maxNumber = $this->findBySql("SELECT SUBSTRING(MAX(key),5) AS number FROM orders WHERE SUBSTRING(key,1,4) = '{$date}'");
+        if ( ! $maxNumber)
+            return sprintf("%s%03s", $date, 1);
+        else
+            return sprintf("%s%03s", $date, ((int)$maxNumber->key) + 1);
+    }
     
     public function scopes() {
         return array(

@@ -42,11 +42,11 @@ class Product extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('active, sort, number, deleted', 'numerical', 'integerOnly' => true),
+            array('active, sort, deleted', 'numerical', 'integerOnly' => true),
             array('slug', 'length', 'max' => 250),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, active, sort, slug, number, deleted, created', 'safe', 'on' => 'search'),
+            array('id, active, sort, slug, deleted, created', 'safe', 'on' => 'search'),
         );
     }
 
@@ -86,7 +86,6 @@ class Product extends CActiveRecord {
             'active' => 'Active',
             'sort' => 'Sort',
             'slug' => 'Slug',
-            'number' => 'Number',
             'deleted' => 'Deleted',
             'created' => 'Created',
         );
@@ -142,15 +141,5 @@ class Product extends CActiveRecord {
         }
         return $this;
     }
-
-    public function getMaxNumber($date = null) {
-        if (!$date)
-            $date = date('ym');
-        $maxNumber = $this->findBySql("SELECT SUBSTRING(MAX(number),5) AS number FROM products WHERE SUBSTRING(number,1,4) = '{$date}'");
-        if ( ! $maxNumber)
-            return sprintf("%s%03s", $date, 1);
-        else
-            return sprintf("%s%03s", $date, ((int)$maxNumber->number) + 1);
-    }
-
+	
 }

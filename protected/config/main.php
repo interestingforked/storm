@@ -47,7 +47,7 @@ return array(
             'caseSensitive' => false,
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=storm',
+            'connectionString' => 'mysql:host=localhost;dbname=storm_prod',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',

@@ -91,7 +91,7 @@ foreach ($products as $product):
     }
     $c++;
     $image = "";
-    $link = CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->number));
+    $link = CHtml::normalizeUrl(array('/'.$category->slug.'/'.$product->slug.'-'.$product->id));
     $attachetImage = Attachment::model()->getAttachment('productNode', $product->mainNode->id);
     if ($attachetImage)
         $image = CHtml::image(Image::thumb(Yii::app()->params['images'].$attachetImage->image, 187), $product->content->title);
@@ -116,7 +116,7 @@ foreach ($products as $product):
     if ($c % 3 == 0) {
         echo '<div class="hr-products"><hr/></div>';
     }
-    if ($i == $limit AND !$viewAll) {
+    if ($c == $limit AND !$viewAll) {
         break;
     }
 endforeach;

@@ -23,7 +23,7 @@ class ProductnodeController extends CrudController {
 
     public function actionNew($id) {
         $model = new ProductNode();
- 
+
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
 
@@ -32,7 +32,7 @@ class ProductnodeController extends CrudController {
         if (isset($_POST['ProductNode'])) {
             $model->attributes = $_POST['ProductNode'];
             $model->product_id = $id;
-            
+
             $attachments = array();
             foreach ($_POST AS $k => $v) {
                 $k = str_replace('qq-upload-handler-iframe', '', $k);
@@ -40,18 +40,19 @@ class ProductnodeController extends CrudController {
                     $attachments[] = $v;
                 }
             }
-            
+
             if ($model->save()) {
-                
+
                 if ($model->main == 1) {
                     ProductNode::model()->updateAll(array(
                         'main' => 0
-                    ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
+                            ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
                 }
-                
-                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id);
-                if ( ! is_array($result))
-                    $this->redirect(array('/crud/productnode/index/'.$model->product_id));
+
+                $productModel = Product::model()->findByPk($model->product_id);
+                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productMode->slug);
+                if (!is_array($result))
+                    $this->redirect(array('/crud/productnode/index/' . $model->product_id));
                 $errors = $result;
             }
         }
@@ -71,20 +72,20 @@ class ProductnodeController extends CrudController {
      */
     public function actionEdit($id) {
         $model = ProductNode::model()->findByPk($id);
-        
+
         $nodeAttachments = Attachment::model()->getAttachments('productNode', $id);
-        
+
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        
+
         $errors = array();
 
         if (isset($_POST['ProductNode'])) {
             $model->attributes = $_POST['ProductNode'];
-            
+
             $attachments = array();
             foreach ($_POST AS $k => $v) {
                 $k = str_replace('qq-upload-handler-iframe', '', $k);
@@ -92,18 +93,19 @@ class ProductnodeController extends CrudController {
                     $attachments[] = $v;
                 }
             }
-            
+
             if ($model->save()) {
-                
+
                 if ($model->main == 1) {
                     ProductNode::model()->updateAll(array(
                         'main' => 0
-                    ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
+                            ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
                 }
-                
-                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id);
-                if ( ! is_array($result))
-                    $this->redirect(array('/crud/productnode/index/'.$model->product_id));
+
+                $productModel = Product::model()->findByPk($model->product_id);
+                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productModel->slug);
+                if (!is_array($result))
+                    $this->redirect(array('/crud/productnode/index/' . $model->product_id));
                 $errors = $result;
             }
         }
@@ -123,10 +125,10 @@ class ProductnodeController extends CrudController {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-		$model = ProductNode::model()->findByPk($id);
-		$model->deleted = 1;
-		$model->save();
-		$this->redirect(array('/crud/productnode/index/'.$model->product_id));
+        $model = ProductNode::model()->findByPk($id);
+        $model->deleted = 1;
+        $model->save();
+        $this->redirect(array('/crud/productnode/index/' . $model->product_id));
     }
 
 }

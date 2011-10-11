@@ -33,25 +33,22 @@ class ProductController extends CrudController {
     public function actionNew() {
         $productModel = new Product;
         $contentModel = new Content;
-        
+
         $category = Category::model()->findByPk(1);
         $categories = $category->getOptionList();
 
         $errors = array();
-        
+
         if (isset($_POST['Product'])) {
             $productModel->attributes = $_POST['Product'];
             $contentModel->attributes = $_POST['Content'];
-            
-            $maxNumber = Product::model()->getMaxNumber(date('ym'));
-            $productModel->number = $maxNumber;
 
             $postCategories = array();
-            foreach ($_POST['Categories'] AS $postCategory) {
+            foreach ($_POST['SelectedCategories'] AS $postCategory) {
                 $postCategories[] = (int) trim($postCategory);
             }
             $productModel->setRelationRecords('categories', $postCategories);
-            
+
             $attachments = array();
             foreach ($_POST AS $k => $v) {
                 $k = str_replace('qq-upload-handler-iframe', '', $k);
@@ -64,24 +61,24 @@ class ProductController extends CrudController {
                 $contentModel->module = 'product';
                 $contentModel->module_id = $productModel->id;
                 if ($contentModel->save()) {
-                    $result = Attachment::model()->saveAttachments($attachments, 'productBig', $productModel->id);
-                    if ( ! is_array($result))
+                    $result = Attachment::model()->saveAttachments($attachments, 'productBig', $productModel->id, $productModel->slug);
+                    if (!is_array($result))
                         $transaction->commit();
-                        $this->redirect(array('/crud/product'));
+                    $this->redirect(array('/crud/product'));
                     $errors = $result;
                     $transaction->rollback();
                 } else
                     $transaction->rollback();
-                    $errors = $contentModel->getErrors();
+                $errors = $contentModel->getErrors();
             } else
                 $transaction->rollback();
-                $errors = $productModel->getErrors();
+            $errors = $productModel->getErrors();
         }
 
         $this->render('new', array(
             'errors' => $errors,
             'categories' => $categories,
-            'activeCategories' => null,
+            'activeCategories' => array(),
             'productModel' => $productModel,
             'contentModel' => $contentModel,
             'attachmentModels' => null,
@@ -91,14 +88,14 @@ class ProductController extends CrudController {
     public function actionEdit($id) {
         $productModel = Product::model()->findByPk($id);
         $contentModel = Content::model()->getModuleContent('product', $id);
-        
-        $attachmentModels = Attachment::model()->getAttachments(array('product','productBig'), $id);
-        
+
+        $attachmentModels = Attachment::model()->getAttachments(array('product', 'productBig'), $id);
+
         $category = Category::model()->findByPk(1);
         $categories = $category->getOptionList();
         $selectedCategories = array();
         foreach ($productModel->categories AS $selectedCategory) {
-            $selectedCategories[] = $selectedCategory->id.' ';
+            $selectedCategories[] = $selectedCategory->id . ' ';
         }
         $activeCategories = array();
         foreach ($categories AS $key => $value) {
@@ -112,7 +109,7 @@ class ProductController extends CrudController {
         // $this->performAjaxValidation($model, 'product');
 
         $errors = array();
-        
+
         if (isset($_POST['Product'])) {
             $productModel->attributes = $_POST['Product'];
             $contentModel->attributes = $_POST['Content'];
@@ -122,7 +119,7 @@ class ProductController extends CrudController {
                 $postCategories[] = (int) trim($postCategory);
             }
             $productModel->setRelationRecords('categories', $postCategories);
-            
+
             $attachments = array();
             foreach ($_POST AS $k => $v) {
                 $k = str_replace('qq-upload-handler-iframe', '', $k);
@@ -132,13 +129,13 @@ class ProductController extends CrudController {
             }
 
             if ($productModel->save() AND $contentModel->save()) {
-                $result = Attachment::model()->saveAttachments($attachments, 'productBig', $productModel->id);
-                if ( ! is_array($result))
+                $result = Attachment::model()->saveAttachments($attachments, 'productBig', $productModel->id, $productModel->slug);
+                if (!is_array($result))
                     $this->redirect(array('/crud/product'));
                 $errors = $result;
             } else {
                 $errors = array_merge($productModel->getErrors(), $contentModel->getErrors());
-            }    
+            }
         }
 
         $this->render('edit', array(
@@ -152,11 +149,11 @@ class ProductController extends CrudController {
     }
 
     public function actionDelete($id) {
-		$productModel = Product::model()->findByPk($id);
-		$productModel->deleted = 1;
-		$productModel->save();
-		
-		$this->redirect(array('/crud/product'));
+        $productModel = Product::model()->findByPk($id);
+        $productModel->deleted = 1;
+        $productModel->save();
+
+        $this->redirect(array('/crud/product'));
     }
 
 }

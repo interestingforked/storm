@@ -31,6 +31,8 @@ class CategoryController extends Controller {
             $products = array();
             if ($category->products) {
                 foreach ($category->products AS $product) {
+                    if ($product->active == 0)
+                        continue;
                     $productContent = $product->getProduct();
                     if (isset($_GET['orderby'])) {
                         switch ($_GET['orderby']) {

@@ -258,7 +258,7 @@ class CheckoutController extends Controller {
                 else
                     $order->discount = '- '.$coupon->value.Yii::app()->params['currency'];
             }
-            $order->key = $order->id.'-'.$order->user_id.$order->cart_id;
+            $order->key = Order::model()->getMaxNumber(date('ym'));
             if ($order->save()) {
                 
                 $orderItem = new OrderItem();

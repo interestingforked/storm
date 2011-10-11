@@ -41,6 +41,51 @@ class SoapController extends CController {
         ));
         print_r($response);
     }
+    
+    public function actionRenameImages() {
+        $attachments = Attachment::model()->findAll();
+        foreach ($attachments AS $attachment) {
+            if ($attachment->module == 'productNode') {
+                $productNode = ProductNode::model()->findByPk($attachment->module_id);
+                $moduleId = $productNode->product_id;
+            } else {
+                $moduleId = $attachment->module_id;
+            }
+            $product = Product::model()->findByPk($moduleId);
+            if ( ! $product) {
+                echo $moduleId;
+                echo ' / ';
+                echo $attachment->image;
+                echo ' / ';
+                echo $attachment->module;
+                echo ' / ';
+                echo $attachment->id;
+                echo '<br>';
+            }
+            if (preg_match("/[a-z0-9A-Z\-_]+\-[0-9]+\-[0-9]+/", $attachment->image) > 0) {
+                continue;
+            }
+            if ($attachment->mimetype == 'image/png') {
+                $extension = 'png';
+            } else if ($attachment->mimetype == 'image/gif') {
+                $extension = 'gif';
+            } else {
+                $extension = 'jpg';
+            }
+            $image = $product->slug.'-'.$moduleId.'-'.$attachment->id.'.'.$extension;
+            
+            $exFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$attachment->image;
+            if ( ! file_exists($exFile)) {
+                continue;
+            }
+            $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$image;
+            if (copy($exFile, $newFile)) {
+                unlink($exFile);
+            }
+            $attachment->image = $image;
+            $attachment->save();
+        }
+    }
 
 }
 

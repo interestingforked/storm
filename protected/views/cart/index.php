@@ -61,7 +61,7 @@ function changeNode(formId, nodeId) {
                     echo CHtml::link(CHtml::image(Image::thumb(Yii::app()->params['images'].$attachedImage->image, 60), 
                         $item['product']->content->title, array(
                             'id' => 'thumbnail', 'class' => 'prod-details', 'alt' => $attachedImage->alt,
-                        )), array('/product/'.$item['product']->slug.'-'.$item['product']->number),
+                        )), array('/product/'.$item['product']->slug.'-'.$item['product']->id),
                         array('title' => $item['product']->content->title));
                 endif;
                 ?>

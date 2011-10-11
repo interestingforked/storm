@@ -118,7 +118,7 @@ class Attachment extends CActiveRecord {
         }
     }
     
-    public function saveAttachments($files, $module, $moduleId) {
+    public function saveAttachments($files, $module, $moduleId, $slug) {
         if ( ! is_array($files))
             return false;
         $errors = array();
@@ -127,23 +127,26 @@ class Attachment extends CActiveRecord {
             
             // '+responseJSON.filename+'|'+responseJSON.image+'|'+responseJSON.mimetype+'|'+responseJSON.path+'
             $fileName = $fileInfo[0];
-            $image = strtolower($fileInfo[1]);
             $mimeType = strtolower($fileInfo[2]);
             $tmpFile = realpath($fileInfo[3]);
             
-            $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$image;
-            if (copy($tmpFile, $newFile)) {
-                unlink($tmpFile);
-            }
+            $extension = explode('.', $fileInfo[1]);
+            $extension = end($extension);
             
             $this->isNewRecord = true;
             $this->id = null;
             $this->module = $module;
             $this->module_id = $moduleId;
             $this->mimetype = $mimeType;
-            $this->image = $image;
             $this->alt = $fileName;
+            $this->save();
             
+            $image = $slug.'-'.$moduleId.'-'.$this->id.'.'.$extension;
+            $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$image;
+            if (copy($tmpFile, $newFile)) {
+                unlink($tmpFile);
+            }
+            $this->image = $image;
             if ( ! $this->save()) {
                 $errors[] = $this->getErrors();
             }
