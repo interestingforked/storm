@@ -158,7 +158,7 @@ function changeNode(formId, nodeId) {
     <tr>
         <td></td>
         <td class="under"><?php echo Yii::t('app', 'Сумма в корзине'); ?>:</td>
-        <td class="under"><b><?php echo number_format($list['total_price'], 2).Yii::app()->params['currency']; ?> </b></td>
+        <td class="under"><b><?php echo number_format($list['total_price'], 0).Yii::app()->params['currency']; ?> </b></td>
         <td></td>
     </tr>
     <tr>
@@ -187,7 +187,7 @@ function changeNode(formId, nodeId) {
     <tr>
         <td></td>
         <td><br><?php echo Yii::t('app', 'Всего к оплате'); ?>:</td>
-        <td><br><b><?php echo number_format($available['total_price'], 2).Yii::app()->params['currency']; ?></b></td>
+        <td><br><b><?php echo number_format($available['total_price'], 0).Yii::app()->params['currency']; ?></b></td>
         <td></td>
     </tr>
     <tr>

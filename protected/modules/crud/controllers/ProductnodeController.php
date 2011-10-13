@@ -50,7 +50,7 @@ class ProductnodeController extends CrudController {
                 }
 
                 $productModel = Product::model()->findByPk($model->product_id);
-                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productMode->slug);
+                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productModel->slug);
                 if (!is_array($result))
                     $this->redirect(array('/crud/productnode/index/' . $model->product_id));
                 $errors = $result;

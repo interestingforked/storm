@@ -121,5 +121,11 @@ class Page extends CActiveRecord {
         $page->content = Content::model()->getModuleContent('page', $page->id);
         return $page;
     }
+    
+    public function getPageByPlugin($plugin) {
+        $page = $this->findByAttributes(array('plugin' => $plugin));
+        $page->content = Content::model()->getModuleContent('page', $page->id);
+        return $page;
+    }
 
 }

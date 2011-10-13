@@ -15,7 +15,11 @@ class ApplicationConfigBehavior extends CBehavior {
         $pageRules = array();
         $categoryRules = array();
         $productRules = array();
+        $articleRules = array();
 
+        $articleRules["<lang:({$languages})>/news-archive"] = "article/archive";
+        $articleRules["<lang:({$languages})>/news/<id:.*?>"] = "article/view";
+        
         $pages = Page::model()->getAllPages();
         foreach ($pages AS $page) {
             $slug = str_replace('/', '\/', $page->slug);
@@ -34,6 +38,7 @@ class ApplicationConfigBehavior extends CBehavior {
         $productRules["<lang:({$languages})>/<id:({$rootCategoryRule})\/(.*)\/([a-zA-Z0-9\-]+)\-([0-9]+)>"] = "product/index";
         $productRules["<lang:({$languages})>/product/<id:.*?>"] = "product/index";
 
+        $urlManager->addRules($articleRules);
         $urlManager->addRules($pageRules);
         $urlManager->addRules($productRules);
         $urlManager->addRules($categoryRules);

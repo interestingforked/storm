@@ -4,7 +4,7 @@ class SoapController extends CController {
 
     public function actionAddress() {
         $client = new SoapClient("http://www.ponyexpress.ru/tools/address_ws.wsdl");
-        
+
         $request = new PointRequest();
 
         $request->latin_names = false;
@@ -19,7 +19,7 @@ class SoapController extends CController {
             $model->title = $element->title;
             $model->save();
         }
-        
+
         $request->latin_names = true;
         $response = $client->getPoints($request);
         foreach ($response->point_el AS $element) {
@@ -27,9 +27,8 @@ class SoapController extends CController {
             $model->latin = $element->title;
             $model->save();
         }
-        
     }
-    
+
     public function actionRate() {
         $ponyExpress = new PonyExpressService(Yii::app()->params['ponyExpress']);
         $response = $ponyExpress->getRate(array(
@@ -38,10 +37,10 @@ class SoapController extends CController {
             'district' => 2626,
             'count' => 3,
             'weight' => 0.3,
-        ));
+                ));
         print_r($response);
     }
-    
+
     public function actionRenameImages() {
         $attachments = Attachment::model()->findAll();
         foreach ($attachments AS $attachment) {
@@ -52,7 +51,8 @@ class SoapController extends CController {
                 $moduleId = $attachment->module_id;
             }
             $product = Product::model()->findByPk($moduleId);
-            if ( ! $product) {
+            if (!$product) {
+                echo '<b>';
                 echo $moduleId;
                 echo ' / ';
                 echo $attachment->image;
@@ -60,11 +60,11 @@ class SoapController extends CController {
                 echo $attachment->module;
                 echo ' / ';
                 echo $attachment->id;
-                echo '<br>';
+                echo '</b><br>';
+            } else {
+                echo $attachment->id . ' - ' . $attachment->image . ' -> ' . $product->slug . '-' . $product->id . '-' . $attachment->id . '<br/>';
             }
-            if (preg_match("/[a-z0-9A-Z\-_]+\-[0-9]+\-[0-9]+/", $attachment->image) > 0) {
-                continue;
-            }
+            continue;
             if ($attachment->mimetype == 'image/png') {
                 $extension = 'png';
             } else if ($attachment->mimetype == 'image/gif') {
@@ -72,13 +72,13 @@ class SoapController extends CController {
             } else {
                 $extension = 'jpg';
             }
-            $image = $product->slug.'-'.$moduleId.'-'.$attachment->id.'.'.$extension;
-            
-            $exFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$attachment->image;
-            if ( ! file_exists($exFile)) {
+            $image = $product->slug . '-' . $moduleId . '-' . $attachment->id . '.' . $extension;
+
+            $exFile = Yii::app()->basePath . DIRECTORY_SEPARATOR . '..' . Yii::app()->params['images'] . $attachment->image;
+            if (!file_exists($exFile)) {
                 continue;
             }
-            $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$image;
+            $newFile = Yii::app()->basePath . DIRECTORY_SEPARATOR . '..' . Yii::app()->params['images'] . $image;
             if (copy($exFile, $newFile)) {
                 unlink($exFile);
             }
@@ -90,14 +90,25 @@ class SoapController extends CController {
 }
 
 class CountryRequest {
+
     public $latin_names;
+
 }
+
 class RegionRequest {
+
     public $latin_names;
+
 }
+
 class DistrictRequest {
+
     public $latin_names;
+
 }
+
 class PointRequest {
+
     public $latin_names;
+
 }

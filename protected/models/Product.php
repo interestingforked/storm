@@ -93,8 +93,8 @@ class Product extends CActiveRecord {
 
     public function defaultScope() {
         return array(
-            'condition' => $this->getTableAlias(false, false) . '.deleted = 0',
-            'order' => $this->getTableAlias(false, false) . '.sort ASC',
+            'condition' => 'deleted = 0',
+            'order' => 'sort ASC',
         );
     }
 
@@ -102,9 +102,6 @@ class Product extends CActiveRecord {
         return array(
             'ordered' => array(
                 'order' => 'id ASC',
-            ),
-            'all' => array(
-                'condition' => $this->getTableAlias(false, false) . '.deleted != 1 AND ' . $this->getTableAlias(false, false) . '.active in (0,1)',
             ),
         );
     }

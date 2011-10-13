@@ -66,7 +66,7 @@ if ( ! empty($this->background)) {
   </div>
   
   <div id="col-left">
-   <div class="logo"><a href="/"><img src="/images/storm_london_logo.gif" width="175" height="101"/></a></div>
+   <div class="logo"><a href="/"><img src="/images/storm_london_logo.gif" width="157" height="86"/></a></div>
    <div id="navigation">
        <?php
        $this->widget('zii.widgets.CMenu', array(

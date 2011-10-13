@@ -85,5 +85,11 @@ class Block extends CActiveRecord {
                     'criteria' => $criteria,
                 ));
     }
+    
+    public function getBlock($position) {
+        $block = $this->findByAttributes(array('position' => $position));
+        $content = Content::model()->getModuleContent('block', $block->id);
+        return $content->body;
+    }
 
 }

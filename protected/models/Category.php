@@ -16,7 +16,7 @@
  * @property Product[] $products
  */
 class Category extends CActiveRecord {
-    
+
     public $content;
 
     /**
@@ -94,38 +94,44 @@ class Category extends CActiveRecord {
                     'criteria' => $criteria,
                 ));
     }
-    
+
     public function getAllCategories() {
         return $this->findAll("id > 1");
     }
-    
-    public function getListed($id = '') {
+
+    public function getListed($id = '', $visibleAll = false) {
         $subitems = array();
         if ($this->childs)
             foreach ($this->childs as $child) {
-                $subitems[] = $child->getListed($id);
+                $subitems[] = $child->getListed($id, $visibleAll);
             }
         $categoryContent = Content::model()->getModuleContent('category', $this->id);
+        $active = (preg_match("/" . str_replace("/", "\/", $this->slug) . "/", $id) > 0);
+        $parent = $this->getparent;
+        $activeParent = false;
+        if ($parent)
+            $activeParent = (preg_match("/" . str_replace("/", "\/", $parent->slug) . "/", $id) > 0);
         $returnarray = array(
             'label' => (isset($categoryContent->title)) ? $categoryContent->title : '',
-            'url' => array('/'.$this->slug),
-            'active' => (preg_match("/".str_replace("/","\/",$this->slug)."/", $id) > 0),
+            'url' => array('/' . $this->slug),
+            'active' => $active,
+            'visible' => ($active OR $activeParent OR $this->parent_id == 1 OR $this->parent_id == 2 OR $visibleAll)
         );
         if ($subitems != array())
             $returnarray = array_merge($returnarray, array('items' => $subitems));
         return $returnarray;
     }
-    
+
     public function getOptionList($parent = '') {
         $subitems = array();
         $categoryContent = Content::model()->getModuleContent('category', $this->id);
-		$title = (isset($categoryContent->title)) ? $categoryContent->title : '';
+        $title = (isset($categoryContent->title)) ? $categoryContent->title : '';
         if ($this->childs)
             foreach ($this->childs as $child) {
                 $subitems[] = $child->getOptionList($title);
-        }
+            }
         if ($this->id > 1) {
-            $returnArray[$this->id.' '] = ($parent?$parent.' > ':'').$categoryContent->title;
+            $returnArray[$this->id . ' '] = ($parent ? $parent . ' > ' : '') . $categoryContent->title;
         } else {
             $returnArray = array();
         }
@@ -135,7 +141,7 @@ class Category extends CActiveRecord {
             }
         return $returnArray;
     }
-    
+
     public function getCategory($slug) {
         $category = $this->findByAttributes(array('slug' => $slug));
         $category->content = Content::model()->getModuleContent('category', $category->id);

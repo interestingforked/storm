@@ -93,7 +93,7 @@ class ProductNode extends CActiveRecord {
 
     public function defaultScope() {
         return array(
-            'condition' => $this->getTableAlias(false, false) . '.deleted = 0',
+            'condition' => 'deleted = 0',
         );
     }
 

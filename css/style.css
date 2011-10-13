@@ -380,6 +380,15 @@ table#cart-info input {
 
 
 table.update-profile td.but-row {text-align:right; padding-top:15px;}
+
+/*****************/
+/* NEWS */
+/*****************/
+.news img{float:left; padding:0 15px 15px 0;}
+.news a {color:#fff;}
+.news-line {clear:both; position:relative; padding-bottom:10px; overflow:hidden;}
+.archive-link {width:100%; text-align:right; font-size:120%;}
+
 /*****************/
 /* FOTER */
 /*****************/

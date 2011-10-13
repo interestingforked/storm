@@ -39,7 +39,7 @@ class Controller extends CController {
     protected function beforeAction($action) {
         self::processUrl();
         
-        $id = (isset($_GET['id'])) ? $_GET['id'] : '';
+        $id = $_SERVER['REQUEST_URI'];
         
         $rootPage = Page::model()->findByPk(1);
         $this->menu = $rootPage->getListed($id);

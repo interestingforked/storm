@@ -120,24 +120,24 @@ class Order extends CActiveRecord {
                     'criteria' => $criteria,
                 ));
     }
-    
+
     public function getByUserId($userId, $status = 1) {
         return $this->ordered()->findByAttributes(array(
-            'user_id' => $userId,
-            'status' => $status,
-        ));
+                    'user_id' => $userId,
+                    'status' => $status,
+                ));
     }
-	
-	public function getMaxNumber($date = null) {
+
+    public function getMaxNumber($date = null) {
         if (!$date)
             $date = date('ym');
         $maxNumber = $this->findBySql("SELECT SUBSTRING(MAX(key),5) AS number FROM orders WHERE SUBSTRING(key,1,4) = '{$date}'");
-        if ( ! $maxNumber)
+        if (!$maxNumber)
             return sprintf("%s%03s", $date, 1);
         else
-            return sprintf("%s%03s", $date, ((int)$maxNumber->key) + 1);
+            return sprintf("%s%03s", $date, ((int) $maxNumber->key) + 1);
     }
-    
+
     public function scopes() {
         return array(
             'ordered' => array(

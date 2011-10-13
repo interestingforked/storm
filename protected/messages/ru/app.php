@@ -73,8 +73,10 @@ return array(
     'Coupon discount' => 'Скидочный купон',
     'Submit' => 'Применить',
     'Order confirmed' => 'Ваш заказ принят',
-    '' => '',
-    '' => '',
-    '' => '',
+    'News archive' => 'Архив новостей',
+    'Search' => 'Поиск',
+    'Search result' => 'Результаты поиска',
+    'Pages' => 'Страницы',
+    'Articles' => 'Новости',
 );
 
