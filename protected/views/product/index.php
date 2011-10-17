@@ -32,7 +32,7 @@
                        );
                    endif;
                    ?>
-                <p class="results"><a href="javascript:history.go(-1)">&lt; <?php echo Yii::t('app', 'Back to results'); ?></a></p>
+                <p class="results"><a href="<?php echo CHtml::normalizeUrl(array($categoryLink)); ?>">&lt; <?php echo Yii::t('app', 'Back to results'); ?></a></p>
                  <p class="side">
                  <?php
                  if ($images):
@@ -92,7 +92,7 @@
                  <?php if (count($sizes) > 0): ?>
                  <p class="select"><?php echo Yii::t('app', 'Sizes'); ?></p>
 		 <p>
-		  <select onchange="" class="color-select" id="" name="">
+		  <select onchange="location.href='?node='+this.options[this.selectedIndex].value" class="color-select" id="" name="">
                       <?php foreach($sizes AS $sk => $sv): ?>
                           <option value="<?php echo $sk; ?>" <?php echo ((isset($_GET['node']) AND $_GET['node'] == $sk) OR $sk == $product->mainNode->id) ? 'selected' : ''; ?>><?php echo $this->classifier->getValue('size', $sv); ?></option>
                       <?php endforeach; ?>
@@ -110,9 +110,9 @@
                      <?php 
                      echo Yii::app()->params['currency'];
                      if ($product->mainNode->old_price > 0):
-                         echo ' <del>'.$product->mainNode->old_price.'</del>&nbsp;&nbsp;';
+                         echo ' <del>'.number_format($product->mainNode->old_price,0).'</del>&nbsp;&nbsp;';
                      endif; ?>
-                     <?php echo $product->mainNode->price; ?></h4>
+                     <?php echo number_format($product->mainNode->price,0); ?></h4>
                  <div class="buy">
                  <?php if ($product->mainNode->quantity == 0): ?>
                     <?php if ($product->mainNode->notify == 0): ?>

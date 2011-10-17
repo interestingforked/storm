@@ -26,9 +26,15 @@ class ProductController extends Controller {
         
         $nodeId = (isset($_GET['node']) AND $_GET['node'] > 0) ? $_GET['node'] : 0;
         $product = $productModel->getProduct($nodeId);
+        
+        $this->metaTitle = $product->content->meta_title;
+        $this->metaDescription = $product->content->meta_description;
+        $this->metaKeywords = $product->content->meta_keywords;
+        
         $this->breadcrumbs[] = $product->content->title;
         $this->render('index', array(
             'category' => $category,
+            'categoryLink' => $categoryId,
             'product' => $product,
         ));
     }

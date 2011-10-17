@@ -4,7 +4,7 @@ class SearchController extends Controller {
 
     public function actionIndex() {
         $pageTitle = Yii::t('app', 'Search result');
-        $query = $_GET['query'];
+        $query = ' '.$_GET['query'].' ';
 
         $criteria = new CDbCriteria;
         $criteria->addSearchCondition('title', $query);
@@ -25,6 +25,10 @@ class SearchController extends Controller {
         foreach ($pages AS $page) {
             $slugs['page_'.$page->id] = $page->slug;
         }
+        $products = Product::model()->findAll();
+        foreach ($products AS $product) {
+            $slugs['product_'.$product->id] = $product->slug;
+        }
         
         $results = array();
         foreach ($records AS $record) {
@@ -34,12 +38,22 @@ class SearchController extends Controller {
             );
             switch ($record->module) {
                 case 'page':
+                    if ( ! isset($slugs['page_'.$record->module_id]))
+                        continue;
                     $data['slug'] = $slugs['page_'.$record->module_id];
                     $results['page'][] = $data;
                     break;
                 case 'article':
+                    if ( ! isset($slugs['article_'.$record->module_id]))
+                        continue;
                     $data['slug'] = $slugs['article_'.$record->module_id];
                     $results['article'][] = $data;
+                    break;
+                case 'product':
+                    if ( ! isset($slugs['product_'.$record->module_id]))
+                        continue;
+                    $data['slug'] = $slugs['product_'.$record->module_id];
+                    $results['product'][] = $data;
                     break;
             }
         }

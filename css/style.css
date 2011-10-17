@@ -1,5 +1,5 @@
 html, body, div, span, object, h1, h2, h3, h4, h5, h6, p,
-a, em, img, strong, b, u, i, 
+a, em, img, b, u, i, 
 dl, dt, dd, ol, ul, li,
 fieldset, form,
 table, tbody, tfoot, thead, tr, th, td {
@@ -32,7 +32,7 @@ body{background: none repeat scroll 0 0 #000000; color:#fff;
 p {
     font-size: 90%;
     line-height: 1.5em;
-    margin: 3px 0 15px 0px;
+    margin: 3px 0 10px 0px;
 }
 .smaller {font-size:85%;}
 img, div { behavior: url(/css/iepngfix.htc) }
@@ -85,11 +85,12 @@ img, div { behavior: url(/css/iepngfix.htc) }
 }
 .over-flash {position:absolute; bottom:0; width:99%; z-index:999;}
 .flash-column {width:30%; float:left; background-color:#2a2a2a; opacity: 0.7;
-               filter: alpha(Opacity=70); padding:4px 4px 3px 5px; height:85px; overflow:hidden; line-height:1.0;}
+               filter: alpha(Opacity=70); padding:7px 4px 3px 7px; height:85px; overflow:hidden; line-height:1.0;}
 .flash-column:hover {background-color:#161616; opacity: 0.7;
                      filter: alpha(Opacity=70);}
-.flash-column a, .over-flash .central a {font-size:85%; color:#ffffff;}
+.flash-column a, .over-flash .central a {font-size:85%; color:#ffffff; }
 .over-flash .central {margin:0 10px 0 10px;}
+.official {margin-top:14px; font-size:10px; font-weight:bold; color:#ccc}
 /*****************/
 /* CONTENT  */
 /*****************/	
@@ -97,7 +98,7 @@ img, div { behavior: url(/css/iepngfix.htc) }
     height: auto !important;
     min-height: 355px;
     overflow: hidden !important;
-    padding: 15px;
+    padding: 15px 15px 30px 15px;
     position: relative;
 }
 .content a {
@@ -122,12 +123,32 @@ div.hr-products {background: none repeat 0 0 #978792;
 div.hr-products hr {display:none;}
 
 .center {text-align:center;}
-
+table.cont-w-back {width:100%; margin-bottom:10px;}
+table.cont-w-back th, table.cont-w-back tr td {text-align:left; padding:5px;}
+table.cont-w-back th {background-color:#464646;}
+table.cont-w-back td {vertical-align:top;}
+table.cont-w-back td.info {width:60%;}
+table.cont-w-back strong {font-weight:bold;}
 table.category {width:100%; font-size:90%;}
 table.category td {width:50%; vertical-align:top;padding-bottom:30px;}
 table.category img {margin-top:30px;}
 table.category td.sec-row {text-align:left; padding-right:50px;}
 table.category a {text-decoration:none;}
+
+ul.prod-info li{text-transform:uppercase; line-height:1.7;
+}
+ul.prod-info li a{
+*display: inline;
+ *position: relative;
+ border-bottom: 1px dashed #FF21A6;
+ text-decoration: none;
+}
+.filling {width:100%; margin-bottom:30px; margin-top:10px;}
+.filling td {text-align:center;}
+.advertising td.scnd{padding-top:30px;}
+.advertising td {width:50%; padding:5px;}
+.advertising td h2 {font-weight:bold; font-size:90%; font-family:arial;}
+.advertising td span {font-size:80%;}
 
 .prod-wrapper{clear:both;}
 .prod-list {display: inline;
@@ -163,6 +184,13 @@ table.category a {text-decoration:none;}
     padding: 2px 3px 2px 4px;
     text-transform: uppercase;
 }
+
+
+/*****************/
+/* TEXTS  */
+/*****************/	
+.text p{margin-bottom:30px;}
+
 /*****************/
 /* PRODUCT  */
 /*****************/	
@@ -306,7 +334,7 @@ select.color-select {
 #navigation li.current a, #navigation li.current li.current a {color: #fff;}
 #navigation a:hover, #navigation ul ul a:hover {color:#fff;}
 #navigation-info{margin-top:15px;}
-#navigation li ul {font-size:80%; margin-left:10px;}
+#navigation li ul {font-size:95%; margin-left:10px;}
 /*****************/
 /* BREADCRUMBS  */
 /*****************/
@@ -424,7 +452,7 @@ input.button  {
     text-transform: uppercase;
     font-size:70%;
 }
-input.field {line-height:12px;}
+input.field {height:12px;}
 form dt {
     float: left;
     clear: both;

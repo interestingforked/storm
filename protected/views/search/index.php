@@ -17,7 +17,15 @@ if (isset($result['article'])):
     echo '<h2>'.Yii::t('app', 'Articles').'</h2>';
     echo '<ul>';
     foreach ($result['article'] AS $record):
-        echo '<li>'.CHtml::link($record['title'], array('/'.$record['slug'])).'</li>';
+        echo '<li>'.CHtml::link($record['title'], array('/news/'.$record['slug'])).'</li>';
+    endforeach;
+    echo '</ul><br/>';
+endif; 
+if (isset($result['product'])):
+    echo '<h2>'.Yii::t('app', 'Products').'</h2>';
+    echo '<ul>';
+    foreach ($result['product'] AS $record):
+        echo '<li>'.CHtml::link($record['title'], array('/product/'.$record['slug'].'-'.$record['id'])).'</li>';
     endforeach;
     echo '</ul><br/>';
 endif; 

@@ -103,12 +103,13 @@ class Page extends CActiveRecord {
         $active = (preg_match("/" . str_replace("/", "\/", $this->slug) . "/", $id) > 0);
         $parent = $this->getparent;
         $activeParent = false;
-        if ($parent)
+        if ($parent) {
             $activeParent = (preg_match("/" . str_replace("/", "\/", $parent->slug) . "/", $id) > 0);
+        }
         $returnarray = array(
             'label' => (isset($pageContent->title)) ? $pageContent->title : '',
             'url' => array('/' . $this->slug),
-            'active' => $active,
+            'active' => ($active AND $activeParent),
             'visible' => ($active OR $activeParent OR $this->parent_id == 1 OR $visibleAll)
         );
         if ($subitems != array())

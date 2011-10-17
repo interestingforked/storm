@@ -10,8 +10,8 @@ class CheckoutController extends Controller {
         return array(
             array('allow',
                 'actions' => array(
-                    'index', 
-                    'deliveryaddress', 
+                    'index',
+                    'deliveryaddress',
                     'deliverymethod',
                     'orderoverview',
                     'confirmation'
@@ -23,28 +23,28 @@ class CheckoutController extends Controller {
             ),
         );
     }
-    
+
     public function actionIndex() {
         $messages = null;
         $countryList = CHtml::listData(Country::model()->getActive(), 'id', 'title');
-        
+
         $order = Order::model()->getByUserId(Yii::app()->user->id);
         $orderId = ($order) ? $order->id : 0;
         $paymentData = OrderDetail::model()->getOrderPaymentData($orderId);
-        if ( ! $paymentData) {
+        if (!$paymentData) {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 2);
             if ($oldOrder)
                 $paymentData = OrderDetail::model()->getOrderPaymentData($oldOrder->id);
         }
-        
+
         if ($_POST) {
-            if ( ! $order) {
+            if (!$order) {
                 $cart = Cart::model()->getByUserId(Yii::app()->user->id);
                 if ($cart) {
                     $cartItems = array();
                     foreach ($this->cart->getItems() AS $item) {
                         $product = Product::model()->findByPk($item['product_id']);
-                        if ( ! $product)
+                        if (!$product)
                             continue;
                         $productNode = $product->getProduct($item['product_node_id']);
                         if ($productNode->mainNode->quantity == 0) {
@@ -57,7 +57,7 @@ class CheckoutController extends Controller {
                         }
                     }
                 }
-            
+
                 $order = new Order();
                 $order->cart_id = $cart->id;
                 $order->user_id = Yii::app()->user->id;
@@ -69,7 +69,7 @@ class CheckoutController extends Controller {
                 $order->save();
             }
             $orderDetail = OrderDetail::model()->getOrderPaymentData($order->id);
-            if ( ! $orderDetail) {
+            if (!$orderDetail) {
                 $orderDetail = new OrderDetail();
                 $orderDetail->order_id = $order->id;
                 $orderDetail->type = 'payment';
@@ -91,7 +91,6 @@ class CheckoutController extends Controller {
             } else {
                 $messages = $orderDetail->getErrors();
             }
-            
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('index', array(
@@ -100,26 +99,26 @@ class CheckoutController extends Controller {
             'data' => $paymentData,
         ));
     }
-    
+
     public function actionDeliveryaddress() {
         $messages = null;
         $countryList = CHtml::listData(Country::model()->getActive(), 'id', 'title');
-        
+
         $order = Order::model()->getByUserId(Yii::app()->user->id);
-        if ( ! $order) {
+        if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
-        if ( ! $shippingData) {
+        if (!$shippingData) {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 2);
             if ($oldOrder)
                 $shippingData = OrderDetail::model()->getOrderShipingData($oldOrder->id);
         }
-        
+
         if ($_POST) {
             $orderDetail = OrderDetail::model()->getOrderShipingData($order->id);
-            if ( ! $orderDetail) {
+            if (!$orderDetail) {
                 $orderDetail = new OrderDetail();
                 $orderDetail->order_id = $order->id;
                 $orderDetail->type = 'shipping';
@@ -142,7 +141,6 @@ class CheckoutController extends Controller {
             } else {
                 $messages = $orderDetail->getErrors();
             }
-            
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('delivery_address', array(
@@ -155,19 +153,19 @@ class CheckoutController extends Controller {
 
     public function actionDeliverymethod() {
         $messages = null;
-        
+
         $order = Order::model()->getByUserId(Yii::app()->user->id);
-        if ( ! $order) {
+        if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
-        
+
         $weight = 0;
         $items = $this->cart->getItems();
         foreach ($items AS $item) {
             $productNode = ProductNode::model()->findByPk($item['product_node_id']);
             $weight += ($productNode->weight * $item['quantity']);
         }
-        
+
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
         $ponyExpress = new PonyExpressService(Yii::app()->params['ponyExpress']);
         $response = $ponyExpress->getRate(array(
@@ -175,8 +173,8 @@ class CheckoutController extends Controller {
             'district' => $shippingData->district_id,
             'count' => $order->quantity,
             'weight' => $weight,
-        ));
-        
+                ));
+
         if ($_POST) {
             $order->shipping_method = $_POST['delivery_method'];
             $order->shipping = $_POST['delivery_cost'];
@@ -192,29 +190,29 @@ class CheckoutController extends Controller {
             'point' => $shippingData->point_id,
         ));
     }
-    
+
     public function actionOrderoverview() {
         $messages = null;
-        
+
         $order = Order::model()->getByUserId(Yii::app()->user->id);
-        if ( ! $order) {
+        if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
-        
+
         $cartModel = Cart::model()->getByUserId(Yii::app()->user->id);
         if ($cartModel->coupon_id) {
             $order->coupon_id = $cartModel->coupon_id;
             $order->save();
         }
-        
+
         $cart = $this->cart->getList();
         if ($cart) {
             $cartItems = array();
             foreach ($this->cart->getItems() AS $item) {
                 $product = Product::model()->findByPk($item['product_id']);
-                if ( ! $product)
+                if (!$product)
                     continue;
                 $productNode = $product->getProduct($item['product_node_id']);
                 if ($productNode->mainNode->quantity == 0) {
@@ -234,9 +232,9 @@ class CheckoutController extends Controller {
             $order->total = $this->cart->getTotalPrice();
             $order->save();
         }
-        
+
         $totalPrice = $order->total;
-        
+
         $discountType = '';
         $discount = 0;
         if ($order->coupon_id) {
@@ -250,17 +248,17 @@ class CheckoutController extends Controller {
                     $totalPrice = $order->total - $coupon->value;
             }
         }
-        
+
         if ($_POST) {
             if ($order->coupon_id) {
                 if ($discountType == 'percentage')
-                    $order->discount = '- '.$coupon->value.' %';
+                    $order->discount = '- ' . $coupon->value . ' %';
                 else
-                    $order->discount = '- '.$coupon->value.Yii::app()->params['currency'];
+                    $order->discount = '- ' . $coupon->value . Yii::app()->params['currency'];
             }
             $order->key = Order::model()->getMaxNumber(date('ym'));
             if ($order->save()) {
-                
+
                 $orderItem = new OrderItem();
                 foreach ($this->cart->getItems() AS $item) {
                     $orderItem->isNewRecord = true;
@@ -293,11 +291,11 @@ class CheckoutController extends Controller {
             'cartItems' => $cartItems,
         ));
     }
-    
+
     public function actionConfirmation() {
         $messages = null;
         $order = Order::model()->getByUserId(Yii::app()->user->id);
-        if ( ! $order) {
+        if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
         if ($order->sent != 1) {
@@ -309,15 +307,16 @@ class CheckoutController extends Controller {
                 'payment' => $paymentData,
                 'shipping' => $shippingData,
                 'items' => $items
-            ), true);
+                    ), true);
             $subject = 'STORM - Подтверждение заказа';
             $adminEmail = Yii::app()->params['adminEmail'];
             $email = Yii::app()->user->email;
-            $headers = "MIME-Version: 1.0\r\nFrom: $adminEmail\r\nReply-To: $adminEmail\r\nContent-Type: text/html; charset=utf-8";
-            if (mail($email,'=?UTF-8?B?'.base64_encode($subject).'?=',$mail,$headers)) {
+            $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
+            if (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)) {
                 $order->sent = 1;
                 $order->status = 2;
                 $order->save();
+                mail($adminEmail, '=?UTF-8?B?'.base64_encode($subject).'?=', $mail, $headers);
             }
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');

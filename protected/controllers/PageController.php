@@ -7,8 +7,13 @@ class PageController extends Controller {
         if ($page->parent_id > 1) {
             $parentPages = array();
             $slugs = explode('/', $id);
-            for ($i = 0; $i < (count($slugs) - 1); $i++) {
-                $parentPages[] = Page::model()->getPage($slugs[$i]);
+            array_pop($slugs);
+            while (count($slugs) > 0) {
+                $pageSlug = implode('/', $slugs);
+                array_pop($slugs);
+                $parentPage = Page::model()->getPage($pageSlug);
+                if ($parentPage)
+                    array_unshift($parentPages, $parentPage);
             }
             foreach ($parentPages as $parentPage) {
                 $this->breadcrumbs[$parentPage->content->title] = array(
@@ -16,6 +21,12 @@ class PageController extends Controller {
                 );
             }
         }
+        
+        $this->metaTitle = $page->content->meta_title;
+        $this->metaDescription = $page->content->meta_description;
+        $this->metaKeywords = $page->content->meta_keywords;
+        $this->background = $page->content->background;
+        
         $this->breadcrumbs[] = $page->content->title;
         $this->render('index', array(
             'page' => $page,

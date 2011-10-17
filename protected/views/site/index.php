@@ -13,6 +13,7 @@
                  </div>
 		 <div class="flash-column"><?php echo $block2; ?></div>
 		</div>
-	    <!-- <embed width="100%" height="405" allowscriptaccess="sameDomain" wmode="opaque" quality="high" bgcolor="#000000" name="LiquidFlash" id="LiquidFlash" src="/assets/work_files/index_flash.swf" type="application/x-shockwave-flash"> -->
+	    <embed width="690" height="406" allowscriptaccess="sameDomain" wmode="opaque" quality="high" bgcolor="#000000" name="LiquidFlash" id="LiquidFlash" src="/images/index_flash.swf" type="application/x-shockwave-flash"> 
 	   </div>
-	   <br/><br/>
+	   <div class="official">Official STORM website &copy; 2011 STORM</div>
+<br/>

@@ -88,7 +88,7 @@ function changeNode(formId, nodeId) {
                 -
                 <?php endif; ?>
             </td>
-            <td><nobr><?php echo $item['product']->mainNode->price.Yii::app()->params['currency']; ?></nobr></td>
+            <td><nobr><?php echo number_format($item['product']->mainNode->price,0).Yii::app()->params['currency']; ?></nobr></td>
             <td>
                 <?php 
                 echo CHtml::beginForm(array('/cart'));
