@@ -99,19 +99,22 @@ $(document).ready(function () {
             </tr>
         </table>
         <div class="checkout-btns">
-            <?php echo CHtml::button(Yii::t('app', 'Back'), array(
+            <?php 
+            echo CHtml::button(Yii::t('app', 'Back'), array(
                 'class' => 'button',
                 'onmouseout' => "this.style.backgroundColor='#1F1F1F'",
                 'onmouseover' => "this.style.backgroundColor='#343434'",
                 'style' => 'background-color: rgb(31, 31, 31);',
                 'onclick' => "location.href='".CHtml::normalizeUrl(array('/checkout/deliverymethod'))."'",
-            )); ?>
-            <?php echo CHtml::submitButton(Yii::t('app', 'Подтвердить заказ'), array(
+            ));
+            $buttonLabel = ($order->payment_method == 2) ? Yii::t('app', 'Перейти к оплате') : Yii::t('app', 'Подтвердить заказ');
+            echo CHtml::submitButton($buttonLabel, array(
                 'class' => 'button',
                 'onmouseout' => "this.style.backgroundColor='#1F1F1F'",
                 'onmouseover' => "this.style.backgroundColor='#343434'",
                 'style' => 'background-color: rgb(31, 31, 31);',
-            )); ?>
+            )); 
+            ?>
         </div>
     <?php echo CHtml::endForm(); ?>
 </div>

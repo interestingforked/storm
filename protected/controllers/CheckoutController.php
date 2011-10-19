@@ -14,6 +14,9 @@ class CheckoutController extends Controller {
                     'deliveryaddress',
                     'deliverymethod',
                     'orderoverview',
+                    'payment',
+                    'paymentsuccess',
+                    'paymentfailed',
                     'confirmation'
                 ),
                 'users' => array('@'),
@@ -32,7 +35,7 @@ class CheckoutController extends Controller {
         $orderId = ($order) ? $order->id : 0;
         $paymentData = OrderDetail::model()->getOrderPaymentData($orderId);
         if (!$paymentData) {
-            $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 2);
+            $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $paymentData = OrderDetail::model()->getOrderPaymentData($oldOrder->id);
         }
@@ -111,7 +114,7 @@ class CheckoutController extends Controller {
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
         if (!$shippingData) {
-            $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 2);
+            $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $shippingData = OrderDetail::model()->getOrderShipingData($oldOrder->id);
         }
@@ -177,6 +180,7 @@ class CheckoutController extends Controller {
 
         if ($_POST) {
             $order->shipping_method = $_POST['delivery_method'];
+            $order->payment_method = $_POST['payment_method'];
             $order->shipping = $_POST['delivery_cost'];
             if ($order->save()) {
                 Yii::app()->controller->redirect(array('/checkout/orderoverview'));
@@ -249,6 +253,8 @@ class CheckoutController extends Controller {
             }
         }
 
+        $rbkServiceForm = '';
+
         if ($_POST) {
             if ($order->coupon_id) {
                 if ($discountType == 'percentage')
@@ -272,8 +278,10 @@ class CheckoutController extends Controller {
                     $orderItem->save();
                 }
                 $this->cart->close();
-
-                Yii::app()->controller->redirect(array('/checkout/confirmation'));
+                if ($order->payment_method == 2)
+                    Yii::app()->controller->redirect(array('/checkout/payment'));
+                else
+                    Yii::app()->controller->redirect(array('/checkout/confirmation'));
             } else {
                 $messages = $order->getErrors();
             }
@@ -287,8 +295,36 @@ class CheckoutController extends Controller {
             'discountType' => $discountType,
             'shipping' => $order->shipping,
             'price' => $order->total,
+            'order' => $order,
             'totalPrice' => ($totalPrice + $order->shipping),
             'cartItems' => $cartItems,
+        ));
+    }
+
+    public function actionPayment() {
+        $messages = null;
+        $order = Order::model()->getByUserId(Yii::app()->user->id);
+        if (!$order) {
+            Yii::app()->controller->redirect(array('/checkout'));
+        }
+        $rbkServiceForm = '';
+        if ($order->payment_method == 2) {
+            $order->status = 2;
+            $order->save();
+
+            $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
+            $rbkServiceForm = $rbkService->generateRequestForm(array(
+                'order' => $order->key,
+                'service' => 'STORM Watches',
+                'amount' => ($order->total + $order->shipping)
+                    ));
+        } else {
+            Yii::app()->controller->redirect(array('/checkout/confirmation'));
+        }
+        $this->breadcrumbs[] = Yii::t('app', 'Checkout');
+        $this->render('payment', array(
+            'key' => $order->key,
+            'form' => $rbkServiceForm,
         ));
     }
 
@@ -298,31 +334,72 @@ class CheckoutController extends Controller {
         if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
+
         if ($order->sent != 1) {
-            $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
-            $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
-            $items = $order->items;
-            $mail = $this->renderPartial('//mails/confirm', array(
-                'order' => $order,
-                'payment' => $paymentData,
-                'shipping' => $shippingData,
-                'items' => $items
-                    ), true);
-            $subject = 'STORM - Подтверждение заказа';
-            $adminEmail = Yii::app()->params['adminEmail'];
-            $email = Yii::app()->user->email;
-            $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
-            if (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)) {
+            if ($this->sendConfirmMail($order)) {
                 $order->sent = 1;
-                $order->status = 2;
+                $order->status = 3;
                 $order->save();
-                mail($adminEmail, '=?UTF-8?B?'.base64_encode($subject).'?=', $mail, $headers);
             }
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('confirmation', array(
             'key' => $order->key,
         ));
+    }
+    
+    public function actionPaymentSuccess() {
+        $order = Order::model()->getByUserId(Yii::app()->user->id);
+        if (!$order) {
+            Yii::app()->controller->redirect(array('/checkout'));
+        }
+
+        if ($order->sent != 1 AND $order->payment_method == 2) {
+            if ($this->sendConfirmMail($order)) {
+                $order->sent = 1;
+                $order->save();
+            }
+        }
+        $this->breadcrumbs[] = Yii::t('app', 'Checkout');
+        $this->render('confirmation', array(
+            'key' => $order->key,
+        ));
+    }
+    
+    public function actionPaymentFailed() {
+        $order = Order::model()->getByUserId(Yii::app()->user->id);
+        if (!$order) {
+            Yii::app()->controller->redirect(array('/checkout'));
+        }
+
+        if ($order->sent != 1 AND $order->payment_method == 2) {
+            if ($this->sendConfirmMail($order)) {
+                $order->sent = 1;
+                $order->save();
+            }
+        }
+        $this->breadcrumbs[] = Yii::t('app', 'Checkout');
+        $this->render('confirmation', array(
+            'key' => $order->key,
+        ));
+    }
+
+    private function sendConfirmMail($order) {
+        $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
+        $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
+        $items = $order->items;
+        $mail = $this->renderPartial('//mails/confirm', array(
+            'order' => $order,
+            'payment' => $paymentData,
+            'shipping' => $shippingData,
+            'items' => $items
+                ), true);
+        $subject = 'STORM - Подтверждение заказа';
+        $adminEmail = Yii::app()->params['adminEmail'];
+        $email = Yii::app()->user->email;
+        $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
+        return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers) 
+            AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers));
     }
 
 }

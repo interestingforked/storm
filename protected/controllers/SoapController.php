@@ -87,6 +87,27 @@ class SoapController extends CController {
         }
     }
 
+    public function actionRequest() {
+        $service = new RBKMoneyService(Yii::app()->params['RBKMoney']);
+        echo $service->generateRequestForm(array(
+            'order' => '1110001',
+            'service' => 'watches',
+            'amount' => 547.34
+        ));
+    }
+
+    public function actionPayment() {
+        $message = "";
+        if ($_POST) {
+            foreach ($_POST AS $k => $v) {
+                $message .= "{$k} : {$v} <br>\r\n";
+            }
+        }
+        $message = "<pre>{$message}</pre>";
+        $headers = 'MIME-Version: 1.0' . "\r\n" . 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        mail('pavel@csscat.com', 'paymentRequest', $message, $headers);
+    }
+
 }
 
 class CountryRequest {

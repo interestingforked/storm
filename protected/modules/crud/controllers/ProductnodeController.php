@@ -26,7 +26,18 @@ class ProductnodeController extends CrudController {
 
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
-
+		
+		$productAttachments = array();
+		$nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
+		if ($nodes) {
+			foreach ($nodes AS $node) {
+				$nodeAttachments = Attachment::model()->getAttachments('productNode', $node->id);
+				if ($nodeAttachments) {
+					$productAttachments = array_merge($productAttachments, $nodeAttachments);
+				}
+			}
+		}
+		
         $errors = array();
 
         if (isset($_POST['ProductNode'])) {
@@ -48,6 +59,16 @@ class ProductnodeController extends CrudController {
                         'main' => 0
                             ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
                 }
+				
+				if (isset($_POST['attachments'])) {
+					foreach ($_POST['attachments'] AS $postAttachment) {
+						$attachmentModel = Attachment::model()->findByPk($postAttachment);
+						$attachmentModel->id = null;
+						$attachmentModel->isNewRecord = true;
+						$attachmentModel->module_id = $model->id;
+						$attachmentModel->save();
+					}
+				}
 
                 $productModel = Product::model()->findByPk($model->product_id);
                 $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productModel->slug);
@@ -62,6 +83,7 @@ class ProductnodeController extends CrudController {
             'errors' => $errors,
             'colors' => $colors,
             'sizes' => $sizes,
+			'productAttachments' => $productAttachments,
         ));
     }
 
@@ -73,6 +95,17 @@ class ProductnodeController extends CrudController {
     public function actionEdit($id) {
         $model = ProductNode::model()->findByPk($id);
 
+		$productAttachments = array();
+		$nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $model->product_id));
+		if ($nodes) {
+			foreach ($nodes AS $node) {
+				$nodeAttachments = Attachment::model()->getAttachments('productNode', $node->id);
+				if ($nodeAttachments) {
+					$productAttachments = array_merge($productAttachments, $nodeAttachments);
+				}
+			}
+		}
+		
         $nodeAttachments = Attachment::model()->getAttachments('productNode', $id);
 
         $colors = $this->classifier->getGroup('color');
@@ -102,8 +135,18 @@ class ProductnodeController extends CrudController {
                             ), "product_id = {$model->product_id} AND main = 1 AND id != {$model->id}");
                 }
 
+				if (isset($_POST['attachments'])) {
+					foreach ($_POST['attachments'] AS $postAttachment) {
+						$attachmentModel = Attachment::model()->findByPk($postAttachment);
+						$attachmentModel->id = null;
+						$attachmentModel->isNewRecord = true;
+						$attachmentModel->module_id = $model->id;
+						$attachmentModel->save();
+					}
+				}
+				
                 $productModel = Product::model()->findByPk($model->product_id);
-                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productModel->slug);
+                $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $productModel->slug);		
                 if (!is_array($result))
                     $this->redirect(array('/crud/productnode/index/' . $model->product_id));
                 $errors = $result;
@@ -115,7 +158,8 @@ class ProductnodeController extends CrudController {
             'errors' => $errors,
             'colors' => $colors,
             'sizes' => $sizes,
-            'attachments' => $nodeAttachments
+            'attachments' => $nodeAttachments,
+			'productAttachments' => $productAttachments,
         ));
     }
 

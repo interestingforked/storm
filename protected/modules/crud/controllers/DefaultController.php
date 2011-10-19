@@ -20,9 +20,15 @@ class DefaultController extends CrudController {
     public function actionDeleteAttachment($id) {
         $attachment = Attachment::model()->findByPk($id);
         if ($attachment) {
-            try {
-                unlink(Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$attachment->image);
-            } catch (Exception $e) {}
+			$otherAttachments = Attachment::model()->findAllByAttributes(array(
+				'module' => $attachment->module,
+				'image' => $attachment->image,
+			));
+			if (count($otherAttachments) == 1) {
+				try {
+					unlink(Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$attachment->image);
+				} catch (Exception $e) {}
+			}
             $attachment->delete();
             echo 'true';
         }

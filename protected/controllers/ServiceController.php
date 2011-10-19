@@ -76,5 +76,18 @@ class ServiceController extends Controller {
             Yii::app()->end();
         }
     }
+    
+    public function actionPayment() {
+        if ($_POST) {
+            $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
+            if ($rbkService->checkPaymentResponse($_POST)) {
+                $order = Order::model()->getByOrderKey($_POST['orderId']);
+                $order->status = 3;
+                $order->save();
+            }
+            Yii::app()->end();
+        } else
+            Yii::app()->controller->redirect(array('/'));
+    }
 
 }

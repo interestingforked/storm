@@ -13,7 +13,7 @@
                                     <td bgcolor="#000000" height="98"><a target="_blank" shape="rect" href="<?php echo Yii::app()->getBaseUrl(true); ?>"><img alt="STORM London" src="<?php echo Yii::app()->getBaseUrl(true); ?>/images/email-logo.gif" border="0" height="98" width="164"></a></td>
                                 </tr>
                                 <tr>
-                                    <td style="background-color: rgb(255, 255, 255);" height="28"><img alt="" src="<?php echo Yii::app()->baseUrl; ?>/images/spacer.gif" height="28" width="550"></td>
+                                    <td style="background-color: rgb(255, 255, 255);" height="28"><img alt="" src="<?php echo Yii::app()->getBaseUrl(true); ?>/images/spacer.gif" height="28" width="550"></td>
                                 </tr>
                                 <tr>
                                     <td style="background-color: rgb(255, 255, 255);" align="center">

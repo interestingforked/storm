@@ -17,6 +17,7 @@ $(document).ready(function () {
         }
     });
     $('input[name=delivery_method]:first').attr('checked', true);
+    $('input[name=payment_method]:first').attr('checked', true);
 });
 </script>
 
@@ -25,7 +26,7 @@ $(document).ready(function () {
     <?php echo CHtml::link('2', array('/checkout/deliveryaddress')); ?>
     <b>3</b> 4 5
 </p>
-<h1><?php echo Yii::t('app', 'Delivery method'); ?></h1>
+<h1><?php echo Yii::t('app', 'Delivery and payment methods'); ?></h1>
 <div class="hr-title"><hr/></div>
 
 <p><?php echo Yii::t('app', 'Пожалуйста выберите доступный способ доставки в ваш город.'); ?></p>
@@ -68,6 +69,30 @@ $(document).ready(function () {
     </table> 
     <input type="hidden" name="delivery_cost" id="delivery_cost" value="0.00"/>
     <input type="hidden" name="delivery_days" id="delivery_days" value="0.00"/>
+    
+    <div class="hr-title"><hr/></div>
+    
+    <table class="delivery-method" cellspacing="10">
+        <tbody>
+            <tr>
+                <th></th>
+                <th align="left"><?php echo Yii::t('app', 'Payment method'); ?></th>
+                <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
+            </tr>
+            <?php if ($point == 'MOW'): ?>
+            <tr>
+                <td><input type="radio" name="payment_method" value="1" checked="checked"/></td>
+                <td><?php echo Yii::t('app', 'Оплата курьеру при получение'); ?></td>
+                <td></td>
+            </tr>
+            <?php endif; ?>
+            <tr>
+                <td><input type="radio" name="payment_method" value="2"/></td>
+                <td><?php echo Yii::t('app', 'On-line оплата'); ?></td>
+                <td><?php echo Yii::t('app', 'Оплата производится через RBK Money'); ?></td>
+            </tr>
+        </tbody>
+    </table> 
     
     <div class="checkout-btns">
         <?php echo CHtml::button(Yii::t('app', 'Back'), array(

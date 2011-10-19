@@ -6,6 +6,7 @@ class ProductController extends Controller {
         $id = explode('/', $id);
         $productId = end($id);
         array_pop($id);
+		$categoryId = '/';
         $category = null;
         if (count($id) > 0) {
             $categoryId = implode('/', $id);

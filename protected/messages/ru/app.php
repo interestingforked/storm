@@ -78,5 +78,7 @@ return array(
     'Search result' => 'Результаты поиска',
     'Pages' => 'Страницы',
     'Articles' => 'Новости',
+    'Delivery and payment methods' => 'Способ доставки и оплаты',
+    'Payment method' => 'Способ оплаты',
 );
 

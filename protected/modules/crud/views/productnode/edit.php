@@ -7,6 +7,7 @@ echo $this->renderPartial('_form', array(
         'colors' => $colors,
         'sizes' => $sizes,
         'attachments' => $attachments,
+		'productAttachments' => $productAttachments,
     )
 );
 ?>

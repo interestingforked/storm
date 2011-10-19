@@ -2,20 +2,32 @@
  $colors = array();
  $sizes = array();
  $images = array();
+ $distinctColor = array();
  foreach ($product->productNodes AS $node):
-	if ($node->active == 0)
-		continue;
-     if ( ! empty($node->color))
-        $colors[$node->id] = $node->color;
-     if ( ! empty($node->size))
+        if ($node->active == 0)
+            continue;
+        if ( ! empty($node->color)) {
+        if ($product->mainNode->id == $node->id) {
+            if (in_array($node->color, array_keys($distinctColor))) {
+                unset($colors[$distinctColor[$node->color]]);
+            }
+            $colors[$node->id] = $node->color;
+            $distinctColor[$node->color] = $node->id;
+            }
+            if ( ! in_array($node->color, array_keys($distinctColor))) {
+                $colors[$node->id] = $node->color;
+                $distinctColor[$node->color] = $node->id;
+            }
+        }
+        if ( ! empty($node->size) AND $product->mainNode->color == $node->color)
         $sizes[$node->id] = $node->size;
-     $attachetImages = Attachment::model()->getAttachments('productNode', $node->id);
-     if ($attachetImages AND count($attachetImages) > 0) {
-         foreach ($attachetImages AS $attachetImage)
-             $images[] = $attachetImage;
-     }
- endforeach;
- ?>
+         $attachetImages = Attachment::model()->getAttachments('productNode', $node->id);
+         if ($attachetImages AND count($attachetImages) > 0) {
+             foreach ($attachetImages AS $attachetImage)
+                 $images[] = $attachetImage;
+         }
+        endforeach;
+        ?>
         <div id="products">
 	    <div id="product-top">
                   <?php

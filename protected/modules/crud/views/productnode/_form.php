@@ -52,6 +52,12 @@
             <?php echo $form->dropDownList($model,'notify',array(0 => 'No', 1 => 'Yes')); ?>
             <?php echo $form->error($model,'notify'); ?>
     </div>
+	
+	<div class="row">
+            <?php echo $form->labelEx($model,'never_runs_out'); ?>
+            <?php echo $form->dropDownList($model,'never_runs_out',array(0 => 'No', 1 => 'Yes')); ?>
+            <?php echo $form->error($model,'never_runs_out'); ?>
+    </div>
 
     <div class="row">
             <?php echo $form->labelEx($model,'price'); ?>
@@ -112,6 +118,27 @@
                 <div>
                     <a class="<?php echo ($file->module=='productBig') ? 'main-media' : ''; ?>" id="mainMedia<?php echo $file->id; ?>" href="javascript:setAsMain(<?php echo $file->id; ?>);">Main</a> |
                     <a href="javascript:deleteAttachment(<?php echo $file->id; ?>);">Delete</a>
+                </div>
+            </li>
+            <?php } ?>
+        </ul>
+        <div class="clear"></div>
+        <?php } ?>
+    </div>
+	
+	<h3>All product images</h3>
+	
+	<div class="row">
+        <?php 
+        if (isset($productAttachments)) {
+            $path = Yii::app()->params['images'];
+        ?>
+        <ul class="attachment-list">
+            <?php foreach ($productAttachments AS $file) { ?>
+            <li>
+                <a href="<?php echo $path.$file->image; ?>" class="modal"><img src="/assets/thumb.php?src=<?php echo $path.$file->image; ?>&amp;w=100" alt="<?php echo $file->alt; ?>" /></a>
+                <div>
+                    <input type="checkbox" name="attachments[]" value="<?php echo $file->id; ?>" id="file<?php echo $file->id; ?>"> 
                 </div>
             </li>
             <?php } ?>

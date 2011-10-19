@@ -63,10 +63,10 @@ return array(
             'class' => 'CLogRouter',
             'routes' => array(
                 /*
-                array(
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
-                ),
+                  array(
+                  'class' => 'CFileLogRoute',
+                  'levels' => 'error, warning',
+                  ),
                  */
                 array(
                     'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
@@ -81,7 +81,7 @@ return array(
         'adminEmail' => 'webmaster@example.com',
         'languages' => array(
             'ru' => 'Russian',
-            //'lv' => 'Latvian'
+        //'lv' => 'Latvian'
         ),
         'defaultLanguage' => 'ru',
         'images' => '/images/products/',
@@ -97,6 +97,14 @@ return array(
             'org_citycode' => 'MOW',
             'direction' => 2,
             'delivery_mode' => 2,
+        ),
+        'RBKMoney' => array(
+            'requestUrl' => 'https://rbkmoney.ru/acceptpurchase.aspx',
+            'successUrl' => array('/checkout/paymentsuccess'),
+            'failUrl' => array('/checkout/paymentfailed'),
+            'currency' => 'RUB',
+            'shopId' => '2009262',
+            'secretKey' => 'st0rm',
         )
     ),
 );
