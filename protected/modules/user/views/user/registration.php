@@ -31,9 +31,14 @@ $this->breadcrumbs=array(
 
     <?php
     $profileFields = $profile->getFields();
+    $sexRange = array();
     if ($profileFields) {
         foreach ($profileFields as $field) {
             if ($field->varname == 'newsletters') {
+                continue;
+            }
+            if ($field->varname == 'sex') {
+                $sexRange = Profile::range($field->range);
                 continue;
             }
             ?>
@@ -53,7 +58,11 @@ $this->breadcrumbs=array(
             <?php
         }
     }
+
     ?>
+            
+    <dt><?php echo $form->labelEx($profile,'sex'); ?></dt>
+    <dd><?php echo $form->radioButtonList($profile,'sex',$sexRange,array('separator'=>' &nbsp; &nbsp; ')); ?></dd>
 
     <dt><?php echo $form->labelEx($model,'username'); ?></dt>
     <dd><?php echo $form->textField($model,'username', array('class' => 'field')); ?></dd>

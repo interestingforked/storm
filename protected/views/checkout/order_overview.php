@@ -42,12 +42,12 @@ $(document).ready(function () {
                     <td><?php echo $this->classifier->getValue('color', $item['product']->mainNode->size); ?></td>
                     <td><?php echo $item['product']->mainNode->price.Yii::app()->params['currency']; ?></td>
                     <td><?php echo $item['item']['quantity']; ?></td>
-                    <td><?php echo number_format($item['item']['subtotal'], 0).Yii::app()->params['currency']; ?></td>
+                    <td><?php echo number_format($item['item']['subtotal'], 0,'.','').Yii::app()->params['currency']; ?></td>
                 </tr>
                 <?php endforeach; ?>
                 <tr>
                     <td style="padding-top:20px;" colspan="5"><?php echo Yii::t('app', 'Products price'); ?>:</td>
-                    <td style="padding-top:20px;"><?php echo number_format($price, 0).Yii::app()->params['currency']; ?></td>
+                    <td style="padding-top:20px;"><?php echo number_format($price, 0,'.','').Yii::app()->params['currency']; ?></td>
                 </tr>
                 <?php if ($discount): ?>
                 <tr>
@@ -56,17 +56,17 @@ $(document).ready(function () {
                     if ($discountType == 'percentage')
                         echo $discount.' %';
                     else
-                        echo number_format($discount, 0).Yii::app()->params['currency']; 
+                        echo number_format($discount, 0,'.','').Yii::app()->params['currency']; 
                     ?></td>
                 </tr>
                 <?php endif; ?>
                 <tr>
                     <td style="padding-top:9px;padding-bottom:8px;" colspan="5"><?php echo Yii::t('app', 'Shipping'); ?>:</td>
-                    <td style="padding-top:9px;padding-bottom:8px;"><?php echo number_format($shipping, 0).Yii::app()->params['currency']; ?></td>
+                    <td style="padding-top:9px;padding-bottom:8px;"><?php echo number_format($shipping, 0,'.','').Yii::app()->params['currency']; ?></td>
                 </tr>
                 <tr>
                     <td style="padding-bottom:20px;padding-top:8px;" colspan="5"><?php echo Yii::t('app', 'Total sum of order'); ?>:</td>
-                    <td style="padding-bottom:20px;padding-top:8px;border-top:solid 1px #ccc;"><?php echo number_format($totalPrice, 0).Yii::app()->params['currency']; ?></td>
+                    <td style="padding-bottom:20px;padding-top:8px;border-top:solid 1px #ccc;"><?php echo number_format($totalPrice, 0,'.','').Yii::app()->params['currency']; ?></td>
                 </tr>
             </tbody>
         </table>

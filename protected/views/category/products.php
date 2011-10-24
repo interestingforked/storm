@@ -100,7 +100,7 @@ foreach ($products as $product):
 <div class="prod-list">
   <?php echo CHtml::link($image, $link, array('title' => $product->content->title)); ?>
     <p><strong><?php echo CHtml::link($product->content->title, $link, array('title' => $product->content->title)); ?></strong>
-    <?php echo number_format($product->mainNode->price,0).Yii::app()->params['currency']; ?>
+    <?php echo number_format($product->mainNode->price,0,'.','').Yii::app()->params['currency']; ?>
     <span class="tabs">
      <?php if ($product->mainNode->new == 1): ?>
         <span class="new"><?php echo Yii::t('app', 'New'); ?></span>

@@ -28,6 +28,13 @@ class CheckoutController extends Controller {
     }
 
     public function actionIndex() {
+        
+        $session = new CHttpSession();
+        $session->open();
+        if ( ! isset($session['country_id'])) {
+            $session['country_id'] = 811;
+        }
+        
         $messages = null;
         $countryList = CHtml::listData(Country::model()->getActive(), 'id', 'title');
 
@@ -347,7 +354,7 @@ class CheckoutController extends Controller {
             'key' => $order->key,
         ));
     }
-    
+
     public function actionPaymentSuccess() {
         $order = Order::model()->getByUserId(Yii::app()->user->id);
         if (!$order) {
@@ -365,7 +372,7 @@ class CheckoutController extends Controller {
             'key' => $order->key,
         ));
     }
-    
+
     public function actionPaymentFailed() {
         $order = Order::model()->getByUserId(Yii::app()->user->id);
         if (!$order) {
@@ -398,8 +405,8 @@ class CheckoutController extends Controller {
         $adminEmail = Yii::app()->params['adminEmail'];
         $email = Yii::app()->user->email;
         $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
-        return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers) 
-            AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers));
+        return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
+                AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers));
     }
 
 }

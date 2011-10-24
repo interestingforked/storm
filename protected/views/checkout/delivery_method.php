@@ -59,10 +59,7 @@ $(document).ready(function () {
                 <td><input type="radio" name="delivery_method" value="2"/></td>
                 <td><?php echo $ponyExpress->tariff_including_vat.Yii::app()->params['currency']; ?></td>
                 <td><?php echo Yii::t('app', 'Pony Express'); ?></td>
-                <td>
-                    <?php echo Yii::t('app', 'Срок доставки'); ?>: <?php echo $ponyExpress->delivery_days; ?><br/>
-                    <?php echo Yii::t('app', 'Стоимость без НДС'); ?>: <?php echo $ponyExpress->tariff.Yii::app()->params['currency']; ?>
-                </td>
+                <td><?php echo Yii::t('app', 'Стоимость без НДС'); ?>: <?php echo $ponyExpress->tariff.Yii::app()->params['currency']; ?></td>
             </tr>
             <?php endif; ?>
         </tbody>

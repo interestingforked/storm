@@ -24,7 +24,7 @@ function formatTitle(title, currentArray, currentIndex, currentOpts) {
 }
 $(document).ready(function() {
     $('.modal').fancybox({
-        'scrolling':'no', 'centerOnScroll':true, 'titleShow':false
+        'scrolling':'no','centerOnScroll':true,'titleShow':false
     });
     $('a[rel=group]').fancybox({
         'transitionIn':'none', 

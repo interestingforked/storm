@@ -38,6 +38,8 @@ class ApplicationConfigBehavior extends CBehavior {
         $productRules["<lang:({$languages})>/<id:({$rootCategoryRule})\/(.*)\/([a-zA-Z0-9\-]+)\-([0-9]+)>"] = "product/index";
         $productRules["<lang:({$languages})>/product/<id:.*?>"] = "product/index";
 
+        $urlManager->addRules(array("<lang:({$languages})>/product/notify" => 'product/notify'));
+        
         $urlManager->addRules($articleRules);
         $urlManager->addRules($pageRules);
         $urlManager->addRules($productRules);

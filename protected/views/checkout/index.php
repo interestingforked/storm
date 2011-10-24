@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('#formdata').submit(function () {
         var accepted = true;
         $(formFields).each(function(index) {
-            if ($('#' + formFields[index]).val() == '') {
+            if ($('#' + formFields[index]).val() == '' || $('#' + formFields[index]).val() == 0) {
                 $('#' + formFields[index]).css('border-color','#cc0000');
                 accepted = false;
             }
@@ -17,6 +17,9 @@ $(document).ready(function () {
             alert('<?php echo Yii::t('app', 'Fill all required fields please!'); ?>');
         }
         return accepted;
+    });
+    $('#country_id').change(function () {
+        $.get('<?php echo Yii::app()->createUrl('/service/country'); ?>?country_id=' + this.value);
     });
 });
 </script>

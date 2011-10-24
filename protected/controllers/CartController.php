@@ -3,6 +3,7 @@
 class CartController extends Controller {
 
     public function actionIndex() {
+        $referer = "/";
         if ($_POST) {
             $cart = $this->cart->getList();
             if ( ! $cart)
@@ -14,6 +15,7 @@ class CartController extends Controller {
             }
             if ($_POST['action'] == 'addItem') {
                 $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price']);
+                $referer = (isset($_SERVER["HTTP_REFERER"])) ? preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/","",$_SERVER["HTTP_REFERER"]) : '/';
             }
             if ($_POST['action'] == 'removeItem') {
                 $this->cart->removeItem($_POST['productId'], $_POST['productNodeId']);
@@ -60,6 +62,7 @@ class CartController extends Controller {
             'countries' => $countries,
             'discount' => $discount,
             'discountType' => $discountType,
+            'referer' => $referer,
         ));
     }
     

@@ -88,7 +88,7 @@ function changeNode(formId, nodeId) {
                 -
                 <?php endif; ?>
             </td>
-            <td><nobr><?php echo number_format($item['product']->mainNode->price,0).Yii::app()->params['currency']; ?></nobr></td>
+            <td><nobr><?php echo number_format($item['product']->mainNode->price,0,'.','').Yii::app()->params['currency']; ?></nobr></td>
             <td>
                 <?php 
                 echo CHtml::beginForm(array('/cart'));
@@ -153,12 +153,12 @@ function changeNode(formId, nodeId) {
             <?php echo implode(', ', $countries); ?></td>
         <td><?php echo Yii::t('app', 'Позиций в корзине'); ?>:</td>
         <td><b><?php echo $list['total_count']; ?></b></td>
-        <td class="continue-shop"><a href="/"><?php echo Yii::t('app', 'Continue shopping'); ?> &gt;</a></td>
+        <td class="continue-shop"><a href="<?php echo $referer; ?>"><?php echo Yii::t('app', 'Continue shopping'); ?> &gt;</a></td>
     </tr>
     <tr>
         <td></td>
         <td class="under"><?php echo Yii::t('app', 'Сумма в корзине'); ?>:</td>
-        <td class="under"><b><?php echo number_format($list['total_price'], 0).Yii::app()->params['currency']; ?> </b></td>
+        <td class="under"><b><?php echo number_format($list['total_price'], 0,'.','').Yii::app()->params['currency']; ?> </b></td>
         <td></td>
     </tr>
     <tr>
@@ -173,7 +173,7 @@ function changeNode(formId, nodeId) {
         <td><br/><?php echo Yii::t('app', 'Coupon discount'); ?>:</td>
         <td><br/><b><?php 
                     if ($discountType == 'percentage') {
-                        echo number_format($discount, 0).' %';
+                        echo number_format($discount, 0,'.','').' %';
                         $available['total_price'] = $available['total_price'] - ($available['total_price'] / 100 * $discount);
                     } else {
                         echo $discount.Yii::app()->params['currency']; 
@@ -187,7 +187,7 @@ function changeNode(formId, nodeId) {
     <tr>
         <td></td>
         <td><br><?php echo Yii::t('app', 'Всего к оплате'); ?>:</td>
-        <td><br><b><?php echo number_format($available['total_price'], 0).Yii::app()->params['currency']; ?></b></td>
+        <td><br><b><?php echo number_format($available['total_price'], 0,'.','').Yii::app()->params['currency']; ?></b></td>
         <td></td>
     </tr>
     <tr>

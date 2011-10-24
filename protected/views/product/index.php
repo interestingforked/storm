@@ -122,9 +122,9 @@
                      <?php 
                      echo Yii::app()->params['currency'];
                      if ($product->mainNode->old_price > 0):
-                         echo ' <del>'.number_format($product->mainNode->old_price,0).'</del>&nbsp;&nbsp;';
+                         echo ' <del>'.number_format($product->mainNode->old_price,0,'.','').'</del>&nbsp;&nbsp;';
                      endif; ?>
-                     <?php echo number_format($product->mainNode->price,0); ?></h4>
+                     <?php echo number_format($product->mainNode->price,0,'.',''); ?></h4>
                  <div class="buy">
                  <?php if ($product->mainNode->quantity == 0): ?>
                     <?php if ($product->mainNode->notify == 0): ?>
