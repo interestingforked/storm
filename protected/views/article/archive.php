@@ -32,12 +32,6 @@ $this->pageTitle = Yii::app()->name . ' - ' . $title;
         $c++;
         ?>
         <div class="news-line">
-            <?php
-            $image = Attachment::model()->getAttachment('article', $article->id);
-            if ($image) {
-                echo CHtml::image(Image::thumb(Yii::app()->params['images'] . $image->image, 100), $article->content->title);
-            }
-            ?>
             <h2><?php echo CHtml::link($article->content->title, array('/'.$pageModel->slug.'/' . $article->slug)); ?></h2>
             <p><?php echo $article->content->body; ?></p>
         </div>

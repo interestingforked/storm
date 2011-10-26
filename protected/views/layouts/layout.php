@@ -13,10 +13,10 @@ if ( ! empty($this->metaTitle))
 <link href="/css/content.css" type="text/css" rel="stylesheet" />
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/ie6.css" media="all" /><![endif]-->
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script> 
-<script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script> 
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script>
 <script type="text/javascript" src="/js/jquery.mousewheel-3.0.4.pack.js"></script> 
-<script type="text/javascript" src="/js/jquery.fancybox-1.3.4.pack.js"></script> 
+<script type="text/javascript" src="/js/jquery.fancybox-1.3.4.pack.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/jquery.fancybox-1.3.4.css" media="screen" /> 
 <script type="text/javascript">
 function formatTitle(title, currentArray, currentIndex, currentOpts) {

@@ -125,4 +125,4 @@ function changeNode(formId, nodeId) {
     <?php echo CHtml::link(Yii::t('app', 'Send wishlist to friend'), array('/wishlist/send'), array('class' => 'button')); ?>
 </div>
 <?php endif; ?>
-<div class="cont-shop"><a href="/"><?php echo Yii::t('app', 'Continue shopping'); ?> &gt;</a></div>
+<div class="cont-shop"><a href="<?php echo $referer; ?>"><?php echo Yii::t('app', 'Continue shopping'); ?> &gt;</a></div>

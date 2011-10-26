@@ -14,9 +14,14 @@ var paymentData = {
     district: '<?php echo $paymentData->district ?>',
     postcode: '<?php echo $paymentData->postcode ?>',
     district_id: '<?php echo $paymentData->district_id ?>',
-    point_id: '<?php echo $paymentData->point_id ?>'
+    point_id: '<?php echo $paymentData->point_id ?>',
+	country_id: '<?php echo $paymentData->country_id ?>'
 }
 var formFields = ['name','surname','phone','email','house','street','city','postcode','country_id','point_id'];
+var previousCity = {
+    city: null,
+    point_id: null
+}
 $(document).ready(function () {
     $('#payment_data').click(function () {
         $('#name').val(paymentData.name);
@@ -31,6 +36,7 @@ $(document).ready(function () {
         $('#country_id').val(paymentData.country_id);
         $('#district_id').val(paymentData.district_id);
         $('#point_id').val(paymentData.point_id);
+		$('#country_id').val(paymentData.country_id);
     });
     $('#formdata').submit(function () {
         var accepted = true;
@@ -41,9 +47,34 @@ $(document).ready(function () {
             }
         });
         if ( ! accepted) {
-            alert('<?php echo Yii::t('app', 'Fill all required fields please!'); ?>');
+            alert('<?php echo Yii::t('app', 'Пожалуйста заполните все обязательные поля.'); ?>');
         }
         return accepted;
+    });
+    $('#country_id').change(function () {
+        $.get('<?php echo Yii::app()->createUrl('/service/country'); ?>?country_id=' + this.value);
+    });
+    $('#city').click(function () {
+        previousCity.city = $('#city').val();
+        previousCity.point_id = $('#point_id').val();
+        $('#point_id').val(0);
+    });
+    $('#city').blur(function () {
+        $.get('<?php echo Yii::app()->createUrl('/service/point'); ?>?term=' + this.value, function (data) {
+            var pointId = $('#point_id').val();
+            if ((data == null || data == '') && pointId == 0) {
+                alert('<?php echo Yii::t('app', 'Город который Вы ввели не найден.'); ?>');
+            } else if ((data.length > 1) && pointId == 0) {
+                alert('<?php echo Yii::t('app', 'Найдено несколько городов с похожим названием. Воспользуйтесь функцией подсказки.'); ?>');
+            } else if ((data.length == 1) && pointId == 0) {
+                $('#point_id').val(data[0].id);
+            } else {
+                if (previousCity.city != null && previousCity.point_id != null) {
+                    $('#city').val(previousCity.city);
+                    $('#point_id').val(previousCity.point_id);
+                }
+            }
+        }, 'json');
     });
 });
 </script>

@@ -45,6 +45,8 @@ class CheckoutController extends Controller {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $paymentData = OrderDetail::model()->getOrderPaymentData($oldOrder->id);
+			else
+				$paymentData = new OrderDetail();
         }
 
         if ($_POST) {
@@ -124,6 +126,8 @@ class CheckoutController extends Controller {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $shippingData = OrderDetail::model()->getOrderShipingData($oldOrder->id);
+			else
+				$shippingData = new OrderDetail();
         }
 
         if ($_POST) {
@@ -356,7 +360,7 @@ class CheckoutController extends Controller {
     }
 
     public function actionPaymentSuccess() {
-        $order = Order::model()->getByUserId(Yii::app()->user->id);
+        $order = Order::model()->getByUserId(Yii::app()->user->id, 2);
         if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
@@ -374,7 +378,7 @@ class CheckoutController extends Controller {
     }
 
     public function actionPaymentFailed() {
-        $order = Order::model()->getByUserId(Yii::app()->user->id);
+        $order = Order::model()->getByUserId(Yii::app()->user->id, 2);
         if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }

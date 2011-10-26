@@ -27,9 +27,11 @@ $this->breadcrumbs=array(
     <dd><?php echo CHtml::activeTextField($model,'username',array('class'=>'field')) ?></dd>
     <dt><?php echo CHtml::activeLabelEx($model,'password'); ?></dt>
     <dd><?php echo CHtml::activePasswordField($model,'password',array('class'=>'field')) ?></dd>
+    <!--
     <dt>&nbsp;</dt>
     <dd><?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
 	<?php echo CHtml::activeLabelEx($model,'rememberMe'); ?></dd>
+    -->
 <div>
 <?php echo CHtml::submitButton(UserModule::t("Login"), array('class' => 'button')); ?>
 <?php echo CHtml::button(UserModule::t("Забытый пароль?"), array('class' => 'button', 'onclick' => "location='/".Yii::app()->language.Yii::app()->getModule('user')->recoveryUrl[0]."'")); ?>

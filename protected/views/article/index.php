@@ -11,7 +11,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $page->content->title;
         <?php 
         $image = Attachment::model()->getAttachment('article', $article->id);
         if ($image) {
-            echo CHtml::image(Image::thumb(Yii::app()->params['images'].$image->image, 100), $article->content->title);
+            echo CHtml::image(Image::thumb(Yii::app()->params['articles'].$image->image, 100), $article->content->title);
         }
         ?>
         <h2><?php echo CHtml::link($article->content->title, array('/'.$page->slug.'/'.$article->slug)); ?></h2>

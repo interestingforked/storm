@@ -125,7 +125,7 @@ return array(
     'Display order of fields.' => 'Порядок отображения полей.',
     'Not visited' => 'Не входил',
     'Newsletters' => 'Хочу получать новости',
-    'Sex' => 'Пол',
+	'Sex' => 'Пол',
     'Age' => 'Возраст',
 );
 

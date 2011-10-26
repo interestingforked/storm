@@ -20,7 +20,8 @@ if ($viewAll) {
 }
 ?>
 <div class="filter">
-    <em><?php echo $offset + 1; ?>-<?php echo (($offset + $limit) <= $total) ? ($offset + $limit) : $total; ?> из <?php echo $total; ?></em>
+ <div class="pages">
+    <em style="margin-bottom:4px;"><?php echo $offset + 1; ?>-<?php echo (($offset + $limit) <= $total) ? ($offset + $limit) : $total; ?> из <?php echo $total; ?></em>
     <?php if (!$viewAll): ?>
     <em>
         <?php if ($page > 1): ?>
@@ -38,7 +39,10 @@ if ($viewAll) {
         <?php endif; ?>
     </em>
     <?php endif; ?>
-    <em>Сортировать по: 
+</div>
+<div class="celection">
+    <em style="margin-bottom:4px;">Сортировать по:</em>
+<em>
         <?php 
         if (isset($_GET['orderby']) AND $_GET['orderby'] == 'price'): 
             echo Yii::t('app', 'by price'); 
@@ -77,6 +81,7 @@ if ($viewAll) {
         endif;
         ?>
     </em>
+</div>
 </div>
 <div class="hr-products"><hr/></div>
 <?php if ($products): ?>

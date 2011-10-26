@@ -3,6 +3,7 @@
 class WishlistController extends Controller {
 
     public function actionIndex() {
+		$referer = "/";
         if ($_POST) {
             $wishlist = $this->wishlistManager->getList();
             if ( ! $wishlist)
@@ -12,6 +13,7 @@ class WishlistController extends Controller {
             }
             if ($_POST['action'] == 'addItem') {
                 $this->wishlistManager->addItem($_POST['productId'], $_POST['productNodeId']);
+				$referer = (isset($_SERVER["HTTP_REFERER"])) ? preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/","",$_SERVER["HTTP_REFERER"]) : '/';
             }
             if ($_POST['action'] == 'removeItem') {
                 $this->wishlistManager->removeItem($_POST['productId'], $_POST['productNodeId']);
@@ -38,6 +40,7 @@ class WishlistController extends Controller {
             'list' => $wishlist,
             'items' => $wishlistItems,
             'wishlistItems' => $this->wishlistManager->getItems(),
+			'referer' => $referer,
         ));
     }
 

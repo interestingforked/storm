@@ -3,7 +3,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $category->content->title;
 ?>
 
 <h1><?php echo $category->content->title; ?></h1>
-<div class="hr-title"><hr/></div>
+<div class="hr-title"><hr /></div>
 <?php echo $category->content->body; ?>
 <?php if ($category->childs): ?>
 <div class="prod-wrapper center">

@@ -149,7 +149,7 @@ function changeNode(formId, nodeId) {
 <table id="cart-info" cellpadding="0">
 <tbody>
     <tr>
-        <td style="width:36%"><?php echo Yii::t('app', 'Мы принимаем заказы на доставку в следующие страны'); ?>: 
+        <td style="width:36%;padding-right:5px;"><?php echo Yii::t('app', 'Мы принимаем заказы на доставку в следующие страны'); ?>: 
             <?php echo implode(', ', $countries); ?></td>
         <td><?php echo Yii::t('app', 'Позиций в корзине'); ?>:</td>
         <td><b><?php echo $list['total_count']; ?></b></td>

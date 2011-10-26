@@ -74,6 +74,7 @@ class ServiceController extends Controller {
                 $order->status = 3;
                 $order->save();
             }
+			file_put_contents(Yii::app()->basePath.'/payment_'.time().'.txt', CJSON::encode($_POST));
             Yii::app()->end();
         } else
             Yii::app()->controller->redirect(array('/'));
