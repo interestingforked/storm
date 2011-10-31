@@ -8,6 +8,9 @@ $this->breadcrumbs=array(
 <h1><?php echo UserModule::t("Change password"); ?></h1>
 <div class="hr-title"><hr></div>
 
+Вы запросили смену пароля для своей учетной записи на сайте StormLondon.ru.
+Пожалуйста введите новый пароль и войдите с ним в свою учетную запись.
+
 <div class="form">
 <?php echo CHtml::beginForm(); ?>
 

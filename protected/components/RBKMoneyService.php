@@ -29,6 +29,8 @@ class RBKMoneyService {
     }
     
     public function checkPaymentResponse($data) {
+        if ( ! in_array($_SERVER['REMOTE_ADDR'], $this->_config['validIp']))
+            return false;
         $digestString = $this->generateDigestString($data);
         return ($data['hash'] == md5($digestString));
     }

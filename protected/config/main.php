@@ -89,7 +89,7 @@ return array(
         'backgrounds' => '/images/backgrounds/',
         'articles' => '/images/articles/',
         'thumbUrl' => '/assets/thumb.php',
-        'currency' => ' Руб',
+        'currency' => ' Руб.',
         'size_limit' => 10 * 1024 * 1024,
         'tmp_upload_dir' => 'assets/tmp/',
         'ponyExpress' => array(
@@ -106,6 +106,12 @@ return array(
             'currency' => 'RUB',
             'shopId' => '2009262',
             'secretKey' => 'st0rm',
+            'validIp' => array(
+                '89.111.188.128', 
+                '46.38.182.208', 
+                '46.38.182.209', 
+                '46.38.182.210'
+            )
         )
     ),
 );

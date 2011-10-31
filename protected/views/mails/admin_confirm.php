@@ -21,15 +21,18 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="background-color: rgb(255, 255, 255);">
-                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;"><strong>Уважаемый <?php echo $payment->name.' '.$payment->surname; ?>,</strong></h2>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Спасибо за Ваш заказ с сайта <a target="_blank" shape="rect" class="mimeStatusWarning" href="<?php echo Yii::app()->getBaseUrl(true); ?>">StormLondon.ru.</a> Ваш заказ сейчас обрабатывается. Пожалуйста, внимательно проверьте информацию о Вашем заказе.<br>
-                                                            <br>
-                                                            Если у Вас появяться какие-либо 
-                                                            вопросы относительно заказа - свяжитесь с нами по электронной почте <a shape="rect" href="mailto:Orders@StormLondon.ru">Orders@StormLondon.ru</a> или по телефону +7 495 646-06-48, +7 916 143-81-89 <strong>указав код заказа </strong>- <strong><?php echo $order->key; ?></strong>.</p>
+                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;">Уважаемый администратор заказов StormLondon.ru!</h2>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Ураа! поступил новый заказ с сайта. Ниже смотри информацию о заказе..</p>
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong>Данные заказа</strong></h3>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Код заказа:</strong> <strong><?php echo $order->key; ?></strong></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Вид платежа:</strong> <strong><?php echo ($order->payment_method == 2) ? 'Предоплата' : 'Оплата курьеру при получении'; ?></strong></p>
+                                                        <?php if ($order->payment_method == 2): ?>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>ID транзакции РБК:</strong> <?php echo $order->rbk_payment_id; ?></p>
+                                                        <?php endif; ?>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Статус заказа:</strong> <?php echo Order::model()->orderStatus($order); ?></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Email:</strong> <?php echo $user->email; ?></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo $order->total; ?> руб.</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Способ доставки:</strong> <?php echo Yii::t('vars', 'shipping'.$order->shipping_method); ?></p>
                                                         <br>
                                                         <table style="margin-bottom: 20px;" cellpadding="0" cellspacing="0" width="497">
                                                             <tbody>
@@ -57,8 +60,6 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo $order->total; ?> руб.</p>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Способ доставки:</strong> <?php echo Yii::t('vars', 'shipping'.$order->shipping_method); ?></p>
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong><strong>Информация о заказе</strong>:</strong></h3>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Дата заказа:</strong> <?php echo $order->created; ?></p>
                                                         <span style="font-family: arial,sans-serif; font-size: 14px;">
@@ -94,15 +95,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Мы
-                                                            надеемся что Вы будете полностью удовлетворены своей покупкой. В 
-                                                            случае, если по какой-либо причине приобретенный товар Вас не устроит, 
-                                                            Вы можете вернуть его или обменять при условии, что товар будет в том 
-                                                            состоянии в котором он был получен. Заявки на возврат товара принимаются
-                                                            в течение 14 дней, а заявки на обмен - в течение 28 дней со дня 
-                                                            покупки.<br>
-                                                            <br>
-                                                            Более подробно с условиями возврата и обмена можно <a target="_blank" shape="rect" href="http://www.stormlondon.ru/terms">ознакомиться здесь</a>.</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">
+                                                            Скорее всего надо готовить посылку к отправке, ну и не забыть проверить наличие оплаты н счете.
+                                                        </p>
                                                     </td>
                                                 </tr>
                                             </tbody>

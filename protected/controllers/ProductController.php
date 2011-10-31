@@ -48,8 +48,10 @@ class ProductController extends Controller {
                 $notify->product_node_id = $_POST['productNodeId'];
                 $notify->email = $_POST['email'];
                 $notify->save();
+                
+                Yii::app()->user->setFlash('notification', 'Когда данный товар появится на складе, вам будет выслано уведомление.');
             }
-            Yii::app()->controller->redirect($_POST['returnUrl']);
+            Yii::app()->controller->redirect($_POST['returnUrl'].'#notification');
         } else {
             Yii::app()->controller->redirect('/');
         }

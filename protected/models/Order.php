@@ -143,6 +143,15 @@ class Order extends CActiveRecord {
         else
             return sprintf("%s%03s", $date, ((int) $maxNumber->key) + 1);
     }
+    
+    public function orderStatus($order) {
+        if ($order->payment_method == 1 AND $order->status == 3)
+            return 'Оплата наличными курьеру';
+        if ($order->payment_method == 2 AND $order->status == 2)
+            return 'Оплата ожидается через RBK';
+        if ($order->payment_method == 2 AND $order->status == 3)
+            return 'Оплачено';
+    }
 
     public function scopes() {
         return array(

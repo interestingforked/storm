@@ -100,5 +100,11 @@ class Notifying extends CActiveRecord {
                     'email' => $params['email']
                 ));
     }
+    
+    public function findNotSent() {
+        return $this->findAllByAttributes(array(
+            'sent' => null
+        ));
+    }
 
 }

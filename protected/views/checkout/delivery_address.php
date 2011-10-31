@@ -59,16 +59,19 @@ $(document).ready(function () {
         previousCity.point_id = $('#point_id').val();
         $('#point_id').val(0);
     });
-    $('#city').blur(function () {
+    $('#city').change(function () {
         $.get('<?php echo Yii::app()->createUrl('/service/point'); ?>?term=' + this.value, function (data) {
             var pointId = $('#point_id').val();
             if ((data == null || data == '') && pointId == 0) {
                 alert('<?php echo Yii::t('app', 'Город который Вы ввели не найден.'); ?>');
-            } else if ((data.length > 1) && pointId == 0) {
+            }
+			if ((data.length > 1) && pointId == 0) {
                 alert('<?php echo Yii::t('app', 'Найдено несколько городов с похожим названием. Воспользуйтесь функцией подсказки.'); ?>');
-            } else if ((data.length == 1) && pointId == 0) {
+            }
+			if ((data.length == 1) && pointId == 0) {
                 $('#point_id').val(data[0].id);
-            } else {
+            }
+			if (data == null && pointId == 0) {
                 if (previousCity.city != null && previousCity.point_id != null) {
                     $('#city').val(previousCity.city);
                     $('#point_id').val(previousCity.point_id);

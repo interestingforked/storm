@@ -71,10 +71,13 @@ class ServiceController extends Controller {
             $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
             if ($rbkService->checkPaymentResponse($_POST)) {
                 $order = Order::model()->getByOrderKey($_POST['orderId']);
-                $order->status = 3;
-                $order->save();
+                if ($_POST['paymentStatus'] == 5) {
+                    $order->rbk_payment_id = $_POST['paymentId'];
+                    $order->status = 3;
+                    $order->save();
+                }
             }
-			file_put_contents(Yii::app()->basePath.'/payment_'.time().'.txt', CJSON::encode($_POST));
+            mail('pavel@csscat.com', 'Payment response', CJSON::encode($_POST));
             Yii::app()->end();
         } else
             Yii::app()->controller->redirect(array('/'));

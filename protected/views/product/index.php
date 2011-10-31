@@ -150,6 +150,12 @@
                     echo CHtml::endForm(); 
                     ?>
                     </span>
+                    <div id="notification" style="clear:both;padding:8px 0;font-size:13px;">
+                    <?php
+                    if (Yii::app()->user->hasFlash('notification'))
+                        echo Yii::app()->user->getFlash('notification');
+                    ?>
+                    </div>
                     <?php endif; ?>
                  <?php else: ?>
 		  <span id="BuyButton" style="">

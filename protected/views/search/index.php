@@ -5,6 +5,9 @@ $this->pageTitle = Yii::app()->name . ' - ' . $page;
 <h1><?php echo $page; ?></h1>
 <div class="hr-title"><hr/></div>
 <?php 
+if (count($result) == 0) {
+    echo Yii::t('app', 'Извините, по данному запросу ничего не найдено. Попробуйте задать другой критерий.');
+}
 if (isset($result['page'])):
     echo '<h2>'.Yii::t('app', 'Pages').'</h2>';
     echo '<ul>';

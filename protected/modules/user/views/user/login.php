@@ -9,11 +9,14 @@ $this->breadcrumbs=array(
 <div class="hr-title"><hr></div>
 
 <?php if(Yii::app()->user->hasFlash('loginMessage')): ?>
-
 <div class="success">
-	<?php echo Yii::app()->user->getFlash('loginMessage'); ?>
+    <?php echo Yii::app()->user->getFlash('loginMessage'); ?>
 </div>
-
+<?php endif; ?>
+<?php if(Yii::app()->user->hasFlash('recoveryMessage')): ?>
+<div class="success">
+    <?php echo Yii::app()->user->getFlash('recoveryMessage'); ?>
+</div>
 <?php endif; ?>
 
 <p><?php echo UserModule::t("Уважаемый покупатель"); ?><br/>

@@ -43,14 +43,9 @@ img, div { behavior: url(/css/iepngfix.htc) }
 /*****************/
 #layout {margin:0 auto; width:980px; height:100%;position:relative;}
 #container {width: 100%; position: relative;}
-#container:after, .coupon:after, .filter:after {content: '.';display: block;clear: both;visibility: hidden;height: 0;}
-* html #container, .coupon, .filter {zoom:1;}
-#right-wrapper {
-    width: 100%;
-    float: left;
-    overflow: hidden;
-    position:relative;
-}
+#container:after, .coupon:after, .filter:after, .gallery:after, .gallery .row:after {content: '.';display: block;clear: both;visibility: hidden;height: 0;}
+* html #container, .coupon, .filter, .gallery, .galery .row {zoom:1;}
+#right-wrapper {width: 100%;float: left;overflow: hidden;position:relative;}
 #col-right {margin-left: 200px;}
 #col-left {
     float: left;
@@ -102,7 +97,7 @@ div.hr-title {
     background: none repeat scroll 0 0 #978792;
     clear: both;
     height: 1px;
-    margin: 6px 0 15px 0;
+    margin: 10px 0 15px 0;
 }
 div.hr-title hr {display:none;}
 
@@ -183,14 +178,13 @@ ul.prod-info li a{
 }
 
 
-/*****************/
 /* TEXTS  */
-/*****************/	
 .text p{margin-bottom:30px;}
-
-/*****************/
+/*Gallery*/
+div.gallery {width:531px;margin:0 auto;margin-top:20px;}
+div.gallery .row {margin:40px 0;}
+div.gallery .item {float:left;padding:0 15px;}
 /* PRODUCT  */
-/*****************/	
 
 #products {
     float: right;

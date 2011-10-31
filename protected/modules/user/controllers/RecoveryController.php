@@ -28,7 +28,7 @@ class RecoveryController extends Controller {
                             }
                             $find->save();
                             Yii::app()->user->setFlash('recoveryMessage', UserModule::t("New password is saved."));
-                            $this->redirect(Yii::app()->controller->module->recoveryUrl);
+                            $this->redirect(Yii::app()->controller->module->loginUrl);
                         }
                     }
                     $this->render('changepassword', array('form' => $form2));

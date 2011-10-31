@@ -45,8 +45,8 @@ class CheckoutController extends Controller {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $paymentData = OrderDetail::model()->getOrderPaymentData($oldOrder->id);
-			else
-				$paymentData = new OrderDetail();
+            else
+                $paymentData = new OrderDetail();
         }
 
         if ($_POST) {
@@ -360,57 +360,73 @@ class CheckoutController extends Controller {
     }
 
     public function actionPaymentSuccess() {
-        $order = Order::model()->getByUserId(Yii::app()->user->id, 2);
-        if (!$order) {
-            Yii::app()->controller->redirect(array('/checkout'));
+        echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';
+        
+        $message = null;
+        $key = '';
+        if ($_POST) {
+            $order = Order::model()->getByOrderKey($_POST['orderId']);
+            if (!$order) {
+                Yii::app()->controller->redirect(array('/checkout'));
+            }
+            $key = $order->key;
+            if ($order->sent != 1 AND $order->payment_method == 2) {
+                if ($this->sendConfirmMail($order)) {
+                    $order->sent = 1;
+                    $order->save();
+                }
+            }
+        } else {
+            $message = 'Ошибка в обработке платежа!';
         }
 
-        if ($order->sent != 1 AND $order->payment_method == 2) {
-            if ($this->sendConfirmMail($order)) {
-                $order->sent = 1;
-                $order->save();
-            }
-        }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
-        $this->render('confirmation', array(
-            'key' => $order->key,
+        $this->render('success', array(
+            'key' => $key,
+            'message' => $message,
         ));
     }
 
     public function actionPaymentFailed() {
-        $order = Order::model()->getByUserId(Yii::app()->user->id, 2);
-        if (!$order) {
-            Yii::app()->controller->redirect(array('/checkout'));
-        }
-
-        if ($order->sent != 1 AND $order->payment_method == 2) {
-            if ($this->sendConfirmMail($order)) {
-                $order->sent = 1;
-                $order->save();
-            }
-        }
+        echo '<pre>';
+        print_r($_POST);
+        echo '</pre>';
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
-        $this->render('confirmation', array(
-            'key' => $order->key,
-        ));
+        $this->render('error');
     }
 
     private function sendConfirmMail($order) {
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
         $items = $order->items;
+        
+        $user = User::model()->findByPk($order->user_id);
+        
         $mail = $this->renderPartial('//mails/confirm', array(
             'order' => $order,
             'payment' => $paymentData,
             'shipping' => $shippingData,
-            'items' => $items
+            'items' => $items,
+            'user' => $user
                 ), true);
         $subject = 'STORM - Подтверждение заказа';
-        $adminEmail = Yii::app()->params['adminEmail'];
         $email = Yii::app()->user->email;
+        
+        $adminMail = $this->renderPartial('//mails/admin_confirm', array(
+            'order' => $order,
+            'payment' => $paymentData,
+            'shipping' => $shippingData,
+            'items' => $items,
+            'user' => $user
+                ), true);
+        $adminSubject = 'STORM - Подтверждение заказа';
+        $adminEmail = Yii::app()->params['adminEmail'];
+        
         $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
         return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
-                AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers));
+                AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
     }
 
 }
