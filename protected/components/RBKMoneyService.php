@@ -12,7 +12,9 @@ class RBKMoneyService {
         $content  = CHtml::beginForm('https://rbkmoney.ru/acceptpurchase.aspx', 'post', array('id' => 'paymentForm'));
         $content .= CHtml::hiddenField('eshopId', $this->_config['shopId']);
         $content .= CHtml::hiddenField('recipientCurrency', $this->_config['currency']);
-        $content .= CHtml::hiddenField('successUrl', $this->createAbsoluteUrl($this->_config['successUrl']));
+        
+        $successUrl = $this->createAbsoluteUrl($this->_config['successUrl']).'?key='.$data['order'];
+        $content .= CHtml::hiddenField('successUrl', $successUrl);
         $content .= CHtml::hiddenField('failUrl', $this->createAbsoluteUrl($this->_config['failUrl']));
         $content .= CHtml::hiddenField('language', Yii::app()->language);
         
@@ -29,8 +31,6 @@ class RBKMoneyService {
     }
     
     public function checkPaymentResponse($data) {
-        if ( ! in_array($_SERVER['REMOTE_ADDR'], $this->_config['validIp']))
-            return false;
         $digestString = $this->generateDigestString($data);
         return ($data['hash'] == md5($digestString));
     }

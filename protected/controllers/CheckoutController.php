@@ -360,18 +360,11 @@ class CheckoutController extends Controller {
     }
 
     public function actionPaymentSuccess() {
-        echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';
-        
         $message = null;
-        $key = '';
-        if ($_POST) {
-            $order = Order::model()->getByOrderKey($_POST['orderId']);
-            if (!$order) {
-                Yii::app()->controller->redirect(array('/checkout'));
-            }
-            $key = $order->key;
+        $key = $_GET['key'];
+        
+        $order = Order::model()->getByOrderKey($key);
+        if ($order) {
             if ($order->sent != 1 AND $order->payment_method == 2) {
                 if ($this->sendConfirmMail($order)) {
                     $order->sent = 1;

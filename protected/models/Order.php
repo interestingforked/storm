@@ -22,6 +22,8 @@
  * @property Cart $cart
  */
 class Order extends CActiveRecord {
+    
+    public $number;
 
     /**
      * Returns the static model of the specified AR class.
@@ -141,7 +143,7 @@ class Order extends CActiveRecord {
         if (!$maxNumber)
             return sprintf("%s%03s", $date, 1);
         else
-            return sprintf("%s%03s", $date, ((int) $maxNumber->key) + 1);
+            return sprintf("%s%03s", $date, ((int) $maxNumber->number) + 1);
     }
     
     public function orderStatus($order) {

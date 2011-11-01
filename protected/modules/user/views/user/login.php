@@ -35,7 +35,7 @@ $this->breadcrumbs=array(
     <dd><?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
 	<?php echo CHtml::activeLabelEx($model,'rememberMe'); ?></dd>
     -->
-<div>
+<div><br>
 <?php echo CHtml::submitButton(UserModule::t("Login"), array('class' => 'button')); ?>
 <?php echo CHtml::button(UserModule::t("Забытый пароль?"), array('class' => 'button', 'onclick' => "location='/".Yii::app()->language.Yii::app()->getModule('user')->recoveryUrl[0]."'")); ?>
 <?php echo CHtml::button(UserModule::t("Зарегистрироваться"), array('class' => 'button', 'onclick' => "location='/".Yii::app()->language.Yii::app()->getModule('user')->registrationUrl[0]."'")); ?>

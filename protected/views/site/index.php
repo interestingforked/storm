@@ -3,13 +3,13 @@
 		 <div class="flash-column"><?php echo $block1; ?></div>
 		 <div class="flash-column central">
                      <h2><?php echo $page->content->title; ?></h2>
-                     <p>
+                     <span>
                          <?php 
                          foreach ($articles AS $article): 
                              echo CHtml::link($article->content->title, array('/'.$page->slug.'/'.$article->slug)).'<br/>';
                          endforeach;
                          ?>
-                     </p>
+                     </span>
                  </div>
 		 <div class="flash-column"><?php echo $block2; ?></div>
 		</div>

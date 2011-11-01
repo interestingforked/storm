@@ -31,7 +31,7 @@
                                                         <?php endif; ?>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Статус заказа:</strong> <?php echo Order::model()->orderStatus($order); ?></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Email:</strong> <?php echo $user->email; ?></p>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo $order->total; ?> руб.</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Сумма заказа:</strong> <?php echo $order->total; ?> руб. (Включая доставку <?php echo $order->shipping; ?> Руб.)</p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Способ доставки:</strong> <?php echo Yii::t('vars', 'shipping'.$order->shipping_method); ?></p>
                                                         <br>
                                                         <table style="margin-bottom: 20px;" cellpadding="0" cellspacing="0" width="497">

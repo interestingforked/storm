@@ -44,7 +44,7 @@
                        );
                    endif;
                    ?>
-                <p class="results"><a href="<?php echo CHtml::normalizeUrl(array($categoryLink)); ?>">&lt; <?php echo Yii::t('app', 'Back to results'); ?></a></p>
+                <p class="results"><a href="<?php echo CHtml::normalizeUrl(array($categoryLink)); ?>">&larr; <?php echo Yii::t('app', 'Back to results'); ?></a></p>
                  <p class="side">
                  <?php
                  if ($images):
@@ -68,7 +68,7 @@
                  </div>
                  
                  <?php if ($product->content->additional): ?>
-		 <p><a href="#product_specs" class="modal"><?php echo Yii::t('app', 'Read specification'); ?> &gt;</a></p>
+		 <p class="modal"><a href="#product_specs" class="modal"><?php echo Yii::t('app', 'Read specification'); ?> &gt;</a></p>
                  <div class="modal-content">
                  <div id="product_specs">
                      <h3><?php echo Yii::t('app', 'Specification'); ?></h3>

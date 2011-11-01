@@ -3,18 +3,26 @@ $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method');
 ?>
 
 <script type="text/javascript">
+function setRates(value) {
+    switch (value) {
+        case '1':
+            $('#delivery_cost').val(0);
+            $('#delivery_days').val(0);
+            break;
+        case '2':
+            $('#delivery_cost').val('<?php echo (isset($ponyExpress->tariff_including_vat) ? $ponyExpress->tariff_including_vat : 0) ?>');
+            $('#delivery_days').val('<?php echo (isset($ponyExpress->delivery_days) ? $ponyExpress->delivery_days : 0) ?>');
+            break;
+    }
+}
 $(document).ready(function () {
     $('input[name=delivery_method]').click(function () {
-        switch (this.value) {
-            case '1':
-                $('#delivery_cost').val(0);
-                $('#delivery_days').val(0);
-                break;
-            case '2':
-                $('#delivery_cost').val('<?php echo (isset($ponyExpress->tariff_including_vat) ? $ponyExpress->tariff_including_vat : 0) ?>');
-                $('#delivery_days').val('<?php echo (isset($ponyExpress->delivery_days) ? $ponyExpress->delivery_days : 0) ?>');
-                break;
-        }
+        setRates(this.value);
+    });
+    $('#formdata').submit(function () {
+        var method = $('input[name=delivery_method]').val();
+        setRates(method);
+        return true;
     });
     $('input[name=delivery_method]:first').attr('checked', true);
     $('input[name=payment_method]:first').attr('checked', true);
