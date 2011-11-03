@@ -162,5 +162,21 @@ class Order extends CActiveRecord {
             ),
         );
     }
+    
+    public function processQuantity() {
+        $orderItems = $this->items;
+        if ($orderItems) {
+            foreach ($orderItems AS $orderItem) {
+                $productNode = ProductNode::model()->findByPk($orderItem->product_node_id);
+                if ($productNode) {
+                    if ($productNode->quantity > $orderItem->quantity)
+                        $productNode->quantity = $productNode->quantity - $orderItem->quantity;
+                    else
+                        $productNode->quantity = 0;
+                    $productNode->save();
+                }
+            }
+        }
+    }
 
 }

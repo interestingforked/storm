@@ -15,5 +15,5 @@
 		</div>
 	    <embed width="690" height="406" allowscriptaccess="sameDomain" wmode="opaque" quality="high" bgcolor="#000000" name="LiquidFlash" id="LiquidFlash" src="/images/index_flash.swf" type="application/x-shockwave-flash"> 
 	   </div>
-	   <div class="official">Official STORM website &copy; 2011 STORM</div>
-<br/>
+	   <div class="official" style="float:left;">Official STORM website &copy; 2011 STORM</div>
+<div style="float:right; padding-top:15px;padding-right:25px;"><img src="/images/banner/RBK_take_113x47.gif" width="113" height="47" alt="Принимаем платежи через РБК" /></div>

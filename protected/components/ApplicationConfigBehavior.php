@@ -15,16 +15,26 @@ class ApplicationConfigBehavior extends CBehavior {
         $pageRules = array();
         $categoryRules = array();
         $productRules = array();
-        $articleRules = array();
+        $pluginRules = array();
 
-        $articleRules["<lang:({$languages})>/news-archive"] = "article/archive";
-        $articleRules["<lang:({$languages})>/news/<id:.*?>"] = "article/view";
+        $plugins = array();
         
+        $pluginRules["<lang:({$languages})>/news"] = "article/index";
+        $pluginRules["<lang:({$languages})>/news-archive"] = "article/archive";
+        $pluginRules["<lang:({$languages})>/news/<id:.*?>"] = "article/view";
+
         $pages = Page::model()->getAllPages();
         foreach ($pages AS $page) {
             $slug = str_replace('/', '\/', $page->slug);
-            $pageRules["<lang:({$languages})>/<id:{$slug}(.*)?>"] = "{$page->plugin}/index";
+            if ($page->plugin == 'page')
+                $pageRules["<lang:({$languages})>/<id:{$slug}(.*)?>"] = "page/index";
+            if ($page->plugin == 'gallery')
+                $plugins[$page->plugin][] = $slug;
         }
+        
+        $gallery = implode('|', $plugins['gallery']);
+        $pluginRules["<lang:({$languages})>/<plugin:({$gallery})>"] = "gallery/index";
+        $pluginRules["<lang:({$languages})>/<plugin:({$gallery})>/<id:.*?>"] = "gallery/view";
 
         $categories = Category::model()->getAllCategories();
         $rootCategories = array();
@@ -40,7 +50,7 @@ class ApplicationConfigBehavior extends CBehavior {
 
         $urlManager->addRules(array("<lang:({$languages})>/product/notify" => 'product/notify'));
         
-        $urlManager->addRules($articleRules);
+        $urlManager->addRules($pluginRules);
         $urlManager->addRules($pageRules);
         $urlManager->addRules($productRules);
         $urlManager->addRules($categoryRules);

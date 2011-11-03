@@ -75,6 +75,7 @@ class ServiceController extends Controller {
                     $order->rbk_payment_id = $_POST['paymentId'];
                     $order->status = 3;
                     $order->save();
+                    $order->processQuantity();
                 }
             }
             mail('pavel@csscat.com', 'Payment response', CJSON::encode($_POST));

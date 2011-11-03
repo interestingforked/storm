@@ -28,13 +28,13 @@ class CheckoutController extends Controller {
     }
 
     public function actionIndex() {
-        
+
         $session = new CHttpSession();
         $session->open();
-        if ( ! isset($session['country_id'])) {
+        if (!isset($session['country_id'])) {
             $session['country_id'] = 811;
         }
-        
+
         $messages = null;
         $countryList = CHtml::listData(Country::model()->getActive(), 'id', 'title');
 
@@ -126,8 +126,8 @@ class CheckoutController extends Controller {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $shippingData = OrderDetail::model()->getOrderShipingData($oldOrder->id);
-			else
-				$shippingData = new OrderDetail();
+            else
+                $shippingData = new OrderDetail();
         }
 
         if ($_POST) {
@@ -202,7 +202,8 @@ class CheckoutController extends Controller {
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('delivery_method', array(
             'ponyExpress' => $response,
-            'point' => $shippingData->point_id,
+            'pointId' => $shippingData->point_id,
+            'countryId' => $shippingData->country_id,
         ));
     }
 
@@ -351,6 +352,7 @@ class CheckoutController extends Controller {
                 $order->sent = 1;
                 $order->status = 3;
                 $order->save();
+                $order->processQuantity();
             }
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
@@ -359,10 +361,10 @@ class CheckoutController extends Controller {
         ));
     }
 
-    public function actionPaymentSuccess() {
+    public function actionPaymentsuccess() {
         $message = null;
         $key = $_GET['key'];
-        
+
         $order = Order::model()->getByOrderKey($key);
         if ($order) {
             if ($order->sent != 1 AND $order->payment_method == 2) {
@@ -382,7 +384,7 @@ class CheckoutController extends Controller {
         ));
     }
 
-    public function actionPaymentFailed() {
+    public function actionPaymentfailed() {
         echo '<pre>';
         print_r($_POST);
         echo '</pre>';
@@ -394,9 +396,9 @@ class CheckoutController extends Controller {
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
         $items = $order->items;
-        
+
         $user = User::model()->findByPk($order->user_id);
-        
+
         $mail = $this->renderPartial('//mails/confirm', array(
             'order' => $order,
             'payment' => $paymentData,
@@ -406,7 +408,7 @@ class CheckoutController extends Controller {
                 ), true);
         $subject = 'STORM - Подтверждение заказа';
         $email = Yii::app()->user->email;
-        
+
         $adminMail = $this->renderPartial('//mails/admin_confirm', array(
             'order' => $order,
             'payment' => $paymentData,
@@ -416,7 +418,7 @@ class CheckoutController extends Controller {
                 ), true);
         $adminSubject = 'STORM - Подтверждение заказа';
         $adminEmail = Yii::app()->params['adminEmail'];
-        
+
         $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
         return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
                 AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));

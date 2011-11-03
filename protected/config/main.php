@@ -88,6 +88,7 @@ return array(
         'categories' => '/images/categories/',
         'backgrounds' => '/images/backgrounds/',
         'articles' => '/images/articles/',
+        'gallery' => '/images/gallery/',
         'thumbUrl' => '/assets/thumb.php',
         'currency' => ' Руб.',
         'size_limit' => 10 * 1024 * 1024,

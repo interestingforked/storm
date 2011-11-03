@@ -1,6 +1,4 @@
-<?php
-$this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method');
-?>
+<?php $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method'); ?>
 
 <script type="text/javascript">
 function setRates(value) {
@@ -62,7 +60,7 @@ $(document).ready(function () {
                 <td></td>
             </tr>
             <?php endif; ?>
-            <?php if ($ponyExpress): ?>
+            <?php if ($point != 'MOW' AND $ponyExpress): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="2"/></td>
                 <td><?php echo $ponyExpress->tariff_including_vat.Yii::app()->params['currency']; ?></td>
@@ -84,18 +82,25 @@ $(document).ready(function () {
                 <th align="left"><?php echo Yii::t('app', 'Payment method'); ?></th>
                 <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
             </tr>
-            <?php if ($point == 'MOW'): ?>
+            <?php if ($pointId == 'MOW'): ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="1" checked="checked"/></td>
                 <td><?php echo Yii::t('app', 'Оплата курьеру при получение'); ?></td>
                 <td></td>
             </tr>
-            <?php endif; ?>
+            <?php elseif($countryId != 811): ?>
+            <tr>
+                <td><input type="radio" name="payment_method" value="3"/></td>
+                <td><?php echo Yii::t('app', 'Банковский перевод'); ?></td>
+                <td></td>
+            </tr>
+            <?php else: ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="2"/></td>
                 <td><?php echo Yii::t('app', 'On-line оплата'); ?></td>
                 <td><?php echo Yii::t('app', 'Оплата производится через RBK Money'); ?></td>
             </tr>
+            <?php endif; ?>
         </tbody>
     </table> 
     

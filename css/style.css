@@ -116,10 +116,11 @@ div.hr-products {background: none repeat 0 0 #978792;
 div.hr-products hr {display:none;}
 
 .center {text-align:center;}
-.content .text {font-size:90%;}
-table.cont-w-back {width:100%; margin-bottom:10px;}
-table.cont-w-back th, table.cont-w-back tr td {text-align:left; padding:5px;}
-table.cont-w-back th {background-color:#464646;}
+
+table.cont-w-back {width:100%; margin-bottom:10px;margin-top:10px;}
+table.cont-w-back tr.odd {background-color:#000;}
+table.cont-w-back th, table.cont-w-back tr td {text-align:left; padding:5px 5px 10px 5px;}
+table.cont-w-back th {background-color:#464646; vertical-align:top;}
 table.cont-w-back td {vertical-align:top;}
 table.cont-w-back td.info {width:60%;}
 table.cont-w-back strong {font-weight:bold;}
@@ -129,7 +130,7 @@ table.category img {margin-right:30px;}
 table.category td.sec-row {text-align:left; padding-right:50px;}
 table.category a {text-decoration:none;}
 
-ul.prod-info li{text-transform:uppercase; line-height:1.7;
+ul.prod-info li{text-transform:uppercase; line-height:1.9; font-size:85%;
 }
 ul.prod-info li a{
 *display: inline;
@@ -182,10 +183,16 @@ ul.prod-info li a{
 
 
 /* TEXTS  */
+.content .text {font-size:90%;}
+.content .text b {font-weight:bold;}
 .text p{margin-bottom:15px;}
-ul.in-text {padding-left:30px;margin-bottom:10px;}
+ul.in-text {padding-left:30px;margin-bottom:15px;}
 ul.decimal {list-style-type:decimal;}
-ul.in-text li{list-style-position:outline;padding-bottom:5px;}
+ul.in-text li{list-style-position:outline;margin-bottom:8px;}
+ul.dash{margin-bottom:15px;}
+ul.dash li:before { content:'\2014\a0'; }
+ul.dash li {margin-bottom: 8px;}
+
 /*Gallery*/
 div.gallery {width:531px;margin:0 auto;margin-top:20px;}
 div.gallery .row {margin:40px 0;}
