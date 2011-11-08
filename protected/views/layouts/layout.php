@@ -13,7 +13,9 @@ if ( ! empty($this->metaTitle))
 <link href="/css/content.css" type="text/css" rel="stylesheet" />
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/ie6.css" media="all" /><![endif]-->
 
+<?php if ( ! isset(Yii::app()->clientScript->corePackages['autocomplete'])): ?>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
+<?php endif; ?>
 <script type="text/javascript" src="/js/jquery.easing-1.3.pack.js"></script>
 <script type="text/javascript" src="/js/jquery.mousewheel-3.0.4.pack.js"></script> 
 <script type="text/javascript" src="/js/jquery.fancybox-1.3.4.pack.js"></script>
@@ -48,6 +50,7 @@ $background = '';
 if ( ! empty($this->background)) {
     $background = 'style="background-image:url('.Yii::app()->params['backgrounds'].$this->background.');"';
 }
+
 ?>
 <body>
 

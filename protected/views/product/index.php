@@ -126,7 +126,7 @@
                      endif; ?>
                      <?php echo number_format($product->mainNode->price,0,'.',''); ?></h4>
                  <div class="buy">
-                 <?php if ($product->mainNode->quantity == 0): ?>
+                 <?php if ($product->mainNode->quantity == 0 AND $product->mainNode->never_runs_out != 1): ?>
                     <?php if ($product->mainNode->notify == 0): ?>
                     <span id="Availability"><?php echo Yii::t('app', 'Not available'); ?></span>
                     <?php else: ?>

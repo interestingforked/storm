@@ -118,7 +118,7 @@ div.hr-products hr {display:none;}
 .center {text-align:center;}
 
 table.cont-w-back {width:100%; margin-bottom:10px;margin-top:10px;}
-table.cont-w-back tr.odd {background-color:#000;}
+table.cont-w-back tr.odd {background-color:#464646;}
 table.cont-w-back th, table.cont-w-back tr td {text-align:left; padding:5px 5px 10px 5px;}
 table.cont-w-back th {background-color:#464646; vertical-align:top;}
 table.cont-w-back td {vertical-align:top;}

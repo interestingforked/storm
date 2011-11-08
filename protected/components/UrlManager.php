@@ -4,7 +4,6 @@ class UrlManager extends CUrlManager {
 
     public function createUrl($route, $params = array(), $ampersand = '&') {
         if ( ! isset($params['lang']) OR empty($params['lang'])) {
-            //$params['lang'] = Controller::processUrl();
             $route = Controller::processUrl().'/'.$route;
         }
         if (preg_match('/gii/', $route) > 0) {

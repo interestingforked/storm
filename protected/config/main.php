@@ -13,10 +13,14 @@ return array(
         'application.components.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
+        'ext.giix-components.*'
     ),
     'modules' => array(
         'gii' => array(
             'class' => 'system.gii.GiiModule',
+            'generatorPaths' => array(
+                'ext.giix-core', // giix generators
+            ),
             'password' => 'storm',
             'ipFilters' => array('127.0.0.1', '::1'),
         ),
@@ -27,7 +31,7 @@ return array(
             'captcha' => array('registration' => false),
             'recoveryUrl' => array('/user/recovery'),
         ),
-        'crud'
+        'crud' => array()
     ),
     'behaviors' => array(
         'ApplicationConfigBehavior'
@@ -44,7 +48,7 @@ return array(
                 '/' => 'site/index',
             ),
             'showScriptName' => false,
-            'caseSensitive' => false,
+            'caseSensitive' => true,
         ),
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=storm_prod',
@@ -62,12 +66,6 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
-                /*
-                  array(
-                  'class' => 'CFileLogRoute',
-                  'levels' => 'error, warning',
-                  ),
-                 */
                 array(
                     'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
                     'ipFilters' => array('127.0.0.1'),
@@ -81,7 +79,7 @@ return array(
         'adminEmail' => 'webmaster@example.com',
         'languages' => array(
             'ru' => 'Russian',
-        //'lv' => 'Latvian'
+            //'lv' => 'Latvian'
         ),
         'defaultLanguage' => 'ru',
         'images' => '/images/products/',
@@ -108,9 +106,9 @@ return array(
             'shopId' => '2009262',
             'secretKey' => 'st0rm',
             'validIp' => array(
-                '89.111.188.128', 
-                '46.38.182.208', 
-                '46.38.182.209', 
+                '89.111.188.128',
+                '46.38.182.208',
+                '46.38.182.209',
                 '46.38.182.210'
             )
         )

@@ -15,9 +15,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $pluginPage->content->title;
             <?php echo $i; ?>
         <?php else: ?>
             <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-        <?php endif; 
-        if ($i != $pages) echo ' | ';
-        ?>
+        <?php endif; ?> | 
     <?php endfor; ?>
     <?php if ($page != $pages): ?>
         <a href="?page=<?php echo $nextpage; ?>"><?php echo Yii::t('app', 'next'); ?></a>
@@ -43,7 +41,8 @@ foreach ($galleries AS $gallery):
     $image = '';
     $imageAttachment = Attachment::model()->getAttachment('gallery', $gallery->id);
     if ($imageAttachment) {
-        $image = CHtml::image(Image::thumb(Yii::app()->params['gallery'].$imageAttachment->image, 147), $gallery->content->title);
+        $title = (isset($gallery->content->title)) ? $gallery->content->title : '';
+        $image = CHtml::image(Image::thumb(Yii::app()->params['gallery'].$imageAttachment->image, 147), $title);
     }
     echo CHtml::link($image, array('/'.$pluginPage->slug.'/'.$gallery->slug)); 
     echo '</div>';
