@@ -27,7 +27,24 @@ class RecoveryController extends Controller {
                                 $find->status = 1;
                             }
                             $find->save();
-                            Yii::app()->user->setFlash('recoveryMessage', UserModule::t("New password is saved."));
+                            
+                            $model = new UserLogin;
+                            $model->attributes = array(
+                                'username' => $find->username,
+                                'password' => $form2->password,
+                            );
+                            if ($model->validate()) {
+                                $this->lastViset();
+
+                                $this->wishlistManager->moveToDatabase();
+                                $this->cart->moveToDatabase();
+
+                                if (strpos(Yii::app()->user->returnUrl, '/index.php') !== false)
+                                    $this->redirect(Yii::app()->controller->module->returnUrl);
+                                else
+                                    $this->redirect(Yii::app()->user->returnUrl);
+                            }
+                            
                             $this->redirect(Yii::app()->controller->module->loginUrl);
                         }
                     }
@@ -61,6 +78,12 @@ class RecoveryController extends Controller {
                 $this->render('recovery', array('form' => $form));
             }
         }
+    }
+    
+    private function lastViset() {
+        $lastVisit = User::model()->notsafe()->findByPk(Yii::app()->user->id);
+        $lastVisit->lastvisit = time();
+        $lastVisit->save();
     }
 
 }

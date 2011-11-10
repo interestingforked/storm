@@ -13,14 +13,10 @@ return array(
         'application.components.*',
         'application.modules.user.models.*',
         'application.modules.user.components.*',
-        'ext.giix-components.*'
     ),
     'modules' => array(
         'gii' => array(
             'class' => 'system.gii.GiiModule',
-            'generatorPaths' => array(
-                'ext.giix-core', // giix generators
-            ),
             'password' => 'storm',
             'ipFilters' => array('127.0.0.1', '::1'),
         ),

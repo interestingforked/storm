@@ -29,6 +29,7 @@ class ServiceController extends Controller {
 
     public function actionPoint() {
         $term = Yii::app()->getRequest()->getParam('term');
+        $dontShowFull = Yii::app()->getRequest()->getParam('dontShowFull') == 'true';
 
         if (Yii::app()->request->isAjaxRequest && $term) {
             $criteria = new CDbCriteria;
@@ -49,7 +50,7 @@ class ServiceController extends Controller {
                 if (Yii::app()->language != 'ru' OR !$record->title)
                     $label = $record->latin ? $record->latin : $record->title;
                 else
-                    $label = $record->title;
+                    $label = $dontShowFull ? $record->title : $record->full_title;
                 $result[] = array('id' => $record->id, 'label' => $label, 'value' => $label);
             }
             echo CJSON::encode($result);
@@ -75,6 +76,12 @@ class ServiceController extends Controller {
                     $order->rbk_payment_id = $_POST['paymentId'];
                     $order->status = 3;
                     $order->save();
+                    if ($order->sent != 1 AND $order->payment_method == 2) {
+                        if ($this->sendConfirmMail($order)) {
+                            $order->sent = 1;
+                            $order->save();
+                        }
+                    }
                     $order->processQuantity();
                 }
             }
@@ -82,6 +89,38 @@ class ServiceController extends Controller {
             Yii::app()->end();
         } else
             Yii::app()->controller->redirect(array('/'));
+    }
+    
+    private function sendConfirmMail($order) {
+        $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
+        $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
+        $items = $order->items;
+
+        $user = User::model()->findByPk($order->user_id);
+
+        $mail = $this->renderPartial('//mails/confirm', array(
+            'order' => $order,
+            'payment' => $paymentData,
+            'shipping' => $shippingData,
+            'items' => $items,
+            'user' => $user
+                ), true);
+        $subject = 'STORM - Подтверждение заказа';
+        $email = Yii::app()->user->email;
+
+        $adminMail = $this->renderPartial('//mails/admin_confirm', array(
+            'order' => $order,
+            'payment' => $paymentData,
+            'shipping' => $shippingData,
+            'items' => $items,
+            'user' => $user
+                ), true);
+        $adminSubject = 'STORM - Подтверждение заказа';
+        $adminEmail = Yii::app()->params['adminEmail'];
+
+        $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
+        return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
+                AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
     }
 
 }

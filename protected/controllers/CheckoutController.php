@@ -366,16 +366,6 @@ class CheckoutController extends Controller {
         $key = $_GET['key'];
 
         $order = Order::model()->getByOrderKey($key);
-        if ($order) {
-            if ($order->sent != 1 AND $order->payment_method == 2) {
-                if ($this->sendConfirmMail($order)) {
-                    $order->sent = 1;
-                    $order->save();
-                }
-            }
-        } else {
-            $message = 'Ошибка в обработке платежа!';
-        }
 
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('success', array(

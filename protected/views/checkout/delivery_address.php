@@ -17,7 +17,7 @@ var paymentData = {
     point_id: '<?php echo $paymentData->point_id ?>',
     country_id: '<?php echo $paymentData->country_id ?>'
 }
-var formFields = ['name','surname','phone','email','house','street','city','postcode','country_id','point_id'];
+var formFields = ['name','surname','phone','email','house','street','city','postcode','country_id'];
 var previousCity = {
     city: null,
     point_id: null
@@ -38,18 +38,46 @@ $(document).ready(function () {
         $('#point_id').val(paymentData.point_id);
         $('#country_id').val(paymentData.country_id);
     });
-    $('#formdata').submit(function () {
-        var accepted = true;
+    $('#submit_button').click(function (e) {
+        var $formId = $(this).parents('form');
+        var cityValue = $('#city').val();
         $(formFields).each(function(index) {
             if ($('#' + formFields[index]).val() == '' || $('#' + formFields[index]).val() == 0) {
                 $('#' + formFields[index]).css('border-color','#cc0000');
                 accepted = false;
             }
         });
-        if ( ! accepted) {
-            alert('<?php echo Yii::t('app', 'Пожалуйста заполните все обязательные поля.'); ?>');
+        if ($('#point_id').val() == 0) {
+            $.getJSON('<?php echo Yii::app()->createUrl('/service/point'); ?>?dontShowFull=true&term=' + cityValue, function (data) {
+                var pointId = $('#point_id').val();
+                var accepted = true;
+                if ((data == null || data == '') && pointId == 0) {
+                    alert('<?php echo Yii::t('app', 'Город который Вы ввели не найден.'); ?>');
+                    accepted = false;
+                }
+                if ((data.length > 1) && pointId == 0) {
+                    alert('<?php echo Yii::t('app', 'Найдено несколько городов с похожим названием. Воспользуйтесь функцией подсказки.'); ?>');
+                    accepted = false;
+                }
+                if ((data.length == 1) && pointId == 0) {
+                    $('#point_id').val(data[0].id);
+                }
+                if (data == null && pointId == 0) {
+                    if (previousCity.city != null && previousCity.point_id != null) {
+                        $('#city').val(previousCity.city);
+                        $('#point_id').val(previousCity.point_id);
+                    }
+                }
+                if (accepted) {
+                    $formId.submit();
+                } else {
+                    alert('<?php echo Yii::t('app', 'Пожалуйста заполните все обязательные поля.'); ?>');
+                }
+            });
+        } else {
+            $formId.submit();
         }
-        return accepted;
+        e.preventDefault();
     });
     $('#country_id').change(function () {
         $.get('<?php echo Yii::app()->createUrl('/service/country'); ?>?country_id=' + this.value);
@@ -58,26 +86,6 @@ $(document).ready(function () {
         previousCity.city = $('#city').val();
         previousCity.point_id = $('#point_id').val();
         $('#point_id').val(0);
-    });
-    $('#city').change(function () {
-        $.get('<?php echo Yii::app()->createUrl('/service/point'); ?>?term=' + this.value, function (data) {
-            var pointId = $('#point_id').val();
-            if ((data == null || data == '') && pointId == 0) {
-                alert('<?php echo Yii::t('app', 'Город который Вы ввели не найден.'); ?>');
-            }
-            if ((data.length > 1) && pointId == 0) {
-                alert('<?php echo Yii::t('app', 'Найдено несколько городов с похожим названием. Воспользуйтесь функцией подсказки.'); ?>');
-            }
-            if ((data.length == 1) && pointId == 0) {
-                $('#point_id').val(data[0].id);
-            }
-            if (data == null && pointId == 0) {
-                if (previousCity.city != null && previousCity.point_id != null) {
-                    $('#city').val(previousCity.city);
-                    $('#point_id').val(previousCity.point_id);
-                }
-            }
-        }, 'json');
     });
 });
 </script>
@@ -188,6 +196,7 @@ $(document).ready(function () {
             'onclick' => "location.href='".CHtml::normalizeUrl(array('/checkout'))."'",
         )); ?>
         <?php echo CHtml::submitButton(Yii::t('app', 'Continue'), array(
+            'id' => 'submit_button',
             'class' => 'button',
             'onmouseout' => "this.style.backgroundColor='#1F1F1F'",
             'onmouseover' => "this.style.backgroundColor='#343434'",
