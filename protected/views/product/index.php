@@ -126,7 +126,7 @@
                      endif; ?>
                      <?php echo number_format($product->mainNode->price,0,'.',''); ?></h4>
                  <div class="buy">
-                 <?php if ($product->mainNode->quantity == 0 AND $product->mainNode->never_runs_out != 1): ?>
+                 <?php if ($product->mainNode->quantity == 0 AND $product->mainNode->never_runs_out != 1 AND $product->mainNode->preorder != 1): ?>
                     <?php if ($product->mainNode->notify == 0): ?>
                     <span id="Availability"><?php echo Yii::t('app', 'Not available'); ?></span>
                     <?php else: ?>
@@ -160,12 +160,16 @@
                  <?php else: ?>
 		  <span id="BuyButton" style="">
                     <?php 
+                    $buttonLabel = Yii::t('app', 'Buy');
+                    if ($product->mainNode->preorder == 1) {
+                        $buttonLabel = Yii::t('app', 'Preorder');
+                    }
                     echo CHtml::beginForm(array('/cart'));
                     echo CHtml::hiddenField('action', 'addItem');
                     echo CHtml::hiddenField('productId', $product->id);
                     echo CHtml::hiddenField('productNodeId', $product->mainNode->id);
                     echo CHtml::hiddenField('price', $product->mainNode->price);
-                    echo CHtml::submitButton(Yii::t('app', 'Buy'), array(
+                    echo CHtml::submitButton($buttonLabel, array(
                         'class' => 'buy-add',
                         'style' => 'background-color: rgb(0, 0, 0);',
                         'onmouseout' => "this.style.backgroundColor='#000000'",

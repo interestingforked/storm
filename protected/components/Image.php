@@ -2,7 +2,7 @@
 
 class Image {
 
-    public function thumb($image, $width = false, $height = false) {
+    public static function thumb($image, $width = false, $height = false) {
         $thumbUrl = Yii::app()->params['thumbUrl'];
         $thumbUrl .= '?src='.$image;
         if ($width)

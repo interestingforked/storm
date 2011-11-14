@@ -36,9 +36,6 @@ $(document).ready(function () {
 <div class="hr-title"><hr/></div>
 
 <p><?php echo Yii::t('app', 'Пожалуйста выберите доступный способ доставки в ваш город.'); ?></p>
-
-<?php if ($messages): ?>
-<?php endif; ?>
     
 <div id="login-form">
 
@@ -82,13 +79,13 @@ $(document).ready(function () {
                 <th align="left"><?php echo Yii::t('app', 'Payment method'); ?></th>
                 <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
             </tr>
-            <?php if ($pointId == 'MOW'): ?>
+            <?php if ($pointId == 'MOW' AND $order->preorder != 1): ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="1" checked="checked"/></td>
                 <td><?php echo Yii::t('app', 'Оплата курьеру при получение'); ?></td>
                 <td></td>
             </tr>
-			<?php endif; ?>
+            <?php endif; ?>
             <?php if($countryId != 811): ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="3"/></td>

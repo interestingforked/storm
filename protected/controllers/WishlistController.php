@@ -43,5 +43,35 @@ class WishlistController extends Controller {
             'referer' => $referer,
         ));
     }
+    
+    public function actionSend() {
+        $message = null;
+        $wishlist = $this->wishlistManager->getList();
+        $wishlistItems = $this->wishlistManager->getItems();
+        if ($_POST) {
+            $user = User::model()->findByPk(Yii::app()->user->getId());
+            $profile = $user->profile;
+            $mail = $this->renderPartial('//mails/wishlist', array(
+                'message' => $_POST['message'],
+                'list' => $wishlist,
+                'items' => $wishlistItems,
+                'fromWho' => $profile->firstname.' '.$profile->lastname
+            ), true);
+            
+            $subject = 'STORM - Подтверждение заказа';
+            $userEmail = Yii::app()->user->email;
+            $headers = "MIME-Version: 1.0\r\nFrom: {$userEmail}\r\nReply-To: {$userEmail}\r\nContent-Type: text/html; charset=utf-8";
+            
+            $emails = explode("\r\n", $_POST['emails']);
+            foreach ($emails AS $email) {
+                mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers);
+            }
+            $message = 'Список предпочтений отослан!';
+        }
+        $this->render('send', array(
+            'message' => $message,
+            'items' => $wishlistItems,
+        ));
+    }
 
 }

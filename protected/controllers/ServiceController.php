@@ -76,13 +76,12 @@ class ServiceController extends Controller {
                     $order->rbk_payment_id = $_POST['paymentId'];
                     $order->status = 3;
                     $order->save();
-                    if ($order->sent != 1 AND $order->payment_method == 2) {
+                    if ($order->sent != 1) {
                         if ($this->sendConfirmMail($order)) {
                             $order->sent = 1;
                             $order->save();
                         }
                     }
-                    $order->processQuantity();
                 }
             }
             mail('pavel@csscat.com', 'Payment response', CJSON::encode($_POST));

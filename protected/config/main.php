@@ -27,7 +27,8 @@ return array(
             'captcha' => array('registration' => false),
             'recoveryUrl' => array('/user/recovery'),
         ),
-        'crud' => array()
+        'crud' => array(),
+        'admin' => array()
     ),
     'behaviors' => array(
         'ApplicationConfigBehavior'

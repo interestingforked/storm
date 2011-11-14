@@ -48,32 +48,38 @@ $(document).ready(function () {
             }
         });
         if ($('#point_id').val() == 0) {
-            $.getJSON('<?php echo Yii::app()->createUrl('/service/point'); ?>?dontShowFull=true&term=' + cityValue, function (data) {
-                var pointId = $('#point_id').val();
-                var accepted = true;
-                if ((data == null || data == '') && pointId == 0) {
-                    alert('<?php echo Yii::t('app', 'Город который Вы ввели не найден.'); ?>');
-                    accepted = false;
-                }
-                if ((data.length > 1) && pointId == 0) {
-                    alert('<?php echo Yii::t('app', 'Найдено несколько городов с похожим названием. Воспользуйтесь функцией подсказки.'); ?>');
-                    accepted = false;
-                }
-                if ((data.length == 1) && pointId == 0) {
-                    $('#point_id').val(data[0].id);
-                }
-                if (data == null && pointId == 0) {
-                    if (previousCity.city != null && previousCity.point_id != null) {
-                        $('#city').val(previousCity.city);
-                        $('#point_id').val(previousCity.point_id);
-                    }
-                }
-                if (accepted) {
-                    $formId.submit();
-                } else {
-                    alert('<?php echo Yii::t('app', 'Пожалуйста заполните все обязательные поля.'); ?>');
-                }
-            });
+            $.ajax({
+				url: '<?php echo Yii::app()->createUrl('/service/point'); ?>?dontShowFull=true&term=' + encodeURI(cityValue), 
+				cache: false,
+				contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+				dataType: 'json',
+				success: function (data) {
+					var pointId = $('#point_id').val();
+					var accepted = true;
+					if ((data == null || data == '') && pointId == 0) {
+						alert('<?php echo Yii::t('app', 'Город который Вы ввели не найден.'); ?>');
+						accepted = false;
+					}
+					if ((data.length > 1) && pointId == 0) {
+						alert('<?php echo Yii::t('app', 'Найдено несколько городов с похожим названием. Воспользуйтесь функцией подсказки.'); ?>');
+						accepted = false;
+					}
+					if ((data.length == 1) && pointId == 0) {
+						$('#point_id').val(data[0].id);
+					}
+					if (data == null && pointId == 0) {
+						if (previousCity.city != null && previousCity.point_id != null) {
+							$('#city').val(previousCity.city);
+							$('#point_id').val(previousCity.point_id);
+						}
+					}
+					if (accepted) {
+						$formId.submit();
+					} else {
+						alert('<?php echo Yii::t('app', 'Пожалуйста заполните все обязательные поля.'); ?>');
+					}
+				}
+			});
         } else {
             $formId.submit();
         }

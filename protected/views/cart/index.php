@@ -102,7 +102,10 @@ function changeNode(formId, nodeId) {
                 <?php 
                 if ($item['product']->mainNode->quantity < $item['item']['quantity']) {
                     if ($item['product']->mainNode->quantity == 0) {
-                        echo Yii::t('app', 'Out of stock');
+                        if ($item['product']->mainNode->preorder == 1 OR $item['product']->mainNode->never_runs_out == 1)
+                            echo Yii::t('app', 'Preorder');
+                        else
+                            echo Yii::t('app', 'Out of stock');
                     } else {
                         echo Yii::t('app', 'Only');
                         echo ' '.$item['product']->mainNode->quantity.' ';

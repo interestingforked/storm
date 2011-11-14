@@ -23,7 +23,7 @@ function changeNode(formId, nodeId) {
             <th><?php echo Yii::t('app', 'Color'); ?></th>
             <th><?php echo Yii::t('app', 'Size'); ?></th>
             <th><?php echo Yii::t('app', 'Price'); ?></th>
-            <th colspan="4"><?php echo Yii::t('app', 'Quantity'); ?></th>
+            <th colspan="4"><?php echo Yii::t('app', 'Buy quantity'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -122,7 +122,24 @@ function changeNode(formId, nodeId) {
     </tbody>
 </table>
 <div class="send-wish">
-    <?php echo CHtml::link(Yii::t('app', 'Send wishlist to friend'), array('/wishlist/send'), array('class' => 'button')); ?>
+    <?php 
+        echo CHtml::beginForm(array('/cart'));
+        echo CHtml::hiddenField('action', 'copy_from_wishlist');
+        echo CHtml::submitButton(Yii::t('app', 'Купить выбранные'), array(
+            'class' => 'button',
+            'onmouseout' => "this.style.backgroundColor='#1F1F1F'",
+            'onmouseover' => "this.style.backgroundColor='#343434'",
+            'style' => 'background-color: rgb(31, 31, 31);margin:0 0 10px;',
+        ));
+        echo CHtml::endForm(); 
+        ?>
+</div>
+<div class="send-wish">
+    <?php 
+    if ( ! Yii::app()->user->isGuest) {
+        echo CHtml::link(Yii::t('app', 'Send wishlist to friend'), array('/wishlist/send'), array('class' => 'button')); 
+    }
+    ?>
 </div>
 <?php endif; ?>
 <div class="cont-shop"><a href="<?php echo $referer; ?>"><?php echo Yii::t('app', 'Continue shopping'); ?> &gt;</a></div>

@@ -50,26 +50,30 @@ class CheckoutController extends Controller {
         }
 
         if ($_POST) {
-            if (!$order) {
-                $cart = Cart::model()->getByUserId(Yii::app()->user->id);
-                if ($cart) {
-                    $cartItems = array();
-                    foreach ($this->cart->getItems() AS $item) {
-                        $product = Product::model()->findByPk($item['product_id']);
-                        if (!$product)
-                            continue;
-                        $productNode = $product->getProduct($item['product_node_id']);
-                        if ($productNode->mainNode->quantity == 0) {
+            $preorder = 0;
+            $cart = Cart::model()->getByUserId(Yii::app()->user->id);
+            if ($cart) {
+                $cartItems = array();
+                foreach ($this->cart->getItems() AS $item) {
+                    $product = Product::model()->findByPk($item['product_id']);
+                    if (!$product)
+                        continue;
+                    $productNode = $product->getProduct($item['product_node_id']);
+                    if ($productNode->mainNode->quantity == 0) {
+                        if ($productNode->mainNode->preorder == 1) {
+                            $preorder = 1;
+                        } else {
                             $this->cart->removeItem($item['product_id'], $item['product_node_id']);
                             continue;
                         }
-                        if ($productNode->mainNode->quantity < $item['quantity']) {
-                            $this->cart->changeQuantity($item['product_id'], $item['product_node_id'], $productNode->mainNode->quantity);
-                            $item['quantity'] = $productNode->mainNode->quantity;
-                        }
+                    }
+                    if ($productNode->mainNode->quantity < $item['quantity'] AND $productNode->mainNode->preorder != 1) {
+                        $this->cart->changeQuantity($item['product_id'], $item['product_node_id'], $productNode->mainNode->quantity);
+                        $item['quantity'] = $productNode->mainNode->quantity;
                     }
                 }
-
+            }
+            if (!$order) {
                 $order = new Order();
                 $order->cart_id = $cart->id;
                 $order->user_id = Yii::app()->user->id;
@@ -78,6 +82,10 @@ class CheckoutController extends Controller {
                 $order->quantity = $cart->total_count;
                 $order->total = $cart->total_price;
                 $order->ip = Yii::app()->request->getUserHostAddress();
+                $order->save();
+            }
+            if ($preorder != 0) {
+                $order->preorder = 1;
                 $order->save();
             }
             $orderDetail = OrderDetail::model()->getOrderPaymentData($order->id);
@@ -202,6 +210,7 @@ class CheckoutController extends Controller {
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('delivery_method', array(
             'ponyExpress' => $response,
+            'order' => $order,
             'pointId' => $shippingData->point_id,
             'countryId' => $shippingData->country_id,
         ));
@@ -232,10 +241,14 @@ class CheckoutController extends Controller {
                     continue;
                 $productNode = $product->getProduct($item['product_node_id']);
                 if ($productNode->mainNode->quantity == 0) {
-                    $this->cart->removeItem($item['product_id'], $item['product_node_id']);
-                    continue;
+                    if ($productNode->mainNode->preorder == 1) {
+                        $preorder = 1;
+                    } else {
+                        $this->cart->removeItem($item['product_id'], $item['product_node_id']);
+                        continue;
+                    }
                 }
-                if ($productNode->mainNode->quantity < $item['quantity']) {
+                if ($productNode->mainNode->quantity < $item['quantity'] AND $productNode->mainNode->preorder != 1) {
                     $this->cart->changeQuantity($item['product_id'], $item['product_node_id'], $productNode->mainNode->quantity);
                     $item['quantity'] = $productNode->mainNode->quantity;
                 }
@@ -290,6 +303,7 @@ class CheckoutController extends Controller {
                     $orderItem->save();
                 }
                 $this->cart->close();
+                
                 if ($order->payment_method == 2)
                     Yii::app()->controller->redirect(array('/checkout/payment'));
                 else
@@ -323,6 +337,8 @@ class CheckoutController extends Controller {
         if ($order->payment_method == 2) {
             $order->status = 2;
             $order->save();
+            
+            $order->processQuantity();
 
             $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
             $rbkServiceForm = $rbkService->generateRequestForm(array(

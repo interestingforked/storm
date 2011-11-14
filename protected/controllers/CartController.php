@@ -23,6 +23,16 @@ class CartController extends Controller {
             if ($_POST['action'] == 'changeQuantity') {
                 $this->cart->changeQuantity($_POST['productId'], $_POST['productNodeId'], $_POST['quantity']);
             }
+            
+            if ($_POST['action'] == 'copy_from_wishlist') {
+                foreach ($this->wishlistManager->getItems() AS $wishlistItem) {
+                    $productNode = ProductNode::model()->findByPk($wishlistItem['product_node_id']);
+                    if ($productNode) {
+                        $this->cart->addItem($wishlistItem['product_id'], $wishlistItem['product_node_id'], $productNode->price);
+                        $this->cart->changeQuantity($wishlistItem['product_id'], $wishlistItem['product_node_id'], $wishlistItem['quantity']);
+                    }
+                }
+            }
         }
         $cart = $this->cart->getList();
         $cartItems = array();

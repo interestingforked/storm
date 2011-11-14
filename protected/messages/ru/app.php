@@ -80,5 +80,10 @@ return array(
     'Articles' => 'Новости',
     'Delivery and payment methods' => 'Способ доставки и оплаты',
     'Payment method' => 'Способ оплаты',
+    'Buy quantity' => 'Купить количество',
+    'Preorder' => 'Предзаказ',
+    'item available' => 'шт. доступно',
+    'Out of stock' => 'Нет в наличии',
+    'Only' => 'Только',
 );
 

@@ -95,6 +95,7 @@ class ProductNode extends CActiveRecord {
     public function defaultScope() {
         return array(
             'condition' => 'deleted = 0',
+            'order' => 'sort ASC',
         );
     }
 
