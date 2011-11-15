@@ -98,5 +98,9 @@ class Wishlist extends CActiveRecord {
                     'user_id' => $userId
                 ));
     }
+    
+    public function findByWishlistKey($key) {
+        return $this->findByAttributes(array('key' => $key));
+    }
 
 }

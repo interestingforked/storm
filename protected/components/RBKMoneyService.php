@@ -24,6 +24,7 @@ class RBKMoneyService {
         
         $buttonHtmlOptions['disabled'] = true;
         $buttonHtmlOptions['id'] = 'rbk_money_submit_button';
+        $buttonHtmlOptions['style'] = 'display:none;';
         $content .= CHtml::submitButton(Yii::t('app', 'Перейти к оплате'), $buttonHtmlOptions);
         
         $content .= CHtml::endForm();

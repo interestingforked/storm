@@ -55,21 +55,44 @@ class WishlistController extends Controller {
                 'message' => $_POST['message'],
                 'list' => $wishlist,
                 'items' => $wishlistItems,
-                'fromWho' => $profile->firstname.' '.$profile->lastname
+                'fromWho' => $profile->firstname.' '.$profile->lastname,
             ), true);
             
             $subject = 'STORM - Подтверждение заказа';
-            $userEmail = Yii::app()->user->email;
-            $headers = "MIME-Version: 1.0\r\nFrom: {$userEmail}\r\nReply-To: {$userEmail}\r\nContent-Type: text/html; charset=utf-8";
+            $adminEmail = Yii::app()->params['adminEmail'];
+            $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
             
             $emails = explode("\r\n", $_POST['emails']);
             foreach ($emails AS $email) {
                 mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers);
             }
-            $message = 'Список предпочтений отослан!';
+            Yii::app()->controller->redirect(array('/wishlist'));
         }
         $this->render('send', array(
             'message' => $message,
+            'items' => $wishlistItems,
+        ));
+    }
+    
+    public function actionView() {
+        $key = Yii::app()->getRequest()->getParam('key');
+        $wishlist = Wishlist::model()->findByWishlistKey($key);
+        $wishlistItems = array();
+        if ($wishlist) {
+            foreach ($wishlist->items AS $wishlistItem) {
+                $product = Product::model()->findByPk($wishlistItem->product_id);
+                if (!$product) {
+                    continue;
+                }
+                $wishlistItems[] = array(
+                    'item' => $wishlistItem,
+                    'product' => $product->getProduct($wishlistItem->product_node_id)
+                );
+            }
+        }
+        $this->breadcrumbs[] = Yii::t('app', 'Wishlist');
+        $this->render('view', array(
+            'list' => $wishlist,
             'items' => $wishlistItems,
         ));
     }

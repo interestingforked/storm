@@ -289,25 +289,12 @@ class CheckoutController extends Controller {
             }
             $order->key = Order::model()->getMaxNumber(date('ym'));
             if ($order->save()) {
-
-                $orderItem = new OrderItem();
-                foreach ($this->cart->getItems() AS $item) {
-                    $orderItem->isNewRecord = true;
-                    $orderItem->id = null;
-                    $orderItem->order_id = $order->id;
-                    $orderItem->product_id = $item['product_id'];
-                    $orderItem->product_node_id = $item['product_node_id'];
-                    $orderItem->quantity = $item['quantity'];
-                    $orderItem->price = $item['price'];
-                    $orderItem->subtotal = $item['subtotal'];
-                    $orderItem->save();
-                }
-                $this->cart->close();
-                
                 if ($order->payment_method == 2)
                     Yii::app()->controller->redirect(array('/checkout/payment'));
-                else
+                else {
+                    $this->copyFromCart($order);
                     Yii::app()->controller->redirect(array('/checkout/confirmation'));
+                }
             } else {
                 $messages = $order->getErrors();
             }
@@ -333,11 +320,12 @@ class CheckoutController extends Controller {
         if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
-        $rbkServiceForm = '';
-        if ($order->payment_method == 2) {
+        $rbkServiceForm = null;
+        if ($_POST) {
             $order->status = 2;
             $order->save();
             
+            $this->copyFromCart($order);
             $order->processQuantity();
 
             $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
@@ -346,13 +334,11 @@ class CheckoutController extends Controller {
                 'service' => 'STORM Watches',
                 'amount' => ($order->total + $order->shipping)
                     ));
-        } else {
-            Yii::app()->controller->redirect(array('/checkout/confirmation'));
         }
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('payment', array(
             'key' => $order->key,
-            'form' => $rbkServiceForm,
+            'rbkServiceForm' => $rbkServiceForm,
         ));
     }
 
@@ -391,11 +377,24 @@ class CheckoutController extends Controller {
     }
 
     public function actionPaymentfailed() {
-        echo '<pre>';
-        print_r($_POST);
-        echo '</pre>';
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('error');
+    }
+    
+    private function copyFromCart($order) {
+        $orderItem = new OrderItem();
+        foreach ($this->cart->getItems() AS $item) {
+            $orderItem->isNewRecord = true;
+            $orderItem->id = null;
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $item['product_id'];
+            $orderItem->product_node_id = $item['product_node_id'];
+            $orderItem->quantity = $item['quantity'];
+            $orderItem->price = $item['price'];
+            $orderItem->subtotal = $item['subtotal'];
+            $orderItem->save();
+        }
+        $this->cart->close();
     }
 
     private function sendConfirmMail($order) {

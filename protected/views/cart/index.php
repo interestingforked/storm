@@ -33,6 +33,10 @@ function changeNode(formId, nodeId) {
             'total_count' => 0,
             'total_price' => 0.00
         );
+        $preorderAvailable = array(
+            'items' => array(),
+            'total_count' => 0,
+        );
         foreach ($items AS $item):
             $formId = 'form'.$item['item']['product_id'].'-'.$item['item']['product_node_id'];
             $colors = array();
@@ -111,9 +115,15 @@ function changeNode(formId, nodeId) {
                         echo ' '.$item['product']->mainNode->quantity.' ';
                         echo Yii::t('app', 'item available');
                     }
-                    $available['items'][] = $item;
-                    $available['total_count'] += $item['product']->mainNode->quantity;
-                    $available['total_price'] += $item['product']->mainNode->quantity * $item['product']->mainNode->price;
+                    if ($item['product']->mainNode->quantity == 0 AND $item['product']->mainNode->preorder == 1) {
+                        $preorderAvailable['items'][] = $item;
+                        $preorderAvailable['total_count'] += $item['item']['quantity'];
+                        $available['total_price'] += $item['item']['quantity'] * $item['item']['price'];
+                    } else {
+                        $available['items'][] = $item;
+                        $available['total_count'] += $item['product']->mainNode->quantity;
+                        $available['total_price'] += $item['product']->mainNode->quantity * $item['product']->mainNode->price;
+                    }
                 } else {
                     $available['items'][] = $item;
                     $available['total_count'] += $item['item']['quantity'];
@@ -168,6 +178,12 @@ function changeNode(formId, nodeId) {
         <td></td>
         <td><br/><?php echo Yii::t('app', 'Позиций в корзине'); ?>,<br><?php echo Yii::t('app', 'доступных к заказу'); ?>:</td>
         <td><br/><b><?php echo $available['total_count']; ?></b></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><br/><?php echo Yii::t('app', 'Предзаказ'); ?>:</td>
+        <td><br/><b><?php echo $preorderAvailable['total_count']; ?></b></td>
         <td></td>
     </tr>
     <?php if ($discount): ?>

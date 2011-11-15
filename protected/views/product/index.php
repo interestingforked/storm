@@ -161,7 +161,7 @@
 		  <span id="BuyButton" style="">
                     <?php 
                     $buttonLabel = Yii::t('app', 'Buy');
-                    if ($product->mainNode->preorder == 1) {
+                    if ($product->mainNode->quantity == 0 AND $product->mainNode->preorder == 1) {
                         $buttonLabel = Yii::t('app', 'Preorder');
                     }
                     echo CHtml::beginForm(array('/cart'));
