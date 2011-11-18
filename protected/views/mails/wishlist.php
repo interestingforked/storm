@@ -58,7 +58,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Вы можете ознакомиться со списком, перейдя по следующей <a href="<?php echo Yii::app()->getBaseUrl(true).CHtml::normalizeUrl(array('/wishlist/view')).'?key='.$list->key; ?>" target="_blank">ссылке</a>.</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Вы можете ознакомиться со списком, перейдя по следующей <a href="<?php echo Yii::app()->getBaseUrl(true).CHtml::normalizeUrl(array('/wishlist/view')).'?key='.$list['key']; ?>" target="_blank">ссылке</a>.</p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">StormLondon посылает Вам это письмо по запросу <?php echo $fromWho; ?></p>
                                                     </td>
                                                 </tr>

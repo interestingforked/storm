@@ -40,7 +40,7 @@ class Controller extends CController {
         self::processUrl();
         
         $id = $_SERVER['REQUEST_URI'];
-        
+
         $rootPage = Page::model()->findByPk(1);
         $this->menu = $rootPage->getListed($id);
         

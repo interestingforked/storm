@@ -111,7 +111,7 @@ class Page extends CActiveRecord {
         $returnarray = array(
             'label' => (isset($pageContent->title)) ? $pageContent->title : '',
             'url' => array('/' . $this->slug),
-            'active' => ($active AND $activeParent),
+            'active' => $active,
             'visible' => ($active OR $activeParent OR $this->parent_id == 1 OR $visibleAll)
         );
         if ($subitems != array())

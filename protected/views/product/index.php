@@ -1,4 +1,6 @@
 <?php 
+$this->pageTitle = Html::formatTitle($product->content->title, $product->content->meta_title). ' - ' . $this->pageTitle;
+
  $colors = array();
  $sizes = array();
  $images = array();

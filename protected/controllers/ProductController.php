@@ -32,6 +32,17 @@ class ProductController extends Controller {
         $this->metaDescription = $product->content->meta_description;
         $this->metaKeywords = $product->content->meta_keywords;
         
+        $session = new CHttpSession();
+        $session->open();
+        $categoryOrder = $session->get('categoryOrder');
+        if ($categoryOrder) {
+            $categoryId = $categoryId.'?orderby='.$categoryOrder;
+        }
+        $categoryPage = $session->get('categoryPage');
+        if ($categoryPage) {
+            $categoryId = $categoryId.(($categoryOrder)?'&':'?').'page='.$categoryPage;
+        }
+        
         $this->breadcrumbs[] = $product->content->title;
         $this->render('index', array(
             'category' => $category,

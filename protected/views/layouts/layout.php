@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
 if ( ! empty($this->metaTitle))
-    $this->pageTitle .= ' - '.$this->metaTitle;
+    $this->pageTitle = $this->metaTitle.' - '.$this->pageTitle;
 ?>
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <meta name="description" content="<?php echo CHtml::encode($this->metaDescription); ?>" />
@@ -49,6 +49,13 @@ if (Yii::app()->controller->route == 'product/index')
 $background = '';
 if ( ! empty($this->background)) {
     $background = 'style="background-image:url('.Yii::app()->params['backgrounds'].$this->background.');"';
+} else {
+    $session = new CHttpSession();
+    $session->open();
+    $sectionBackground = $session->get('sectionBackground');
+    if ($sectionBackground) {
+        $background = 'style="background-image:url('.Yii::app()->params['backgrounds'].$sectionBackground.');"';
+    }
 }
 
 ?>

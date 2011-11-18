@@ -7,6 +7,7 @@ class ArticleController extends Controller {
 
         $articles = Article::model()->getArticles(5);
 
+		$this->background = $page->content->background;
         $this->breadcrumbs[] = $page->content->title;
         $this->render('index', array(
             'page' => $page,
@@ -19,6 +20,7 @@ class ArticleController extends Controller {
 
         $article = Article::model()->getArticleBySlug($id);
 
+		$this->background = $page->content->background;
         $this->breadcrumbs[$page->content->title] = array('/' . $page->slug);
         $this->breadcrumbs[] = $article->content->title;
         $this->render('view', array(
@@ -45,6 +47,8 @@ class ArticleController extends Controller {
         $prevpage = $page - 1;
 
         $title = Yii::t('app', 'News archive');
+		
+		$this->background = $pageModel->content->background;
         $this->breadcrumbs[] = $title;
         $this->render('archive', array(
             'title' => $title,

@@ -4,13 +4,16 @@ class SearchController extends Controller {
 
     public function actionIndex() {
         $pageTitle = Yii::t('app', 'Search result');
-        $query = ' '.$_GET['query'].' ';
 
         $criteria = new CDbCriteria;
+		
+		$query = trim($_GET['query']);
         $criteria->addSearchCondition('title', $query);
+		$criteria->addSearchCondition('meta_title', $query, true, 'OR');
+		
+		$query = ' '.$query.' ';
         $criteria->addSearchCondition('body', $query, true, 'OR');
         $criteria->addSearchCondition('additional', $query, true, 'OR');
-        $criteria->addSearchCondition('meta_title', $query, true, 'OR');
         $criteria->addSearchCondition('meta_description', $query, true, 'OR');
         $criteria->addSearchCondition('meta_keywords', $query, true, 'OR');
 

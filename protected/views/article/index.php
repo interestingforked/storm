@@ -1,5 +1,6 @@
 <?php
 $this->pageTitle = Yii::app()->name . ' - ' . $page->content->title;
+
 ?>
 
 <h1><?php echo $page->content->title; ?></h1>
@@ -15,7 +16,12 @@ $this->pageTitle = Yii::app()->name . ' - ' . $page->content->title;
         }
         ?>
         <h2><?php echo CHtml::link($article->content->title, array('/'.$page->slug.'/'.$article->slug)); ?></h2>
-        <p><?php echo $article->content->body; ?></p>
+        <p><?php 
+		if ($article->content->additional)
+			echo $article->content->additional;
+		else
+			echo $article->content->body; 
+		?></p>
     </div>
     <?php endforeach; ?>
     <div class="hr-title"><hr></div>

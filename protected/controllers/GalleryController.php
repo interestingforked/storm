@@ -20,6 +20,7 @@ class GalleryController extends Controller {
         $nextpage = $page + 1;
         $prevpage = $page - 1;
 
+		$this->background = $pluginPage->content->background;
         $this->breadcrumbs[] = $pluginPage->content->title;
         if (count($galleries) > 0 AND $galleries[0]->pagination != 1) {
             $this->render('index_nopages', array(
@@ -46,6 +47,7 @@ class GalleryController extends Controller {
 
         $gallery = Gallery::model()->getGalleryBySlug($id);
 
+		$this->background = $pluginPage->content->background;
         $this->breadcrumbs[$pluginPage->content->title] = array('/' . $pluginPage->slug);
         $this->breadcrumbs[] = $gallery->content->title;
         $this->render('view', array(

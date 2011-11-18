@@ -64,6 +64,13 @@ class CategoryController extends Controller {
                 }
                 $nextpage = $page + 1;
                 $prevpage = $page - 1;
+                
+                $session = new CHttpSession();
+                $session->open();
+                if (isset($_GET['orderby']))
+                    $session->add('categoryOrder', $_GET['orderby']);
+                if (isset($_GET['page']))
+                    $session->add('categoryPage', $_GET['page']);
 
                 $this->render('products', array(
                     'category' => $category,

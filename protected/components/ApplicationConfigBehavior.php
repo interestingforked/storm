@@ -12,29 +12,25 @@ class ApplicationConfigBehavior extends CBehavior {
         $urlManager = Yii::app()->getUrlManager();
 
         $languages = implode('|', array_keys(Yii::app()->params['languages']));
-        $pageRules = array();
-        $categoryRules = array();
-        $productRules = array();
-        $pluginRules = array();
-
+        $rules = array();
         $plugins = array();
         
-        $pluginRules["<lang:({$languages})>/news"] = "article/index";
-        $pluginRules["<lang:({$languages})>/news-archive"] = "article/archive";
-        $pluginRules["<lang:({$languages})>/news/<id:.*?>"] = "article/view";
+        $rules['plugins']["<lang:({$languages})>/news"] = "article/index";
+        $rules['plugins']["<lang:({$languages})>/news-archive"] = "article/archive";
+        $rules['plugins']["<lang:({$languages})>/news/<id:.*?>"] = "article/view";
 
         $pages = Page::model()->getAllPages();
         foreach ($pages AS $page) {
             $slug = str_replace('/', '\/', $page->slug);
             if ($page->plugin == 'page')
-                $pageRules["<lang:({$languages})>/<id:{$slug}(.*)?>"] = "page/index";
+                $rules['pages']["<lang:({$languages})>/<id:{$slug}(.*)?>"] = "page/index";
             if ($page->plugin == 'gallery')
                 $plugins[$page->plugin][] = $slug;
         }
         
         $gallery = implode('|', $plugins['gallery']);
-        $pluginRules["<lang:({$languages})>/<plugin:({$gallery})>"] = "gallery/index";
-        $pluginRules["<lang:({$languages})>/<plugin:({$gallery})>/<id:.*?>"] = "gallery/view";
+        $rules['plugins']["<lang:({$languages})>/<plugin:({$gallery})>"] = "gallery/index";
+        $rules['plugins']["<lang:({$languages})>/<plugin:({$gallery})>/<id:.*?>"] = "gallery/view";
 
         $categories = Category::model()->getAllCategories();
         $rootCategories = array();
@@ -42,18 +38,18 @@ class ApplicationConfigBehavior extends CBehavior {
             if ($category->parent_id == 1)
                 $rootCategories[] = $category->slug;
             $slug = str_replace('/', '\/', $category->slug);
-            $categoryRules["<lang:({$languages})>/<id:{$slug}(.*)?>"] = "category/index";
+            $rules['categories']["<lang:({$languages})>/<id:{$slug}(.*)?>"] = "category/index";
         }
         $rootCategoryRule = implode('|', $rootCategories);
-        $productRules["<lang:({$languages})>/<id:({$rootCategoryRule})\/(.*)\/([a-zA-Z0-9\-]+)\-([0-9]+)>"] = "product/index";
-        $productRules["<lang:({$languages})>/product/<id:.*?>"] = "product/index";
+        $rules['products']["<lang:({$languages})>/<id:({$rootCategoryRule})\/(.*)\/([a-zA-Z0-9\-]+)\-([0-9]+)>"] = "product/index";
+        $rules['products']["<lang:({$languages})>/product/<id:.*?>"] = "product/index";
 
         $urlManager->addRules(array("<lang:({$languages})>/product/notify" => 'product/notify'));
         
-        $urlManager->addRules($pluginRules);
-        $urlManager->addRules($pageRules);
-        $urlManager->addRules($productRules);
-        $urlManager->addRules($categoryRules);
+        $urlManager->addRules($rules['plugins']);
+        $urlManager->addRules($rules['pages']);
+        $urlManager->addRules($rules['products']);
+        $urlManager->addRules($rules['categories']);
 
         $defaultRoutes = array(
             '<lang:(ru|lv)>/<controller:\w+>' => '<controller>/index',
@@ -65,6 +61,20 @@ class ApplicationConfigBehavior extends CBehavior {
             '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
         );
         $urlManager->addRules($defaultRoutes);
-    }
+        
+        $requestUri = Yii::app()->request->getRequestUri();
+        $requestUri = preg_replace('/\/[a-z]{2}\//', '', $requestUri);
+        $requestUri = str_replace('/', '_', $requestUri);
 
+        $session = new CHttpSession();
+        $session->open();
+        $session->remove('sectionBackground');
+                
+        $background = Background::model()->findBySection($requestUri);
+        if ($background) {
+            $session->add('sectionBackground', $background->background);
+        }
+        
+    }
+    
 }

@@ -106,7 +106,7 @@ class Article extends CActiveRecord {
     public function scopes() {
         return array(
             'ordered' => array(
-                'order' => 'hot DESC',
+                'order' => 'hot DESC, created DESC',
             ),
         );
     }

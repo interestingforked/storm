@@ -58,7 +58,7 @@ class WishlistController extends Controller {
                 'fromWho' => $profile->firstname.' '.$profile->lastname,
             ), true);
             
-            $subject = 'STORM - Подтверждение заказа';
+            $subject = 'STORM - список предпочтений';
             $adminEmail = Yii::app()->params['adminEmail'];
             $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
             
