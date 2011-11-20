@@ -85,5 +85,7 @@ return array(
     'item available' => 'шт. доступно',
     'Out of stock' => 'Нет в наличии',
     'Only' => 'Только',
+    'House number' => 'Номер дома',
+    'Flat number' => 'Номер квартиры',
 );
 

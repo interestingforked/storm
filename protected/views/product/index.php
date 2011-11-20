@@ -129,9 +129,8 @@ $this->pageTitle = Html::formatTitle($product->content->title, $product->content
                      <?php echo number_format($product->mainNode->price,0,'.',''); ?></h4>
                  <div class="buy">
                  <?php if ($product->mainNode->quantity == 0 AND $product->mainNode->never_runs_out != 1 AND $product->mainNode->preorder != 1): ?>
-                    <?php if ($product->mainNode->notify == 0): ?>
                     <span id="Availability"><?php echo Yii::t('app', 'Not available'); ?></span>
-                    <?php else: ?>
+                    <?php if ($product->mainNode->notify != 0): ?>
                     <span id="email" style="padding:5px 0 0 0;">
                     <?php 
                     echo CHtml::beginForm(array('/product/notify'));

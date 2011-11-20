@@ -87,8 +87,11 @@ $(document).ready(function () {
     
     <br/>
     
-    <dt><?php echo CHtml::label(Yii::t('app', 'House/flat number').' <span class="nec">*</span>', 'house'); ?></dt>
+    <dt><?php echo CHtml::label(Yii::t('app', 'House number').' <span class="nec">*</span>', 'house'); ?></dt>
     <dd><?php echo CHtml::textField('house', $data->house, array('class' => 'field')); ?></dd>
+    
+    <dt><?php echo CHtml::label(Yii::t('app', 'Flat number'), 'flat'); ?></dt>
+    <dd><?php echo CHtml::textField('flat', $data->flat, array('class' => 'field')); ?></dd>
     
     <dt><?php echo CHtml::label(Yii::t('app', 'Street').' <span class="nec">*</span>', 'street'); ?></dt>
     <dd><?php echo CHtml::textField('street', $data->street, array('class' => 'field')); ?></dd>

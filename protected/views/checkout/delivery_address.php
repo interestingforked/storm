@@ -9,6 +9,7 @@ var paymentData = {
     phone: '<?php echo $paymentData->phone ?>',
     email: '<?php echo $paymentData->email ?>',
     house: '<?php echo $paymentData->house ?>',
+    flat: '<?php echo $paymentData->flat ?>',
     street: '<?php echo $paymentData->street ?>',
     city: '<?php echo $paymentData->city ?>',
     district: '<?php echo $paymentData->district ?>',
@@ -29,6 +30,7 @@ $(document).ready(function () {
         $('#phone').val(paymentData.phone);
         $('#email').val(paymentData.email);
         $('#house').val(paymentData.house);
+        $('#flat').val(paymentData.flat);
         $('#street').val(paymentData.street);
         $('#city').val(paymentData.city);
         $('#district').val(paymentData.district);
@@ -131,8 +133,11 @@ $(document).ready(function () {
     
     <br/>
     
-    <dt><?php echo CHtml::label(Yii::t('app', 'House/flat number').' <span class="nec">*</span>', 'house'); ?></dt>
+    <dt><?php echo CHtml::label(Yii::t('app', 'House number').' <span class="nec">*</span>', 'house'); ?></dt>
     <dd><?php echo CHtml::textField('house', $data->house, array('class' => 'field')); ?></dd>
+    
+    <dt><?php echo CHtml::label(Yii::t('app', 'Flat number'), 'flat'); ?></dt>
+    <dd><?php echo CHtml::textField('flat', $data->flat, array('class' => 'field')); ?></dd>
     
     <dt><?php echo CHtml::label(Yii::t('app', 'Street').' <span class="nec">*</span>', 'street'); ?></dt>
     <dd><?php echo CHtml::textField('street', $data->street, array('class' => 'field')); ?></dd>

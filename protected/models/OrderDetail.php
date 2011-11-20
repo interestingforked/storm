@@ -54,7 +54,7 @@ class OrderDetail extends CActiveRecord {
             array('order_id, type', 'required'),
             array('order_id, country_id, region_id, district_id', 'length', 'max' => 11),
             array('type, postcode', 'length', 'max' => 10),
-            array('name, surname, house', 'length', 'max' => 30),
+            array('name, surname, house, flat', 'length', 'max' => 30),
             array('phone', 'length', 'max' => 20),
             array('email', 'length', 'max' => 128),
             array('street', 'length', 'max' => 60),
@@ -63,7 +63,7 @@ class OrderDetail extends CActiveRecord {
             array('created', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, order_id, type, country_id, region_id, district_id, name, surname, phone, email, house, street, city, district, postcode, created', 'safe', 'on' => 'search'),
+            array('id, order_id, type, country_id, region_id, district_id, name, surname, phone, email, house, flat, street, city, district, postcode, created', 'safe', 'on' => 'search'),
         );
     }
 
@@ -97,6 +97,7 @@ class OrderDetail extends CActiveRecord {
             'phone' => 'Phone',
             'email' => 'Email',
             'house' => 'House',
+            'flat' => 'Flat',
             'street' => 'Street',
             'city' => 'City',
             'district' => 'District',
@@ -126,6 +127,7 @@ class OrderDetail extends CActiveRecord {
         $criteria->compare('phone', $this->phone, true);
         $criteria->compare('email', $this->email, true);
         $criteria->compare('house', $this->house, true);
+        $criteria->compare('flat', $this->flat, true);
         $criteria->compare('street', $this->street, true);
         $criteria->compare('city', $this->city, true);
         $criteria->compare('district', $this->district, true);

@@ -103,6 +103,8 @@ class Category extends CActiveRecord {
         $subitems = array();
         if ($this->childs)
             foreach ($this->childs as $child) {
+                if ($child->active != 1)
+                    continue;
                 $subitems[] = $child->getListed($id, $visibleAll);
             }
         $categoryContent = Content::model()->getModuleContent('category', $this->id);
