@@ -15,10 +15,10 @@ select.field {line-height:12px;margin:0 10px 0 0;}
 
 .formatTitle {height:40px;}
 
-#sitemap a, 
-#sitemap a:visited {color: #FFF;}
-#sitemap a:hover{color:#FF21A6;}
-#sitemap ul {font-size:85%;}
+#sitemap a, #sitemap a:visited {color: #FF21A6;}
+#sitemap a:hover{color:#fff;}
+#sitemap ul li{line-height:1.5em;}
+#sitemap ul {font-size:90%;}
 #sitemap ul li ul {font-size:100%;margin-left:20px;}
 #sitemap ul li ul li ul {font-size:100%;margin-left:20px;}
 #sitemap ul li ul li ul li ul {font-size:100%;margin-left:20px;}

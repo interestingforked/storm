@@ -6,7 +6,7 @@ return array(
     'Login' => 'Вход',
     'Logout' => 'Выйти',
     'username' => 'Логин',
-    'username or email' => 'Логин или email',
+    'username or email' => 'Email',
     'password' => 'Пароль',
     'Remember me next time' => 'Запомнить меня',
     'Username is incorrect.' => 'Пользователь с таким именем не зарегистрирован.',

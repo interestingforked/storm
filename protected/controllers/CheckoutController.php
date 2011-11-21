@@ -45,8 +45,13 @@ class CheckoutController extends Controller {
             $oldOrder = Order::model()->getByUserId(Yii::app()->user->id, 3);
             if ($oldOrder)
                 $paymentData = OrderDetail::model()->getOrderPaymentData($oldOrder->id);
-            else
+            else {
                 $paymentData = new OrderDetail();
+                $profile = Profile::model()->findByPk(Yii::app()->user->id);
+                $paymentData->name = $profile->firstname;
+                $paymentData->surname = $profile->lastname;
+                $paymentData->email = Yii::app()->user->email;
+            }
         }
 
         if ($_POST) {
@@ -102,6 +107,7 @@ class CheckoutController extends Controller {
             $orderDetail->phone = $_POST['phone'];
             $orderDetail->email = $_POST['email'];
             $orderDetail->house = $_POST['house'];
+            $orderDetail->flat = $_POST['flat'];
             $orderDetail->street = $_POST['street'];
             $orderDetail->city = $_POST['city'];
             $orderDetail->district = $_POST['district'];
@@ -154,10 +160,12 @@ class CheckoutController extends Controller {
             $orderDetail->phone = $_POST['phone'];
             $orderDetail->email = $_POST['email'];
             $orderDetail->house = $_POST['house'];
+            $orderDetail->flat = $_POST['flat'];
             $orderDetail->street = $_POST['street'];
             $orderDetail->city = $_POST['city'];
             $orderDetail->district = $_POST['district'];
             $orderDetail->postcode = $_POST['postcode'];
+            $orderDetail->notes = $_POST['notes'];
             if ($orderDetail->save()) {
                 Yii::app()->controller->redirect(array('/checkout/deliverymethod'));
             } else {
@@ -327,6 +335,8 @@ class CheckoutController extends Controller {
             
             $this->copyFromCart($order);
             $order->processQuantity();
+            
+            $this->sendConfirmMail($order, true);
 
             $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
             $rbkServiceForm = $rbkService->generateRequestForm(array(
@@ -397,22 +407,12 @@ class CheckoutController extends Controller {
         $this->cart->close();
     }
 
-    private function sendConfirmMail($order) {
+    private function sendConfirmMail($order, $adminOnly = false) {
         $paymentData = OrderDetail::model()->getOrderPaymentData($order->id);
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
         $items = $order->items;
 
         $user = User::model()->findByPk($order->user_id);
-
-        $mail = $this->renderPartial('//mails/confirm', array(
-            'order' => $order,
-            'payment' => $paymentData,
-            'shipping' => $shippingData,
-            'items' => $items,
-            'user' => $user
-                ), true);
-        $subject = 'STORM - Подтверждение заказа';
-        $email = Yii::app()->user->email;
 
         $adminMail = $this->renderPartial('//mails/admin_confirm', array(
             'order' => $order,
@@ -423,8 +423,23 @@ class CheckoutController extends Controller {
                 ), true);
         $adminSubject = 'STORM - Подтверждение заказа';
         $adminEmail = Yii::app()->params['adminEmail'];
-
+        
         $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
+        
+        if ($adminOnly) {
+            return mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers);
+        }
+        
+        $mail = $this->renderPartial('//mails/confirm', array(
+            'order' => $order,
+            'payment' => $paymentData,
+            'shipping' => $shippingData,
+            'items' => $items,
+            'user' => $user
+                ), true);
+        $subject = 'STORM - Подтверждение заказа';
+        $email = Yii::app()->user->email;
+
         return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
                 AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
     }

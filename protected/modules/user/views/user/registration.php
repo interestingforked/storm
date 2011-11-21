@@ -64,17 +64,14 @@ $this->breadcrumbs=array(
     <dt><?php echo $form->labelEx($profile,'sex'); ?></dt>
     <dd><?php echo $form->radioButtonList($profile,'sex',$sexRange,array('separator'=>' &nbsp; &nbsp; ')); ?></dd>
 
-    <dt><?php echo $form->labelEx($model,'username'); ?></dt>
-    <dd><?php echo $form->textField($model,'username', array('class' => 'field')); ?></dd>
-
+    <dt><?php echo $form->labelEx($model,'email'); ?></dt>
+    <dd><?php echo $form->textField($model,'email', array('class' => 'field')); ?></dd>
+    
     <dt><?php echo $form->labelEx($model,'password'); ?></dt>
     <dd><?php echo $form->passwordField($model,'password', array('class' => 'field')); ?></dd>
 
     <dt><?php echo $form->labelEx($model,'verifyPassword'); ?></dt>
     <dd><?php echo $form->passwordField($model,'verifyPassword', array('class' => 'field')); ?></dd>
-
-    <dt><?php echo $form->labelEx($model,'email'); ?></dt>
-    <dd><?php echo $form->textField($model,'email', array('class' => 'field')); ?></dd>
 
     <?php if (UserModule::doCaptcha('registration')): ?>
     <dt><?php echo $form->labelEx($model,'verifyCode'); ?></dt>

@@ -62,7 +62,7 @@ img, div { behavior: url(/css/iepngfix.htc) }
     background-repeat: no-repeat;
 }
 #content-wrapper .inner {
-    background: url('/images/white_tile.png') repeat scroll 0 0 transparent;
+    background: url('../images/white_tile.png') repeat scroll 0 0 transparent;
     margin-top:170px;
 	width:100%;
 }
@@ -189,7 +189,7 @@ ul.prod-info li a{
 ul.in-text {padding-left:30px;margin-bottom:15px;}
 ul.decimal {list-style-type:decimal;}
 ul.in-text li{list-style-position:outline;margin-bottom:8px;}
-ul.dash{margin-bottom:15px;}
+ul.dash{margin-bottom:15px;margin-left:15px;}
 ul.dash li:before { content:'\2014\a0'; }
 ul.dash li {margin-bottom: 8px;}
 
@@ -225,9 +225,10 @@ img.prod-details {
 }
 #products a {text-decoration:none;}
 #products a:hover {text-decoration:underline;}
-#products p {margin-bottom:5px; line-height:1.7; font-size:85%;}
-#products p.results  {padding-bottom:30px; line-height:1.2em;}
-#products p.modal,#products p.side {line-height:1.2em;}
+#products p {margin-bottom:5px; line-height:1.7; font-size:80%;}
+#products p.results  {padding-bottom:30px;font-size:75%;}
+#products p.modal,#products p.side {font-size:75%;}
+#products p.modal a,#products p.side a,#products p.results a {line-height:1.2em;}
 
 #price-info {
     clear: both;
@@ -257,6 +258,7 @@ select.color-select {
 #price-info h4 {
     font-size: 90%;
     margin-top: 23px;
+	float:left;
 }
 #Availability {
     float: right;
@@ -280,7 +282,7 @@ select.color-select {
     font-size: 75%;
     margin: 0;
     overflow: visible;
-    padding: 3px 3px 2px 3px;
+    padding: 2px 3px 2px 3px;
     text-transform: uppercase;
     width: auto;
     line-height:12px;
@@ -310,7 +312,6 @@ select.color-select {
     margin: 0;
     text-transform: none;
     width:220px;
-
 }
 #email input#add-email-submit {
     background: none repeat scroll 0 0 #000000;
@@ -323,7 +324,7 @@ select.color-select {
     text-transform: uppercase;
     width: 83px;
 }
-#email input#email-field {padding-bottom:3px;}
+#email input#email-field {padding-bottom:3px;font-size:0.9em;}
 /*****************/
 /* MENU  */
 /*****************/
@@ -419,10 +420,10 @@ table.update-profile td.but-row {text-align:right; padding-top:15px;}
 /* NEWS */
 /*****************/
 .news img{float:left; padding:0 15px 15px 0;}
-.news a {color:#fff;}
+.news a {color:#FF21A6;}
 .news-line {clear:both; position:relative; padding-bottom:10px; overflow:hidden;}
 .archive-link {width:100%; text-align:right; font-size:120%;}
-
+.news b {font-weight:bold;}
 /*****************/
 /* FOTER */
 /*****************/

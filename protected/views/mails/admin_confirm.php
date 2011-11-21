@@ -22,7 +22,7 @@
                                                 <tr>
                                                     <td style="background-color: rgb(255, 255, 255);">
                                                         <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;">Уважаемый администратор заказов StormLondon.ru!</h2>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Ураа! поступил новый заказ с сайта. Ниже смотри информацию о заказе..</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Поступил новый заказ с сайта. Ниже смотри информацию о заказе..</p>
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong>Данные заказа</strong></h3>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Код заказа:</strong> <strong><?php echo $order->key; ?></strong></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Вид платежа:</strong> <strong><?php echo ($order->payment_method == 2) ? 'Предоплата' : 'Оплата курьеру при получении'; ?></strong></p>
@@ -96,7 +96,7 @@
                                                 <tr>
                                                     <td>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">
-                                                            Скорее всего надо готовить посылку к отправке, ну и не забыть проверить наличие оплаты н счете.
+                                                            Не забудьте проверить наличие оплаты н счете.
                                                         </p>
                                                     </td>
                                                 </tr>

@@ -87,5 +87,6 @@ return array(
     'Only' => 'Только',
     'House number' => 'Номер дома',
     'Flat number' => 'Номер квартиры',
+    'Notes' => 'Примечания',
 );
 

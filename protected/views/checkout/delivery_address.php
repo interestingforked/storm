@@ -198,6 +198,9 @@ $(document).ready(function () {
     <dt><?php echo CHtml::label(Yii::t('app', 'Country').' <span class="nec">*</span>', 'country_id'); ?></dt>
     <dd><?php echo CHtml::dropDownList('country_id', $data->country_id, $countries, array('class' => 'field')); ?></dd>
     
+    <dt><?php echo CHtml::label(Yii::t('app', 'Notes'), 'notes'); ?></dt>
+    <dd><?php echo CHtml::textArea('notes', $data->notes, array('class' => 'field')); ?></dd>
+    
     <div class="checkout-btns">
         <?php echo CHtml::button(Yii::t('app', 'Back'), array(
             'class' => 'button',

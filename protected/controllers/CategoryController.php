@@ -69,12 +69,12 @@ class CategoryController extends Controller {
                 $session->open();
                 if (isset($_GET['orderby']))
                     $session->add('categoryOrder', $_GET['orderby']);
-                else
-                    $session->remove('categoryOrder');
+				else
+					$session->remove('categoryOrder');
                 if (isset($_GET['page']))
                     $session->add('categoryPage', $_GET['page']);
-                else
-                    $session->remove('categoryPage');
+				else
+					$session->remove('categoryPage');
 
                 $this->render('products', array(
                     'category' => $category,
