@@ -22,7 +22,8 @@
                                                 <tr>
                                                     <td style="background-color: rgb(255, 255, 255);">
                                                         <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;"><strong>Здравствуйте!</strong></h2>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Вы получили этот список предпочтений от <?php echo $fromWho; ?>.</p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><?php echo $fromWho; ?> отправил (а) Вам свой список предпочтений.</p>
+														<p style="font-family: arial,sans-serif; font-size: 14px;"><?php echo $fromWho; ?> оставил (а) свой комментарий.</p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><?php echo $message; ?></p>
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong><strong>Информация о товаре</strong>:</strong></h3>
                                                         <span style="font-family: arial,sans-serif; font-size: 14px;">
@@ -59,7 +60,7 @@
                                                 <tr>
                                                     <td>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">Вы можете ознакомиться со списком, перейдя по следующей <a href="<?php echo Yii::app()->getBaseUrl(true).CHtml::normalizeUrl(array('/wishlist/view')).'?key='.$list['key']; ?>" target="_blank">ссылке</a>.</p>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">StormLondon посылает Вам это письмо по запросу <?php echo $fromWho; ?></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><?php echo $fromWho; ?>  поручил (а) StormLondon отправить Вам это письмо</p>
                                                     </td>
                                                 </tr>
                                             </tbody>

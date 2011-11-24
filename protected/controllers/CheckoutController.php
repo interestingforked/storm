@@ -336,7 +336,7 @@ class CheckoutController extends Controller {
             $this->copyFromCart($order);
             $order->processQuantity();
             
-            $this->sendConfirmMail($order, true);
+            $this->sendConfirmMail($order);
 
             $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
             $rbkServiceForm = $rbkService->generateRequestForm(array(

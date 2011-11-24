@@ -34,8 +34,7 @@ class RegistrationController extends Controller {
             $this->redirect(Yii::app()->controller->module->profileUrl);
         } else {
             if (isset($_POST['RegistrationForm'])) {
-                $username = explode('@', $_POST['RegistrationForm']['email']);
-                $_POST['RegistrationForm']['username'] = preg_replace("/[\.\-_]+/","",$username[0]);
+                $_POST['RegistrationForm']['username'] = preg_replace("/[\.\-_@]+/","",$_POST['RegistrationForm']['email']);
                 $model->attributes = $_POST['RegistrationForm'];
                 $profile->attributes = ((isset($_POST['Profile']) ? $_POST['Profile'] : array()));
                 if ($model->validate() && $profile->validate()) {

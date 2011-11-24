@@ -26,7 +26,7 @@
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong>Данные заказа</strong></h3>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Код заказа:</strong> <strong><?php echo $order->key; ?></strong></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Вид платежа:</strong> <strong><?php echo ($order->payment_method == 2) ? 'Предоплата' : 'Оплата курьеру при получении'; ?></strong></p>
-                                                        <?php if ($order->payment_method == 2): ?>
+                                                        <?php if ($order->payment_method == 2 AND $order->status == 3): ?>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>ID транзакции РБК:</strong> <?php echo $order->rbk_payment_id; ?></p>
                                                         <?php endif; ?>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Статус заказа:</strong> <?php echo Order::model()->orderStatus($order); ?></p>

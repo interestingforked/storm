@@ -19,7 +19,8 @@ class ActivationController extends Controller
 				$find->activkey = UserModule::encrypting(microtime());
 				$find->status = 1;
 				$find->save();
-			    $this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("You account is activated.")));
+                            $model = new UserLogin;
+			    $this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("You account is activated."),'loginModule'=>$model));
 			} else {
 			    $this->render('/user/message',array('title'=>UserModule::t("User activation"),'content'=>UserModule::t("Incorrect activation URL.")));
 			}

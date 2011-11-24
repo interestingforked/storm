@@ -21,14 +21,15 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="background-color: rgb(255, 255, 255);">
-                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;"><strong>Уважаемый <?php echo $payment->name.' '.$payment->surname; ?>,</strong></h2>
-                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Спасибо за Ваш заказ с сайта <a target="_blank" shape="rect" class="mimeStatusWarning" href="<?php echo Yii::app()->getBaseUrl(true); ?>">StormLondon.ru.</a> Ваш заказ сейчас обрабатывается. Пожалуйста, внимательно проверьте информацию о Вашем заказе.<br>
+                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;"><strong>Уважаемый (ая) <?php echo $payment->name.' '.$payment->surname; ?>,</strong></h2>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;">Спасибо за Ваш заказ на сайте <a target="_blank" shape="rect" class="mimeStatusWarning" href="<?php echo Yii::app()->getBaseUrl(true); ?>">StormLondon.ru.</a> Ваш заказ сейчас обрабатывается. Пожалуйста, внимательно проверьте информацию о Вашем заказе.<br>
                                                             <br>
-                                                            Если у Вас появяться какие-либо 
-                                                            вопросы относительно заказа - свяжитесь с нами по электронной почте <a shape="rect" href="mailto:Orders@StormLondon.ru">Orders@StormLondon.ru</a> или по телефону +7 495 646-06-48, +7 916 143-81-89 <strong>указав код заказа </strong>- <strong><?php echo $order->key; ?></strong>.</p>
+                                                            Если у Вас возникнут какие-либо 
+                                                            вопросы относительно заказа, или правильности указанной информации - свяжитесь с нами по электронной почте <a shape="rect" href="mailto:Orders@StormLondon.ru">Orders@StormLondon.ru</a> или по телефону +7 495 646-06-48, +7 916 143-81-89 <strong>указав код заказа </strong>- <strong><?php echo $order->key; ?></strong>.</p>
                                                         <h3 style="padding-bottom: 6px; margin-top: 10px; padding-left: 2px; padding-right: 2px; font: 16px/16px arial,sans-serif; margin-bottom: 10px; background: #f1f1f1; padding-top: 6px;"><strong>Данные заказа</strong></h3>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Код заказа:</strong> <strong><?php echo $order->key; ?></strong></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Вид платежа:</strong> <strong><?php echo ($order->payment_method == 2) ? 'Предоплата' : 'Оплата курьеру при получении'; ?></strong></p>
+                                                        <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Статус заказа:</strong> <?php echo Order::model()->orderStatus($order); ?></p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;"><strong>Email:</strong> <?php echo $user->email; ?></p>
                                                         <br>
                                                         <table style="margin-bottom: 20px;" cellpadding="0" cellspacing="0" width="497">
