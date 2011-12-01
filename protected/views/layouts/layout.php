@@ -4,9 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
 if ( ! empty($this->metaTitle))
-    $this->pageTitle = $this->metaTitle.' - '.$this->pageTitle;
+    $this->pageTitle = $this->metaTitle;
 ?>
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<?php if (isset($_GET['orderby']) OR isset($_GET['viewall']) OR isset($_GET['node'])): ?>
+<meta name="robots" content="noindex,nofollow">
+<?php endif; ?>
 <meta name="description" content="<?php echo CHtml::encode($this->metaDescription); ?>" />
 <meta name="keywords" content="<?php echo CHtml::encode($this->metaKeywords); ?>" />
 <link href="/css/style.css" type="text/css" rel="stylesheet" />

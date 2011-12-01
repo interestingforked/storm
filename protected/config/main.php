@@ -27,7 +27,6 @@ return array(
             'captcha' => array('registration' => false),
             'recoveryUrl' => array('/user/recovery'),
         ),
-        'crud' => array(),
         'admin' => array()
     ),
     'behaviors' => array(
@@ -63,10 +62,10 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
-                array(
-                    'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-                    'ipFilters' => array('127.0.0.1'),
-                ),
+            //    array(
+            //        'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+            //        'ipFilters' => array('127.0.0.1'),
+            //    ),
             ),
         ),
     ),
@@ -76,11 +75,12 @@ return array(
         'adminEmail' => 'webmaster@example.com',
         'languages' => array(
             'ru' => 'Russian',
-            //'lv' => 'Latvian'
+        //'lv' => 'Latvian'
         ),
         'defaultLanguage' => 'ru',
         'images' => '/images/products/',
         'categories' => '/images/categories/',
+        'pages' => '/images/pages/',
         'backgrounds' => '/images/backgrounds/',
         'articles' => '/images/articles/',
         'gallery' => '/images/gallery/',
@@ -108,6 +108,7 @@ return array(
                 '46.38.182.209',
                 '46.38.182.210'
             )
-        )
+        ),
+        'indexTitle' => 'Часы STORM – Официальный сайт STORM London – Мужские часы – Женские часы',
     ),
 );

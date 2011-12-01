@@ -10,6 +10,9 @@ $this->pageTitle = Yii::app()->name . ' - ' . $category->content->title;
 <table class="category">
 <?php 
 foreach ($category->childs AS $child): 
+if ($child->active != 1) {
+	continue;
+}
 $childCategory = Category::model()->getCategory($child->slug);
 ?>
 <tr>

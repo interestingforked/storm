@@ -42,14 +42,14 @@ if ($viewAll) {
 </div>
 <div class="celection">
     <em style="margin-bottom:4px;">Сортировать по:</em>
-<em>
+<noindex><em>
         <?php 
         if (isset($_GET['orderby']) AND $_GET['orderby'] == 'price'): 
             echo Yii::t('app', 'by price'); 
         else: 
             $link = preg_replace("/(&)?orderby=(price|name|popularity)/", "", $link);
             $link = preg_replace("/\?&/", "?", $link);
-            echo CHtml::link(Yii::t('app', 'by price'), $link.'orderby=price');
+            echo CHtml::link(Yii::t('app', 'by price'), $link.'orderby=price', array('rel' => 'nofollow'));
         endif;
         echo ' | ';
         if (isset($_GET['orderby']) AND $_GET['orderby'] == 'name'): 
@@ -57,7 +57,7 @@ if ($viewAll) {
         else: 
             $link = preg_replace("/(&)?orderby=(price|name|popularity)/", "", $link);
             $link = preg_replace("/\?&/", "?", $link);
-            echo CHtml::link(Yii::t('app', 'by name'), $link.'orderby=name');
+            echo CHtml::link(Yii::t('app', 'by name'), $link.'orderby=name', array('rel' => 'nofollow'));
         endif;
         echo ' | ';
         if (isset($_GET['orderby']) AND $_GET['orderby'] == 'popularity'): 
@@ -65,22 +65,22 @@ if ($viewAll) {
         else: 
             $link = preg_replace("/(&)?orderby=(price|name|popularity)/", "", $link);
             $link = preg_replace("/\?&/", "?", $link);
-            echo CHtml::link(Yii::t('app', 'by popularity'), $link.'orderby=popularity');
+            echo CHtml::link(Yii::t('app', 'by popularity'), $link.'orderby=popularity', array('rel' => 'nofollow'));
         endif;
         echo ' | ';
         if (isset($_GET['viewall']) AND $_GET['viewall'] == 'true'): 
             $link = preg_replace("/(&)?page=[0-9]+/", "", $link);
             $link = preg_replace("/(&)?viewall=(false|true)/", "", $link);
             $link = preg_replace("/\?&/", "?", $link);
-            echo CHtml::link(Yii::t('app', 'viewbypage'), $link);
+            echo CHtml::link(Yii::t('app', 'viewbypage'), $link, array('rel' => 'nofollow'));
         else: 
             $link = preg_replace("/(&)?page=[0-9]+/", "", $link);
             $link = preg_replace("/(&)?viewall=(false|true)/", "", $link);
             $link = preg_replace("/\?&/", "?", $link);
-            echo CHtml::link(Yii::t('app', 'viewall'), $link.'viewall=true');
+            echo CHtml::link(Yii::t('app', 'viewall'), $link.'viewall=true', array('rel' => 'nofollow'));
         endif;
         ?>
-    </em>
+    </em></noindex>
 </div>
 </div>
 <div class="hr-products"><hr/></div>

@@ -141,8 +141,14 @@ class Attachment extends CActiveRecord {
             $this->alt = $fileName;
             $this->save();
             
+            switch ($module) {
+                case 'page': $directory = 'pages'; break;
+                default: $directory = 'images';
+            }
+            
+            
             $image = $slug.'-'.$moduleId.'-'.$this->id.'.'.$extension;
-            $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params['images'].$image;
+            $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params[$directory].$image;
             if (copy($tmpFile, $newFile)) {
                 unlink($tmpFile);
             }
@@ -154,6 +160,29 @@ class Attachment extends CActiveRecord {
         if (count($errors) > 0)
             return $errors;
         return true;
+    }
+    
+    public function saveImage($file, $module) {
+        $fileInfo = explode('|', $file);
+
+        $fileName = $fileInfo[0];
+        $tmpFile = realpath($fileInfo[3]);
+            
+        $extension = explode('.', $fileInfo[1]);
+        $extension = end($extension);
+        
+        switch ($module) {
+            case 'page':        $directory = 'pages';       break;
+            case 'background':  $directory = 'backgrounds'; break;
+            default:            $directory = 'images';
+        }
+            
+        $image = $fileName.'.'.$extension;
+        $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params[$directory].$image;
+        if (copy($tmpFile, $newFile)) {
+            unlink($tmpFile);
+        }
+        return $image;
     }
 
 }

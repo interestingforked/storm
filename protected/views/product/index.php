@@ -46,7 +46,7 @@ $this->pageTitle = Html::formatTitle($product->content->title, $product->content
                        );
                    endif;
                    ?>
-                <p class="results"><a href="<?php echo CHtml::normalizeUrl(array($categoryLink)); ?>">&larr; <?php echo Yii::t('app', 'Back to results'); ?></a></p>
+                <p class="results"><a rel="nofollow" href="<?php echo CHtml::normalizeUrl(array($categoryLink)); ?>">&larr; <?php echo Yii::t('app', 'Back to results'); ?></a></p>
                  <p class="side">
                  <?php
                  if ($images):
