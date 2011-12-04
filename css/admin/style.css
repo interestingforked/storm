@@ -504,7 +504,7 @@ a:hover {
 	border: 1px solid #d77011;
 	}
 
-.block .block_content ul {
+.block .block_content ul.list {
 	padding-left: 15px;
 	padding-bottom: 15px;
 	}
@@ -515,7 +515,7 @@ a:hover {
 	list-style-position: inside;
 	}
 
-.block .block_content ul li {
+.block .block_content ul.list li {
 	margin-bottom: 5px;
 	padding-left: 15px;
 	background: url(/images/admin/li.gif) 0 7px no-repeat;
@@ -650,7 +650,7 @@ a:hover {
 	outline: none;
 	}
 	
-.block form textarea.wysiwyg { width: 98%; padding: 0; }
+.block form textarea.wysiwyg { width: 98%; height:500px; padding: 0; }
 	
 .block form input.radio,
 .block form input.checkbox {

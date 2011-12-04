@@ -45,6 +45,19 @@ echo $form->errorSummary(array($pageModel, $contentModel));
     <?php echo $form->labelEx($contentModel, 'body'); ?><br/>
     <?php echo $form->textArea($contentModel,'body', array('class' => 'wysiwyg')); ?>
 </p>
+<p>
+    <?php echo $form->labelEx($contentModel, 'meta_title'); ?><br/>
+    <?php echo $form->textField($contentModel,'meta_title', array('class' => 'text medium')); ?>
+    <span class="note error"><?php echo $form->error($contentModel, 'meta_title'); ?></span>
+</p>
+<p>
+    <?php echo $form->labelEx($contentModel, 'meta_keywords'); ?><br/>
+    <?php echo $form->textField($contentModel,'meta_keywords', array('class' => 'text big')); ?>
+</p>
+<p>
+    <?php echo $form->labelEx($contentModel, 'meta_description'); ?><br/>
+    <?php echo $form->textArea($contentModel,'meta_description', array('class' => 'text medium')); ?>
+</p>
 <p class="fileupload">
     <?php echo $form->labelEx($contentModel, 'background'); ?><br/>
     <?php echo $form->fileField($contentModel,'background', array('class' => 'file', 'id' => 'fileupload')); ?>

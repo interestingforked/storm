@@ -145,8 +145,7 @@ class Attachment extends CActiveRecord {
                 case 'page': $directory = 'pages'; break;
                 default: $directory = 'images';
             }
-            
-            
+
             $image = $slug.'-'.$moduleId.'-'.$this->id.'.'.$extension;
             $newFile = Yii::app()->basePath.DIRECTORY_SEPARATOR.'..'.Yii::app()->params[$directory].$image;
             if (copy($tmpFile, $newFile)) {
@@ -173,6 +172,7 @@ class Attachment extends CActiveRecord {
         
         switch ($module) {
             case 'page':        $directory = 'pages';       break;
+            case 'category':    $directory = 'categories';  break;
             case 'background':  $directory = 'backgrounds'; break;
             default:            $directory = 'images';
         }

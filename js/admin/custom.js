@@ -139,6 +139,15 @@ $(function () {
             return false;
         }
     });
+    
+    // Image delete confirmation
+    $('a.delete').click(function() {
+        if (confirm("Are you sure you want to delete this item?")) {
+            return true;
+        } else {
+            return false;
+        }
+    });
 
     // Style file input
     $("input.file").filestyle({ 
@@ -170,6 +179,11 @@ $(function () {
 
     // Date picker
     $('input.date_picker').date_input();
+    
+    $('#finder').elfinder({
+        url : '/assets/connector.php',
+        placesFirst : false
+    })
 
     // Navigation dropdown fix for IE6
     if(jQuery.browser.version.substr(0,1) < 7) {

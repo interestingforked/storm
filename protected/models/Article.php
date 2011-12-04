@@ -40,8 +40,8 @@ class Article extends CActiveRecord {
             'deleted' => 'Deleted',
             'sort' => 'Sort',
             'slug' => 'Slug',
-            'hot' => 'Hot',
-            'home' => 'Home',
+            'hot' => 'Actual article',
+            'home' => 'Show on homepage',
             'created' => 'Created',
         );
     }
@@ -57,6 +57,9 @@ class Article extends CActiveRecord {
         return array(
             'ordered' => array(
                 'order' => 'hot DESC, created DESC',
+            ),
+            'sorted' => array(
+                'order' => 'sort ASC',
             ),
         );
     }

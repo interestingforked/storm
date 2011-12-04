@@ -21,7 +21,10 @@ class CartController extends Controller {
                 $this->cart->removeItem($_POST['productId'], $_POST['productNodeId']);
             }
             if ($_POST['action'] == 'changeQuantity') {
-                $this->cart->changeQuantity($_POST['productId'], $_POST['productNodeId'], $_POST['quantity']);
+                if ($_POST['quantity'] == 0)
+                    $this->cart->removeItem($_POST['productId'], $_POST['productNodeId']);
+                else
+                    $this->cart->changeQuantity($_POST['productId'], $_POST['productNodeId'], $_POST['quantity']);
             }
             
             if ($_POST['action'] == 'copy_from_wishlist') {

@@ -84,7 +84,7 @@ class PageController extends AdminController {
     }
     
     public function actionEdit($id) {
-        $this->pageTitle = 'Pages / Add page';
+        $this->pageTitle = 'Pages / Edit page';
         
         $errors = array();
         
@@ -114,10 +114,6 @@ class PageController extends AdminController {
             
             $transaction = Yii::app()->db->beginTransaction();
             if ($pageModel->save()) {
-                $contentModel->module = 'page';
-                $contentModel->module_id = $pageModel->id;
-                $contentModel->language = Yii::app()->params['defaultLanguage'];
-
                 if (!empty($_POST['Content']['background'])) {
                     $contentModel->background = Attachment::model()->saveImage($_POST['Content']['background'], 'background');
                 }
@@ -150,17 +146,56 @@ class PageController extends AdminController {
             'attachmentModels' => $attachmentModels,
         ));
     }
+    
+    public function actionMoveU($id) {
+        $model = Page::model()->findByPk($id);
+        $sort = $model->sort;
+        if ($sort > 1) {
+            $upperModel = Page::model()->findBySql(
+                "SELECT * FROM pages WHERE parent_id = :parent_id AND sort < :sort", array(
+                ':parent_id' => $model->parent_id,
+                ':sort' => $sort,
+            ));
+            if ($upperModel) {
+                $model->sort = $upperModel->sort;
+                $model->save();
+                $upperModel->sort = $sort;
+                $upperModel->save();
+            }
+        }
+        $this->redirect(array('/admin/page'));
+    }
+    
+    public function actionMoveD($id) {
+        $model = Page::model()->findByPk($id);
+        $sort = $model->sort;
+        $maxModel = Page::model()->findBySql(
+            "SELECT MAX(sort) as sort FROM pages WHERE parent_id = :parent_id", 
+            array(':parent_id' => $model->parent_id)
+        );
+        if ($sort < $maxModel->sort) {
+            $upperModel = Page::model()->findBySql(
+                "SELECT * FROM pages WHERE parent_id = :parent_id AND sort > :sort", 
+                array(
+                    ':parent_id' => $model->parent_id,
+                    ':sort' => $sort,
+            ));
+            if ($upperModel) {
+                $model->sort = $upperModel->sort;
+                $model->save();
+                $upperModel->sort = $sort;
+                $upperModel->save();
+            }
+        }
+        $this->redirect(array('/admin/page'));
+    }
 
     public function actionDelete($id) {
-        if (Yii::app()->request->isPostRequest) {
-            $model = Page::model()->findByPk($id);
-            $model->deleted = 1;
-            $model->save();
+        $model = Page::model()->findByPk($id);
+        $model->deleted = 1;
+        $model->save();
 
-            $this->redirect(array('/admin/page'));
-        }
-        else
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        $this->redirect(array('/admin/page'));
     }
 
 }

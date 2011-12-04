@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 <?php 
-                $rendered = new Renderer();
+                $rendered = new Renderer(Yii::app()->params['adminIcons']);
                 $rendered->renderRecursive($pages);
                 ?>
             </tbody>

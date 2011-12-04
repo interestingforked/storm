@@ -52,6 +52,13 @@ class Page extends CActiveRecord {
         );
     }
     
+    public function defaultScope() {
+        return array(
+            'condition' => 'deleted = 0',
+            'order' => 'sort ASC',
+        );
+    }
+    
     public function getAllPages() {
         return $this->findAll("parent_id > 0");
     }
@@ -87,7 +94,7 @@ class Page extends CActiveRecord {
         $returnarray = array(
             'label' => (isset($pageContent->title)) ? $pageContent->title : '',
             'url' => array('/' . $this->slug),
-            'active' => $active,
+            'active' => ($this->parent_id > 1 ? ($active AND $activeParent) : $active),
             'visible' => ($active OR $activeParent OR $this->parent_id == 1 OR $visibleAll)
         );
         if ($subitems != array())
@@ -106,12 +113,13 @@ class Page extends CActiveRecord {
                 $subitems[] = $child->getTableRows($level);
             }
         if ($this->id != 1) {
-            $pageContent = Content::model()->getModuleContent('page', $this->id);
+            $content = Content::model()->getModuleContent('page', $this->id);
             $returnRows = array(
                 'level' => $level,
                 'controller' => 'page',
                 'id' => $this->id,
-                'linkTitle' => $pageContent->title,
+                'slug' => $this->slug,
+                'linkTitle' => $content->title,
                 'active' => $this->active,
                 'created' => $this->created,
                 'additional' => $this->plugin,

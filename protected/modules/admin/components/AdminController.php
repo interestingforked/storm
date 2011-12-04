@@ -36,8 +36,8 @@ class AdminController extends CController {
             ),
             array(
                 'label' => 'Catalog', 
-                'url' => '#',
-                'active' => (in_array($activeMenuId, array('category', 'product'))),
+                'url' => '/admin/category',
+                'active' => (in_array($activeMenuId, array('category', 'product', 'coupon', 'productreport'))),
                 'items' => array(
                     array(
                         'label' => 'Categories', 
@@ -49,6 +49,16 @@ class AdminController extends CController {
                         'url' => array('/admin/product'),
                         'active' => ($activeMenuId == 'product')
                     ),
+                    array(
+                        'label' => 'Coupons', 
+                        'url' => array('/admin/coupon'),
+                        'active' => ($activeMenuId == 'coupon')
+                    ),
+                    array(
+                        'label' => 'Reports', 
+                        'url' => array('/admin/productreport'),
+                        'active' => ($activeMenuId == 'productreport')
+                    ),
                 )
             ),
             array(
@@ -59,21 +69,29 @@ class AdminController extends CController {
             array(
                 'label' => 'Orders', 
                 'url' => array('/admin/order'),
-                'active' => ($activeMenuId == 'order')
+                'active' => ($activeMenuId == 'order'),
+                'items' => array(
+                    array(
+                        'label' => 'Reports', 
+                        'url' => array('/admin/productreport'),
+                        'active' => ($activeMenuId == 'productreport')
+                    ),
+                )
             ),
             array(
                 'label' => 'Newsletters', 
                 'url' => array('/admin/newsletter'),
                 'active' => ($activeMenuId == 'newsletter')
             ),
-            array(
-                'label' => 'Reports', 
-                'url' => array('/admin/report'),
-                'active' => ($activeMenuId == 'report')
-            ),
         );
         
         $user = User::model()->findByPk(Yii::app()->user->id);
+        if (!$user) {
+            $this->redirect(array('/user/login'));
+        }
+        if ($user->superuser != 1) {
+            $this->redirect(array('/'));
+        }
         $userProfile = $user->profile;
         $this->user = array(
             'user' => $user,

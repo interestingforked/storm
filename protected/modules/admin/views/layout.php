@@ -11,6 +11,8 @@
             @import url("/css/admin/visualize.css");
             @import url("/css/admin/date_input.css");
             @import url("/css/admin/fileuploader.css");
+            @import url("/css/admin/smoothness/jquery-ui-1.8.13.custom.css");
+            @import url("/css/admin/elfinder.css");
         </style>
         <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=7" /><![endif]-->
         <!--[if lt IE 8]><style type="text/css" media="all">@import url("/css/admin/ie.css");</style><![endif]-->
@@ -26,6 +28,8 @@
         <script type="text/javascript" src="/js/admin/jquery.tablesorter.min.js"></script>
         <script type="text/javascript" src="/js/admin/ajaxupload.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.pngfix.js"></script>
+        <script type="text/javascript" src="/js/admin/jquery-ui-1.8.13.custom.min.js"></script>
+        <script type="text/javascript" src="/js/admin/elfinder.min.js"></script>
         <script type="text/javascript" src="/js/admin/custom.js"></script>
     </head>
     <body>

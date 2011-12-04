@@ -110,5 +110,10 @@ return array(
             )
         ),
         'indexTitle' => 'Часы STORM – Официальный сайт STORM London – Мужские часы – Женские часы',
+        'adminIcons' => array(
+            'arrow_up' => '/images/admin/arrow_up.png',
+            'arrow_down' => '/images/admin/arrow_down.png',
+            'empty' => '/images/admin/empty.gif',
+        ),
     ),
 );
