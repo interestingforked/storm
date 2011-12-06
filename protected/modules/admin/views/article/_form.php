@@ -34,7 +34,7 @@ echo $form->errorSummary(array($model, $contentModel));
 </p>
 <hr/>
 <p>
-    <?php echo $form->labelEx($contentModel, 'additional'); ?><br/>
+    <?php echo $form->labelEx($contentModel, 'additional'); ?><label>: Article summary</label><br/>
     <?php echo $form->textArea($contentModel,'additional', array('class' => 'text medium')); ?>
 </p>
 <p>

@@ -31,9 +31,9 @@
                 <tr>
                     <td><?php echo CHtml::link($profile->firstname.' '.$profile->lastname, array('/admin/user/edit/'.$user->id)); ?></td>
                     <td><?php echo $user->email; ?></td>
-                    <td><?php echo ($user->status ? 'Active' : 'Not active'); ?></td>
+                    <td><?php echo Profile::range('1==Младше 18;2==18-25;3==26-35;4==36+', $profile->getAttribute('age')); ?></td>
                     <td><?php echo ($profile->sex ? 'Мужской' : 'Женский'); ?></td>
-                    <td><?php echo $profile->age; ?></td>
+                    <td><?php echo ($user->status ? 'Active' : 'Not active'); ?></td>
                     <td><?php echo date('Y-m-d G:i:s', $user->createtime); ?></td>
                     <td class="delete">
                         <?php echo CHtml::link('Edit', array('/admin/user/edit/'.$user->id)); ?>

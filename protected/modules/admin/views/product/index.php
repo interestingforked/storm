@@ -5,7 +5,6 @@
         <h2>Products</h2>
         <ul class="tabs">
             <li><a href="/admin/product/add">Add product</a></li>
-            <li><a href="/admin/product/addnode">Add product node</a></li>
         </ul>
     </div>
     <div class="block_content">

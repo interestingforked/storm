@@ -1,6 +1,6 @@
 <?php 
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'article-form',
+    'id' => 'product-form',
     'enableAjaxValidation' => false,
 ));
 echo $form->errorSummary(array($model, $contentModel)); 
@@ -23,18 +23,10 @@ echo $form->errorSummary(array($model, $contentModel));
     <?php echo $form->checkBox($model, 'active', array('class' => 'checkbox')); ?>
     <?php echo $form->labelEx($model, 'active'); ?>
     <span class="note error"><?php echo $form->error($model, 'active'); ?></span>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    <?php echo $form->checkBox($model, 'hot', array('class' => 'checkbox')); ?>
-    <?php echo $form->labelEx($model, 'hot'); ?>
-    <span class="note error"><?php echo $form->error($model, 'hot'); ?></span>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    <?php echo $form->checkBox($model, 'home', array('class' => 'checkbox')); ?>
-    <?php echo $form->labelEx($model, 'home'); ?>
-    <span class="note error"><?php echo $form->error($model, 'home'); ?></span>
 </p>
 <hr/>
 <p>
-    <?php echo $form->labelEx($contentModel, 'additional'); ?><br/>
+    <?php echo $form->labelEx($contentModel, 'additional'); ?><label>: Product specification</label><br/>
     <?php echo $form->textArea($contentModel,'additional', array('class' => 'text medium')); ?>
 </p>
 <p>

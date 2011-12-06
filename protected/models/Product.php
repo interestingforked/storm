@@ -49,12 +49,15 @@ class Product extends CActiveRecord {
 
     public function behaviors() {
         return array(
-            'CSaveRelationsBehavior' => array(
-                'class' => 'CSaveRelationsBehavior',
+            'SaveRelationsBehavior' => array(
+                'class' => 'SaveRelationsBehavior',
                 'relations' => array(
                     'categories' => array("message" => "Please, check the categories"),
                 )
-            )
+            ),
+            'DefaultScopeBehavior' => array(
+                'class' => 'DefaultScopeBehavior',
+            ),
         );
     }
 
@@ -68,12 +71,14 @@ class Product extends CActiveRecord {
             'created' => 'Created',
         );
     }
-
+    
     public function defaultScope() {
-        return array(
-            'condition' => 'deleted = 0',
-            'order' => 'sort ASC',
-        );
+        return $this->isDefaultScopeDisabled() ?
+            array() :
+            array(
+                'condition' => 'deleted = 0',
+                'order' => 'sort ASC',
+            );
     }
 
     public function scopes() {

@@ -44,7 +44,7 @@ class Renderer {
         echo '<td>'.($item['active'] ? 'Active' : 'Not active').'</td>';
         echo '<td>'.date("Y-m-d", strtotime($item['created'])).'</td>';
         if ($category) {
-            echo '<td>'.CHtml::link('Products', array('/admin/product/index/'.$item['id'])).'</td>';
+            echo '<td>'.CHtml::link('Products', array('/admin/product/index?category_id='.$item['id'])).'</td>';
         }
         echo '<td class="delete">';
         if ( ! $first)

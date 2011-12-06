@@ -2,14 +2,15 @@
     <div class="block_head">
         <div class="bheadl"></div>
         <div class="bheadr"></div>
-        <h2>Products / Edit product : <?php echo $title; ?></h2>
+        <h2>Products / Nodes / Edit node</h2>
     </div>
     <div class="block_content">
         <?php 
-        echo $this->renderPartial('_form', array(
+        echo $this->renderPartial('_form_node', array(
             'errors' => $errors,
             'model' => $model,
-            'contentModel' => $contentModel,
+            'colors' => $colors,
+            'sizes' => $sizes,
         ));
         ?>
     </div>
