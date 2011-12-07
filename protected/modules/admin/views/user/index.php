@@ -3,9 +3,6 @@
         <div class="bheadl"></div>
         <div class="bheadr"></div>
         <h2>Users</h2>
-        <ul class="tabs">
-            <li><a href="/admin/user/add">Add user</a></li>
-        </ul>
     </div>
     <div class="block_content">
         <?php if (!$users OR count($users) == 0): ?>
@@ -33,11 +30,26 @@
                     <td><?php echo $user->email; ?></td>
                     <td><?php echo Profile::range('1==Младше 18;2==18-25;3==26-35;4==36+', $profile->getAttribute('age')); ?></td>
                     <td><?php echo ($profile->sex ? 'Мужской' : 'Женский'); ?></td>
-                    <td><?php echo ($user->status ? 'Active' : 'Not active'); ?></td>
+                    <td>
+                    <?php 
+                    switch ($user->status) {
+                        case User::STATUS_BANED:
+                            echo 'Banned'; break;
+                        case User::STATUS_NOACTIVE:
+                            echo 'Not active'; break;
+                        case User::STATUS_ACTIVE:
+                            echo 'Active'; break;
+                        default:
+                            echo '-'; break;
+                    }
+                    ?>
+                    </td>
                     <td><?php echo date('Y-m-d G:i:s', $user->createtime); ?></td>
                     <td class="delete">
                         <?php echo CHtml::link('Edit', array('/admin/user/edit/'.$user->id)); ?>
-                        <?php echo CHtml::link('Delete', array('/admin/user/delete/'.$user->id), array('class' => 'delete')); ?>
+                        <?php echo CHtml::link('Enable', array('/admin/user/enable/'.$user->id)); ?>
+                        <?php echo CHtml::link('Disable', array('/admin/user/disable/'.$user->id), array('class' => 'disable')); ?>
+                        <?php echo CHtml::link('Ban', array('/admin/user/ban/'.$user->id), array('class' => 'ban')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -26,14 +26,6 @@ class Category extends CActiveRecord {
     public function tableName() {
         return 'categories';
     }
-    
-    public function behaviors() {
-        return array(
-            'DefaultScopeBehavior' => array(
-                'class' => 'DefaultScopeBehavior',
-            ),
-        );
-    }
 
     public function rules() {
         return array(

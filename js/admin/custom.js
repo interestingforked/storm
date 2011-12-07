@@ -133,6 +133,9 @@ $(function () {
 		
     // Image delete confirmation
     $('ul.imglist .delete a').click(function() {
+        if ($(this).parent().hasClass('nowarning')) {
+            return true;
+        }
         if (confirm("Are you sure you want to delete this image?")) {
             return true;
         } else {
@@ -141,8 +144,8 @@ $(function () {
     });
     
     // Image delete confirmation
-    $('a.delete').click(function() {
-        if (confirm("Are you sure you want to delete this item?")) {
+    $('a.delete, a.ban, a.disable').click(function() {
+        if (confirm("Are you sure you want to " + $(this).attr('class') + " this item?")) {
             return true;
         } else {
             return false;
@@ -233,6 +236,12 @@ function deleteTempAttachment(id) {
     id = elem.replace('/qq-upload-handler-iframe/', '');
     $('#tmpfile' + id).remove();
     $('#tempAttachments input[name=tmpfile'+id+']').remove();
+}
+
+// Delete temporary attachment
+function selectAttachment(id) {
+    var element = '<input type="hidden" name="attachments[]" value="' + id + '">';
+    $('#selectedAttachments').append(element);
 }
     
 // Delete saved attachment

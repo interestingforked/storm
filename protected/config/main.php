@@ -62,10 +62,10 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
-            //    array(
-            //        'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
-            //        'ipFilters' => array('127.0.0.1'),
-            //    ),
+                array(
+                    'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                    'ipFilters' => array('127.0.0.1'),
+                ),
             ),
         ),
     ),

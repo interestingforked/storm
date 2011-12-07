@@ -20,92 +20,34 @@ class UserController extends AdminController {
         ));
     }
 
-    public function actionAdd() {
-        $this->pageTitle = 'News / Add article';
+    public function actionEdit($id) {
+        $this->pageTitle = 'Users / Edit user';
 
         $errors = array();
 
-        $model = new Article;
-        $contentModel = new Content;
-
-        if (isset($_POST['Article'])) {
-            $model->attributes = $_POST['Article'];
-            $contentModel->attributes = $_POST['Content'];
-
-            $attachments = array();
-            foreach ($_POST AS $k => $v) {
-                $k = str_replace('qq-upload-handler-iframe', '', $k);
-                if (preg_match('/tmpfile([0-9]+)/i', $k)) {
-                    $attachments[] = $v;
-                }
-            }
-
-            $transaction = Yii::app()->db->beginTransaction();
-            if ($model->save()) {
-                $contentModel->module = 'article';
-                $contentModel->module_id = $model->id;
-                $contentModel->language = Yii::app()->params['defaultLanguage'];
-
-                if ($contentModel->save()) {
-                    $result = Attachment::model()->saveAttachments($attachments, 'article', $model->id, $model->slug);
-                    if (!is_array($result)) {
-                        $transaction->commit();
-                        $this->redirect(array('/admin/article'));
-                    }
-                    $errors = $result;
-                    $transaction->rollback();
-                } else {
-                    $transaction->rollback();
-                    $errors = $contentModel->getErrors();
-                }
-            } else {
-                $transaction->rollback();
-                $errors = $model->getErrors();
-            }
+        $model = User::model()->findByPk($id);
+        $profile = $model->profile;
+        
+        $fields = $profile->getFields();
+        foreach ($fields AS $field) {
+            if ($field->varname == 'sex')
+                $rangeSex = $field->range;
+            if ($field->varname == 'age')
+                $rangeAge = $field->range;
         }
 
-        $this->render('add', array(
-            'errors' => $errors,
-            'model' => $model,
-            'contentModel' => $contentModel,
-        ));
-    }
-
-    public function actionEdit($id) {
-        $this->pageTitle = 'News / Edit article';
-
-        $errors = array();
-
-        $model = Article::model()->findByPk($id);
-        $contentModel = Content::model()->getModuleContent('article', $id);
-
-        $attachmentModels = Attachment::model()->getAttachments('article', $id);
-
-        if (isset($_POST['Article'])) {
-            $model->attributes = $_POST['Article'];
-            $contentModel->attributes = $_POST['Content'];
-
-            $attachments = array();
-            foreach ($_POST AS $k => $v) {
-                $k = str_replace('qq-upload-handler-iframe', '', $k);
-                if (preg_match('/tmpfile([0-9]+)/i', $k)) {
-                    $attachments[] = $v;
-                }
-            }
+        if (isset($_POST['User'])) {
+            $model->attributes = $_POST['User'];
+            $profile->attributes = $_POST['Profile'];
 
             $transaction = Yii::app()->db->beginTransaction();
             if ($model->save()) {
-                if ($contentModel->save()) {
-                    $result = Attachment::model()->saveAttachments($attachments, 'article', $model->id, $model->slug);
-                    if (!is_array($result)) {
-                        $transaction->commit();
-                        $this->redirect(array('/admin/article'));
-                    }
-                    $errors = $result;
-                    $transaction->rollback();
+                if ($profile->save()) {
+                    $transaction->commit();
+                    $this->redirect(array('/admin/user'));
                 } else {
                     $transaction->rollback();
-                    $errors = $contentModel->getErrors();
+                    $errors = $profile->getErrors();
                 }
             } else {
                 $transaction->rollback();
@@ -116,18 +58,35 @@ class UserController extends AdminController {
         $this->render('edit', array(
             'errors' => $errors,
             'model' => $model,
-            'contentModel' => $contentModel,
-            'title' => $contentModel->title,
-            'attachmentModels' => $attachmentModels,
+            'profile' => $profile,
+            'rangeSex' => $rangeSex,
+            'rangeAge' => $rangeAge,
+            'title' => $model->email,
         ));
     }
-
-    public function actionDelete($id) {
-        $model = Article::model()->findByPk($id);
-        $model->deleted = 1;
+    
+    public function actionDisable($id) {
+        $model = User::model()->findByPk($id);
+        $model->status = 0;
         $model->save();
 
-        $this->redirect(array('/admin/article'));
+        $this->redirect(array('/admin/user'));
+    }
+
+    public function actionBan($id) {
+        $model = User::model()->findByPk($id);
+        $model->status = -1;
+        $model->save();
+
+        $this->redirect(array('/admin/user'));
+    }
+    
+    public function actionEnable($id) {
+        $model = User::model()->findByPk($id);
+        $model->status = 1;
+        $model->save();
+
+        $this->redirect(array('/admin/user'));
     }
 
 }

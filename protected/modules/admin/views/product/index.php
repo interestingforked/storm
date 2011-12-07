@@ -15,10 +15,14 @@
             <thead>
                 <tr>
                     <th>Title</th>
+                    <?php if (!$categoryId): ?>
                     <th>Categories</th>
+                    <?php endif; ?>
                     <th>Status</th>
                     <th>Date created</th>
+                    <?php if ($categoryId): ?>
                     <th>&nbsp;</th>
+                    <?php endif; ?>
                     <th>&nbsp;</th>
                 </tr>
             </thead>
@@ -29,6 +33,7 @@
             ?>
                 <tr>
                     <td><?php echo CHtml::link($product->content->title, array('/admin/product/nodes/'.$product->id)); ?></td>
+                    <?php if (!$categoryId): ?>
                     <td>
                         <?php
                         $categoryArray = array();
@@ -39,12 +44,15 @@
                         echo implode(" / ", $categoryArray);
                         ?>
                     </td>
+                    <?php endif; ?>
                     <td><?php echo ($product->active ? 'Active' : 'Not active'); ?></td>
                     <td><?php echo $product->created; ?></td>
+                    <?php if ($categoryId): ?>
                     <td class="delete">
-                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_up.png'), array('/admin/product/movepu/'.$product->id)); ?>
-                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_down.png'), array('/admin/product/movepd/'.$product->id)); ?>
+                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_up.png'), array('/admin/product/movepu/'.$product->id.($categoryId?'?category_id='.$categoryId:''))); ?>
+                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_down.png'), array('/admin/product/movepd/'.$product->id.($categoryId?'?category_id='.$categoryId:''))); ?>
                     </td>
+                    <?php endif; ?>
                     <td class="delete">
                         <?php echo CHtml::link('View', array('/product/'.$product->slug.'-'.$product->id), array('target' => '_blank')); ?>
                         <?php echo CHtml::link('Product nodes', array('/admin/product/nodes/'.$product->id)); ?>

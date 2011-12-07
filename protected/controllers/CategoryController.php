@@ -33,6 +33,8 @@ class CategoryController extends Controller {
                 foreach ($category->products AS $product) {
                     if ($product->active == 0)
                         continue;
+                    if ($product->deleted == 1)
+                        continue;
                     $productContent = $product->getProduct();
                     if (isset($_GET['orderby'])) {
                         switch ($_GET['orderby']) {

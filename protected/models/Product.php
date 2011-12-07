@@ -54,10 +54,7 @@ class Product extends CActiveRecord {
                 'relations' => array(
                     'categories' => array("message" => "Please, check the categories"),
                 )
-            ),
-            'DefaultScopeBehavior' => array(
-                'class' => 'DefaultScopeBehavior',
-            ),
+            )
         );
     }
 
@@ -71,26 +68,19 @@ class Product extends CActiveRecord {
             'created' => 'Created',
         );
     }
-    
-    public function defaultScope() {
-        return $this->isDefaultScopeDisabled() ?
-            array() :
-            array(
-                'condition' => 'deleted = 0',
-                'order' => 'sort ASC',
-            );
-    }
 
     public function scopes() {
         return array(
-            'ordered' => array(
+            'notDeleted' => array(
+                'condition' => 'deleted = 0'
+            ),
+            'orderById' => array(
                 'order' => 'id ASC',
             ),
+            'orderBySort' => array(
+                'order' => 'sort ASC',
+            ),
         );
-    }
-    
-    public function getByNumber($number) {
-        return $this->findByAttributes(array('number' => $number));
     }
 
     public function getProduct($id = 0) {
@@ -106,5 +96,5 @@ class Product extends CActiveRecord {
         }
         return $this;
     }
-	
+
 }

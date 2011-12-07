@@ -6,39 +6,25 @@ class ProductController extends AdminController {
         $this->pageTitle = 'Products';
 
         $criteria = new CDbCriteria();
-        /*
-
-        $model = 'Product';
-        if ($category != null) {
-            $model = 'Category';
+        if ($id != null) {
+            $criteria->together = true;
             $criteria->distinct = true;
-            $criteria->with = 'products';
-            $criteria->condition = 'category_id = '.$id;
+            $criteria->with = 'categories';
+            $criteria->order = 't.sort ASC';
+            $criteria->condition = 'categories.id = '.$id;
         }
-        $count = $model::model()->count($criteria);
+        $count = Product::model()->notDeleted()->count($criteria);
         $pagination = new CPagination($count);
         
         $pagination->pageSize = 10;
         $pagination->applyLimit($criteria);
         
-        $model = 'Category';
-        $criteria->distinct = true;
-        $criteria->with = 'products';
-        $criteria->condition = 'category_id = '.$category;
-        $products = $model::model()->findAll($criteria);
-
-        */
-        $count = Product::model()->count($criteria);
-        $pagination = new CPagination($count);
-        
-        $pagination->pageSize = 10;
-        $pagination->applyLimit($criteria);
-        
-        $products = Product::model()->findAll($criteria);
+        $products = Product::model()->notDeleted()->findAll($criteria);
 
         $this->render('index', array(
             'products' => $products,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'categoryId' => $id,
         ));
     }
     
@@ -124,6 +110,17 @@ class ProductController extends AdminController {
         
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
+        
+        $productAttachments = array();
+        $nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
+        if ($nodes) {
+            foreach ($nodes AS $node) {
+                $nodeAttachments = Attachment::model()->getAttachments('productNode', $node->id);
+                if ($nodeAttachments) {
+                    $productAttachments = array_merge($productAttachments, $nodeAttachments);
+                }
+            }
+        }
 
         if (isset($_POST['ProductNode'])) {
             $model->attributes = $_POST['ProductNode'];
@@ -141,6 +138,15 @@ class ProductController extends AdminController {
             if ($model->save()) {
                 $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $product->slug);
                 if (!is_array($result)) {
+                    if (isset($_POST['attachments'])) {
+                        foreach ($_POST['attachments'] AS $postAttachment) {
+                            $attachmentModel = Attachment::model()->findByPk($postAttachment);
+                            $attachmentModel->id = null;
+                            $attachmentModel->isNewRecord = true;
+                            $attachmentModel->module_id = $model->id;
+                            $attachmentModel->save();
+                        }
+                    }
                     $transaction->commit();
                     $this->redirect(array('/admin/product/nodes/'.$id));
                 }
@@ -155,6 +161,7 @@ class ProductController extends AdminController {
             'model' => $model,
             'colors' => $colors,
             'sizes' => $sizes,
+            'productAttachments' => $productAttachments,
         ));
     }
 
@@ -221,6 +228,17 @@ class ProductController extends AdminController {
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
         
+        $productAttachments = array();
+        $nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
+        if ($nodes) {
+            foreach ($nodes AS $node) {
+                $nodeAttachments = Attachment::model()->getAttachments('productNode', $node->id);
+                if ($nodeAttachments) {
+                    $productAttachments = array_merge($productAttachments, $nodeAttachments);
+                }
+            }
+        }
+        
         $attachmentModels = Attachment::model()->getAttachments('productNode', $id);
         
         if (isset($_POST['ProductNode'])) {
@@ -238,6 +256,15 @@ class ProductController extends AdminController {
             if ($model->save()) {
                 $result = Attachment::model()->saveAttachments($attachments, 'productNode', $model->id, $product->slug);
                 if (!is_array($result)) {
+                    if (isset($_POST['attachments'])) {
+                        foreach ($_POST['attachments'] AS $postAttachment) {
+                            $attachmentModel = Attachment::model()->findByPk($postAttachment);
+                            $attachmentModel->id = null;
+                            $attachmentModel->isNewRecord = true;
+                            $attachmentModel->module_id = $model->id;
+                            $attachmentModel->save();
+                        }
+                    }
                     $transaction->commit();
                     $this->redirect(array('/admin/product/nodes/'.$product->id));
                 }
@@ -253,10 +280,12 @@ class ProductController extends AdminController {
             'attachmentModels' => $attachmentModels,
             'colors' => $colors,
             'sizes' => $sizes,
+            'productAttachments' => $productAttachments,
         ));
     }
 
     public function actionMovePU($id) {
+        $categoryId = Yii::app()->getRequest()->getParam('category_id');
         $model = Product::model()->findByPk($id);
         $sort = $model->sort;
         if ($sort > 1) {
@@ -270,7 +299,7 @@ class ProductController extends AdminController {
                 $upperModel->save();
             }
         }
-        $this->redirect(array('/admin/product'));
+        $this->redirect(array('/admin/product/index/'.$categoryId));
     }
     
     public function actionMoveNU($id) {
@@ -292,6 +321,7 @@ class ProductController extends AdminController {
     }
 
     public function actionMovePD($id) {
+        $categoryId = Yii::app()->getRequest()->getParam('category_id');
         $model = Product::model()->findByPk($id);
         $sort = $model->sort;
         $maxModel = Product::model()->findBySql("SELECT MAX(sort) as sort FROM products");
@@ -306,7 +336,7 @@ class ProductController extends AdminController {
                 $upperModel->save();
             }
         }
-        $this->redirect(array('/admin/product'));
+        $this->redirect(array('/admin/product/index/'.$categoryId));
     }
     
     public function actionMoveND($id) {

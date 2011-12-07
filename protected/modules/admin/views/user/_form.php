@@ -1,58 +1,42 @@
 <?php 
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'article-form',
+    'id' => 'user-form',
     'enableAjaxValidation' => false,
 ));
-echo $form->errorSummary(array($model, $contentModel)); 
+echo $form->errorSummary(array($model, $profile)); 
 ?>
 <p>
-    <?php echo $form->labelEx($contentModel, 'title'); ?><br/>
-    <?php echo $form->textField($contentModel,'title', array('class' => 'text medium')); ?>
-    <span class="note error"><?php echo $form->error($contentModel, 'title'); ?></span>
-</p>
-<p>
-    <?php echo $form->labelEx($model, 'slug'); ?><br/>
-    <?php echo $form->textField($model,'slug', array('class' => 'text medium')); ?>
-    <span class="note error"><?php echo $form->error($model, 'slug'); ?></span>
-</p>
-<p>
-    <?php echo $form->labelEx($model, 'sort'); ?><br/>
-    <?php echo $form->textField($model,'sort', array('class' => 'text tiny')); ?>
-    <span class="note error"><?php echo $form->error($model, 'sort'); ?></span>
+    <?php echo $form->labelEx($model, 'email'); ?><br/>
+    <?php echo $form->textField($model,'email', array('class' => 'text medium')); ?>
+    <span class="note error"><?php echo $form->error($model, 'email'); ?></span>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    <?php echo $form->checkBox($model, 'active', array('class' => 'checkbox')); ?>
-    <?php echo $form->labelEx($model, 'active'); ?>
-    <span class="note error"><?php echo $form->error($model, 'active'); ?></span>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    <?php echo $form->checkBox($model, 'hot', array('class' => 'checkbox')); ?>
-    <?php echo $form->labelEx($model, 'hot'); ?>
-    <span class="note error"><?php echo $form->error($model, 'hot'); ?></span>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    <?php echo $form->checkBox($model, 'home', array('class' => 'checkbox')); ?>
-    <?php echo $form->labelEx($model, 'home'); ?>
-    <span class="note error"><?php echo $form->error($model, 'home'); ?></span>
+    <?php echo $form->checkBox($model, 'status', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($model, 'status'); ?>
+    <span class="note error"><?php echo $form->error($model, 'status'); ?></span>
 </p>
 <hr/>
 <p>
-    <?php echo $form->labelEx($contentModel, 'additional'); ?><br/>
-    <?php echo $form->textArea($contentModel,'additional', array('class' => 'text medium')); ?>
+    <?php echo $form->labelEx($profile, 'firstname'); ?><br/>
+    <?php echo $form->textField($profile,'firstname', array('class' => 'text medium')); ?>
+    <span class="note error"><?php echo $form->error($profile, 'firstname'); ?></span>
 </p>
 <p>
-    <?php echo $form->labelEx($contentModel, 'body'); ?><br/>
-    <?php echo $form->textArea($contentModel,'body', array('class' => 'wysiwyg')); ?>
+    <?php echo $form->labelEx($profile, 'lastname'); ?><br/>
+    <?php echo $form->textField($profile,'lastname', array('class' => 'text medium')); ?>
+    <span class="note error"><?php echo $form->error($profile, 'lastname'); ?></span>
 </p>
 <p>
-    <?php echo $form->labelEx($contentModel, 'meta_title'); ?><br/>
-    <?php echo $form->textField($contentModel,'meta_title', array('class' => 'text medium')); ?>
-    <span class="note error"><?php echo $form->error($contentModel, 'meta_title'); ?></span>
+    <?php echo $form->labelEx($profile, 'sex'); ?><br/>
+    <?php echo $form->dropDownList($profile, 'sex', Profile::range($rangeSex), array('class' => 'styled')); ?>
 </p>
 <p>
-    <?php echo $form->labelEx($contentModel, 'meta_keywords'); ?><br/>
-    <?php echo $form->textField($contentModel,'meta_keywords', array('class' => 'text big')); ?>
+    <?php echo $form->labelEx($profile, 'age'); ?><br/>
+    <?php echo $form->dropDownList($profile, 'age', Profile::range($rangeAge), array('class' => 'styled')); ?>
 </p>
 <p>
-    <?php echo $form->labelEx($contentModel, 'meta_description'); ?><br/>
-    <?php echo $form->textArea($contentModel,'meta_description', array('class' => 'text medium')); ?>
+    <?php echo $form->checkBox($profile, 'newsletters', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($profile, 'newsletters'); ?>
+    <span class="note error"><?php echo $form->error($profile, 'newsletters'); ?></span>
 </p>
 <hr/>
 <div id="tempAttachments"></div>

@@ -64,6 +64,7 @@ echo $form->errorSummary($model);
 </p>
 <hr/>
 <div id="tempAttachments"></div>
+<div id="selectedAttachments"></div>
 <p>
     <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('id' => 'submit', 'class' => 'submit small')); ?>
 </p>
