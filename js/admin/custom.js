@@ -187,6 +187,25 @@ $(function () {
         url : '/assets/connector.php',
         placesFirst : false
     })
+    
+    $('#product-form .select_buttons').click(function(){
+        var arr = $(this).attr("name").split("2");
+        var from = arr[0];
+        var to = arr[1];
+        $("#" + from + " option:selected").each(function(){
+            $("#" + to).append($(this).clone());
+            $(this).remove();
+        });
+    });
+    $('#product-form #submit').click(function() {
+        $('#categories option').each(function(index) {
+            $(this).attr('selected',true);
+        });
+        $('#selected_categories option').each(function(index) {
+            $(this).attr('selected',true);
+        });		
+        return true;
+    });
 
     // Navigation dropdown fix for IE6
     if(jQuery.browser.version.substr(0,1) < 7) {

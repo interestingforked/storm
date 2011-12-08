@@ -1,4 +1,11 @@
-<?php $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method'); ?>
+<?php 
+$this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method'); 
+
+$sale = false;
+if ($order->total > 3499) {
+    $sale = true;
+}
+?>
 
 <script type="text/javascript">
 function setRates(value) {
@@ -8,8 +15,8 @@ function setRates(value) {
             $('#delivery_days').val(0);
             break;
         case '2':
-            $('#delivery_cost').val('<?php echo (isset($ponyExpress->tariff_including_vat) ? $ponyExpress->tariff_including_vat : 0) ?>');
-            $('#delivery_days').val('<?php echo (isset($ponyExpress->delivery_days) ? $ponyExpress->delivery_days : 0) ?>');
+            $('#delivery_cost').val('<?php echo ((isset($ponyExpress->tariff_including_vat) AND !$sale) ? $ponyExpress->tariff_including_vat : 0) ?>');
+            $('#delivery_days').val('<?php echo ((isset($ponyExpress->delivery_days) AND !$sale) ? $ponyExpress->delivery_days : 0) ?>');
             break;
     }
 }
@@ -52,7 +59,9 @@ $(document).ready(function () {
             <?php if ($pointId == 'MOW'): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="1" checked="checked"/></td>
-                <td>0.00 <?php echo Yii::app()->params['currency']; ?></td>
+                <td><?php if ($sale) echo 'Акция'; ?>
+                    0.00 <?php echo Yii::app()->params['currency']; ?>
+                </td>
                 <td><?php echo Yii::t('app', 'Free shipping'); ?></td>
                 <td></td>
             </tr>
@@ -60,9 +69,23 @@ $(document).ready(function () {
             <?php if ($pointId != 'MOW' AND $ponyExpress): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="2"/></td>
-                <td><?php echo $ponyExpress->tariff_including_vat.Yii::app()->params['currency']; ?></td>
+                <td>
+                <?php 
+                    if ($sale) 
+                        echo 'Акция 0.00';
+                    else
+                        echo $ponyExpress->tariff_including_vat.Yii::app()->params['currency']; 
+                ?>
+                </td>
                 <td><?php echo Yii::t('app', 'Pony Express'); ?></td>
-                <td><?php echo Yii::t('app', 'Стоимость без НДС'); ?>: <?php echo $ponyExpress->tariff.Yii::app()->params['currency']; ?></td>
+                <td><?php echo Yii::t('app', 'Стоимость без НДС'); ?>: 
+                    <?php 
+                    if ($sale) 
+                        echo '0.00';
+                    else
+                        echo $ponyExpress->tariff.Yii::app()->params['currency']; 
+                    ?>
+                </td>
             </tr>
             <?php endif; ?>
         </tbody>

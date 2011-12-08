@@ -56,25 +56,37 @@ class ProductController extends AdminController {
 
         $model = new Product;
         $contentModel = new Content;
+        
+        $rootCategory = Category::model()->findByPk(1);
+        $categories = $rootCategory->getOptionList();
+        
+        $activeCategories = array();
 
         if (isset($_POST['Product'])) {
             $model->attributes = $_POST['Product'];
             $contentModel->attributes = $_POST['Content'];
+            
+            $attachments = array();
+            foreach ($_POST AS $k => $v) {
+                $k = str_replace('qq-upload-handler-iframe', '', $k);
+                if (preg_match('/tmpfile([0-9]+)/i', $k)) {
+                    $attachments[] = $v;
+                }
+            }
 
             $transaction = Yii::app()->db->beginTransaction();
+            
+            $postCategories = array();
+            foreach ($_POST['SelectedCategories'] AS $postCategory) {
+                $postCategories[] = (int) trim($postCategory);
+            }
+            $model->setRelationRecords('categories', $postCategories);
+            
             if ($model->save()) {
                 $contentModel->module = 'product';
                 $contentModel->module_id = $model->id;
                 $contentModel->language = Yii::app()->params['defaultLanguage'];
 
-                $attachments = array();
-                foreach ($_POST AS $k => $v) {
-                    $k = str_replace('qq-upload-handler-iframe', '', $k);
-                    if (preg_match('/tmpfile([0-9]+)/i', $k)) {
-                        $attachments[] = $v;
-                    }
-                }
-                
                 if ($contentModel->save()) {
                     $result = Attachment::model()->saveAttachments($attachments, 'productBig', $model->id, $model->slug);
                     if (!is_array($result)) {
@@ -97,6 +109,8 @@ class ProductController extends AdminController {
             'errors' => $errors,
             'model' => $model,
             'contentModel' => $contentModel,
+            'categories' => $categories,
+            'activeCategories' => $activeCategories,
         ));
     }
     
@@ -110,7 +124,7 @@ class ProductController extends AdminController {
         
         $colors = $this->classifier->getGroup('color');
         $sizes = $this->classifier->getGroup('size');
-        
+
         $productAttachments = array();
         $nodes = ProductNode::model()->findAllByAttributes(array('product_id' => $id));
         if ($nodes) {
@@ -173,6 +187,20 @@ class ProductController extends AdminController {
         $model = Product::model()->findByPk($id);
         $contentModel = Content::model()->getModuleContent('product', $id);
         
+        $rootCategory = Category::model()->findByPk(1);
+        $categories = $rootCategory->getOptionList();
+        $selectedCategories = array();
+        foreach ($model->categories AS $selectedCategory) {
+            $selectedCategories[] = $selectedCategory->id . ' ';
+        }
+        $activeCategories = array();
+        foreach ($categories AS $key => $value) {
+            if (in_array($key, $selectedCategories)) {
+                $activeCategories[$key] = $value;
+                unset($categories[$key]);
+            }
+        }
+        
         $attachmentModels = Attachment::model()->getAttachments('productBig', $id);
 
         if (isset($_POST['Product'])) {
@@ -188,6 +216,13 @@ class ProductController extends AdminController {
             }
             
             $transaction = Yii::app()->db->beginTransaction();
+            
+            $postCategories = array();
+            foreach ($_POST['SelectedCategories'] AS $postCategory) {
+                $postCategories[] = (int) trim($postCategory);
+            }
+            $model->setRelationRecords('categories', $postCategories);
+            
             if ($model->save()) {
 
                 if ($contentModel->save()) {
@@ -214,6 +249,8 @@ class ProductController extends AdminController {
             'contentModel' => $contentModel,
             'title' => $contentModel->title,
             'attachmentModels' => $attachmentModels,
+            'categories' => $categories,
+            'activeCategories' => $activeCategories,
         ));
     }
     

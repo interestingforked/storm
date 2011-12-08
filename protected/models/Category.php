@@ -120,5 +120,25 @@ class Category extends CActiveRecord {
             $returnRows = array_merge($returnRows, array('items' => $subitems));
         return $returnRows;
     }
+    
+    public function getOptionList($parent = '') {
+        $subitems = array();
+        $categoryContent = Content::model()->getModuleContent('category', $this->id);
+        $title = (isset($categoryContent->title)) ? $categoryContent->title : '';
+        if ($this->childs)
+            foreach ($this->childs as $child) {
+                $subitems[] = $child->getOptionList($title);
+            }
+        if ($this->id > 1) {
+            $returnArray[$this->id . ' '] = ($parent ? $parent . ' > ' : '') . $categoryContent->title;
+        } else {
+            $returnArray = array();
+        }
+        if ($subitems != array())
+            foreach ($subitems AS $subitem) {
+                $returnArray = array_merge($returnArray, $subitem);
+            }
+        return $returnArray;
+    }
 
 }

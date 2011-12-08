@@ -6,6 +6,28 @@ $form = $this->beginWidget('CActiveForm', array(
 echo $form->errorSummary(array($model, $contentModel)); 
 ?>
 <p>
+    <?php echo Chtml::label('Categories','Categories_1'); ?>
+</p>
+<p>
+    <span style="display:block;float:left;width:300px;">
+        <?php 
+        echo Chtml::listBox('Categories[]', null, $categories,
+                array('id' => 'categories', 'size' => 6, 'style' => 'width:300px;', 'multiple' => 'multiple')); 
+        ?>
+    </span>
+    <span style="display:block;float:left;width:100px;text-align:center;padding-top:30px;">
+    &nbsp;<?php echo Chtml::button('     >>     ', array('name' => 'categories2selected_categories', 'class' => 'select_buttons')); ?>
+    <br/>
+    <?php echo Chtml::button('     <<     ', array('name' => 'selected_categories2categories', 'class' => 'select_buttons')); ?>
+    </span>
+    <span style="display:block;float:left;width:300px;">
+        <?php
+        echo Chtml::listBox('SelectedCategories[]', null, $activeCategories,
+                array('id' => 'selected_categories', 'size' => 6, 'style' => 'width:300px;', 'multiple' => 'multiple')); 
+        ?>
+    </span>
+</p>
+<p>
     <?php echo $form->labelEx($contentModel, 'title'); ?><br/>
     <?php echo $form->textField($contentModel,'title', array('class' => 'text medium')); ?>
     <span class="note error"><?php echo $form->error($contentModel, 'title'); ?></span>

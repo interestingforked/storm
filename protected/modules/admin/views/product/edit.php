@@ -10,6 +10,8 @@
             'errors' => $errors,
             'model' => $model,
             'contentModel' => $contentModel,
+            'categories' => $categories,
+            'activeCategories' => $activeCategories,
         ));
         ?>
     </div>

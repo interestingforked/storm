@@ -93,6 +93,11 @@ class CheckoutController extends Controller {
                 $order->preorder = 1;
                 $order->save();
             }
+            if ($order->total != $cart->total_price) {
+                $order->quantity = $cart->total_count;
+                $order->total = $cart->total_price;
+                $order->save();
+            }
             $orderDetail = OrderDetail::model()->getOrderPaymentData($order->id);
             if (!$orderDetail) {
                 $orderDetail = new OrderDetail();
@@ -197,6 +202,7 @@ class CheckoutController extends Controller {
         }
 
         $shippingData = OrderDetail::model()->getOrderShipingData($order->id);
+        
         $ponyExpress = new PonyExpressService(Yii::app()->params['ponyExpress']);
         $response = $ponyExpress->getRate(array(
             'citycode' => $shippingData->point_id,
@@ -204,7 +210,7 @@ class CheckoutController extends Controller {
             'count' => $order->quantity,
             'weight' => $weight,
                 ));
-
+        
         if ($_POST) {
             $order->shipping_method = $_POST['delivery_method'];
             $order->payment_method = $_POST['payment_method'];
