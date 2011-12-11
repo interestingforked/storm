@@ -17,7 +17,8 @@ class CheckoutController extends Controller {
                     'payment',
                     'paymentsuccess',
                     'paymentfailed',
-                    'confirmation'
+                    'confirmation',
+                    'sendpayment'
                 ),
                 'users' => array('@'),
             ),
@@ -351,6 +352,24 @@ class CheckoutController extends Controller {
                 'amount' => ($order->total + $order->shipping)
                     ));
         }
+        $this->breadcrumbs[] = Yii::t('app', 'Checkout');
+        $this->render('payment', array(
+            'key' => $order->key,
+            'rbkServiceForm' => $rbkServiceForm,
+        ));
+    }
+    
+    public function actionSendpayment($id) {
+        $order = Order::model()->findByPk($id);
+        if (!$order) {
+            Yii::app()->controller->redirect(array('/checkout'));
+        }
+        $rbkService = new RBKMoneyService(Yii::app()->params['RBKMoney']);
+        $rbkServiceForm = $rbkService->generateRequestForm(array(
+            'order' => $order->key,
+            'service' => 'STORM Watches',
+            'amount' => ($order->total + $order->shipping)
+                ));
         $this->breadcrumbs[] = Yii::t('app', 'Checkout');
         $this->render('payment', array(
             'key' => $order->key,

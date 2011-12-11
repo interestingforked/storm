@@ -48,7 +48,7 @@
                     ));
                     ?>
                     <p class="user">
-                        <?php echo CHtml::link($this->user['profile']->firstname, array('/user/user')); ?> | 
+                        <?php echo CHtml::link($this->user['profile']->firstname, array('/user/profile')); ?> | 
                         <?php echo CHtml::link('Logout', array('/user/logout')); ?>
                     </p>
                 </div>

@@ -54,6 +54,7 @@ class ApplicationConfigBehavior extends CBehavior {
         $defaultRoutes = array(
             '<lang:(ru|lv)>/<controller:\w+>' => '<controller>/index',
             '<lang:(ru|lv)>/<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+            '<lang:(ru|lv)>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
             '<lang:(ru|lv)>/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
             '<lang:(ru|lv)>' => '/',
             '<module:\w+>/<controller:\w+>' => '<module>/<controller>',

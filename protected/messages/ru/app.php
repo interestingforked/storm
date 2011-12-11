@@ -88,5 +88,10 @@ return array(
     'House number' => 'Номер дома',
     'Flat number' => 'Номер квартиры',
     'Notes' => 'Примечания',
+    'My orders' => 'Мои заказы',
+    'New order' => 'Новый заказ',
+    'Payed' => 'Оплачено',
+    'Waiting for payment' => 'Ожидается оплата',
+    'Pay through RBK' => 'Оплатить через РБК',
 );
 

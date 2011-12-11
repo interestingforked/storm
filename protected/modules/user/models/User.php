@@ -68,6 +68,7 @@ class User extends CActiveRecord {
     public function relations() {
         $relations = array(
             'profile' => array(self::HAS_ONE, 'Profile', 'user_id'),
+            'orders' => array(self::HAS_MANY, 'Order', 'user_id'),
         );
         if (isset(Yii::app()->getModule('user')->relations))
             $relations = array_merge($relations, Yii::app()->getModule('user')->relations);

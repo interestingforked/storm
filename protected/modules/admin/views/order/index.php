@@ -14,6 +14,7 @@
                     <th>User</th>
                     <th>Quantity</th>
                     <th>Total</th>
+                    <th>Coupon</th>
                     <th>Status</th>
                     <th>Date created</th>
                     <th>&nbsp;</th>
@@ -27,15 +28,21 @@
                 $fullname = $profile->firstname.' '.$profile->lastname;
             ?>
                 <tr>
-                    <tr>
-                    <td><?php echo CHtml::link($fullname, array('/admin/order/viewuser/'.$order->user_id)); ?></td>
+                    <td><?php echo CHtml::link($fullname, array('/admin/order/user/'.$order->user_id)); ?></td>
                     <td><?php echo $order->quantity; ?></td>
                     <td><?php echo $order->total; ?></td>
-                    <td><?php echo $order->status; ?></td>
-                    <td><?php echo date("Y-m-d", strtotime($order->created)); ?></td>
+                    <td><?php echo ($order->coupon_id > 0 ? 'Yes' : '-'); ?></td>
+                    <td><?php 
+                        switch ($order->status) {
+                            case 1: echo 'New order'; break;
+                            case 2: echo 'Waiting for payment'; break;
+                            case 3: echo 'Completed'; break;
+                        }
+                    ?></td>
+                    <td><?php echo $order->created; ?></td>
                     <td class="delete">
                         <?php echo CHtml::link('View', array('/admin/order/view/'.$order->id)); ?>
-                        <?php echo CHtml::link('Delete', array('/admin/order/delete/'.$order->id)); ?>
+                        <?php echo CHtml::link('Delete', array('/admin/order/delete/'.$order->id), array('class' => 'delete')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

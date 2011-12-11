@@ -21,6 +21,7 @@
                     <th>Status</th>
                     <th>Date created</th>
                     <?php if ($categoryId): ?>
+                    <th>Sort</th>
                     <th>&nbsp;</th>
                     <?php endif; ?>
                     <th>&nbsp;</th>
@@ -48,6 +49,7 @@
                     <td><?php echo ($product->active ? 'Active' : 'Not active'); ?></td>
                     <td><?php echo $product->created; ?></td>
                     <?php if ($categoryId): ?>
+                    <td><?php echo $product->sort; ?></td>
                     <td class="delete">
                         <?php echo CHtml::link(CHtml::image('/images/admin/arrow_up.png'), array('/admin/product/movepu/'.$product->id.($categoryId?'?category_id='.$categoryId:''))); ?>
                         <?php echo CHtml::link(CHtml::image('/images/admin/arrow_down.png'), array('/admin/product/movepd/'.$product->id.($categoryId?'?category_id='.$categoryId:''))); ?>

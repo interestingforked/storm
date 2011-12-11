@@ -17,7 +17,9 @@
                     <th>Code</th>
                     <th>Value</th>
                     <th>Reusable</th>
+                    <th>Free delivery</th>
                     <th>Used (times)</th>
+                    <th>Max</th>
                     <th>Issue date</th>
                     <th>Term date</th>
                     <th>Date created</th>
@@ -38,12 +40,13 @@
                     <td><?php echo CHtml::link($coupon->code, array('/admin/coupon/view/'.$coupon->id)); ?></td>
                     <td><?php echo $coupon->value.($coupon->percentage ? ' %' : ''); ?></td>
                     <td><?php echo (!$coupon->once ? 'Yes' : '-'); ?></td>
+                    <td><?php echo ($coupon->free_delivery ? 'Yes' : '-'); ?></td>
                     <td><?php echo $orderCount; ?></td>
+                    <td><?php echo $coupon->max_count; ?></td>
                     <td><?php echo $coupon->issue_date; ?></td>
                     <td><?php echo $coupon->term_date; ?></td>
                     <td><?php echo $coupon->created; ?></td>
                     <td class="delete">
-                        <?php echo CHtml::link('View', array('/admin/coupon/view/'.$coupon->id)); ?>
                         <?php echo CHtml::link('Edit', array('/admin/coupon/edit/'.$coupon->id)); ?>
                         <?php echo CHtml::link('Delete', array('/admin/coupon/delete/'.$coupon->id), array('class' => 'delete')); ?>
                     </td>
