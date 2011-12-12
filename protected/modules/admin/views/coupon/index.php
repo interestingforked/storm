@@ -18,6 +18,7 @@
                     <th>Value</th>
                     <th>Reusable</th>
                     <th>Free delivery</th>
+                    <th>Not for sale</th>
                     <th>Used (times)</th>
                     <th>Max</th>
                     <th>Issue date</th>
@@ -41,6 +42,7 @@
                     <td><?php echo $coupon->value.($coupon->percentage ? ' %' : ''); ?></td>
                     <td><?php echo (!$coupon->once ? 'Yes' : '-'); ?></td>
                     <td><?php echo ($coupon->free_delivery ? 'Yes' : '-'); ?></td>
+                    <td><?php echo ($coupon->not_for_sale ? 'Yes' : '-'); ?></td>
                     <td><?php echo $orderCount; ?></td>
                     <td><?php echo $coupon->max_count; ?></td>
                     <td><?php echo $coupon->issue_date; ?></td>
@@ -54,9 +56,22 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php $this->widget('LinkPager', array(
-            'pages' => $pagination,
-        )); ?>
+        <div id="pager" class="pagination right">
+            <form>
+                <a class="first" href="#">&laquo;&laquo;</a>
+                <a class="prev previous" href="#">&laquo;</a>
+                <input type="text" class="pagedisplay"/>
+                <a class="next" href="#">&raquo;</a>
+                <a class="last" href="#">&raquo;&raquo;</a>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+            </form>
+        </div>
         <?php endif; ?> 
     </div>
     <div class="bendl"></div>

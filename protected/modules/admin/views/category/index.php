@@ -11,7 +11,7 @@
         <?php if (!$categories OR count($categories) == 0): ?>
         <div class="message info"><p>No categories found!</p></div>
         <?php else: ?>
-        <table cellpadding="0" cellspacing="0" width="100%" class="sortable">
+        <table cellpadding="0" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>Title</th>

@@ -5,7 +5,6 @@ class ProductController extends AdminController {
     public function actionIndex($id = null) {
         $this->pageTitle = 'Products';
 
-        $pagination = null;
         $criteria = new CDbCriteria();
         if ($id != null) {
             $criteria->together = true;
@@ -14,19 +13,10 @@ class ProductController extends AdminController {
             $criteria->order = 't.sort ASC';
             $criteria->condition = 'categories.id = '.$id;
         }
-        
-        if ($id == null) {
-            $count = Product::model()->notDeleted()->count($criteria);
-            $pagination = new CPagination($count);
-        
-            $pagination->pageSize = 10;
-            $pagination->applyLimit($criteria);
-        }
         $products = Product::model()->notDeleted()->findAll($criteria);
 
         $this->render('index', array(
             'products' => $products,
-            'pagination' => $pagination,
             'categoryId' => $id,
         ));
     }

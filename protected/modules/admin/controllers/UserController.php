@@ -6,17 +6,10 @@ class UserController extends AdminController {
         $this->pageTitle = 'Users';
 
         $criteria = new CDbCriteria();
-        $count = User::model()->count($criteria);
-        $pagination = new CPagination($count);
-
-        $pagination->pageSize = 15;
-        $pagination->applyLimit($criteria);
-        
         $users = User::model()->findAll($criteria);
 
         $this->render('index', array(
             'users' => $users,
-            'pagination' => $pagination
         ));
     }
 

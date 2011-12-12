@@ -7,6 +7,8 @@ if ( ! empty($this->metaTitle))
     $this->pageTitle = $this->metaTitle;
 ?>
 <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <?php if (isset($_GET['orderby']) OR isset($_GET['viewall']) OR isset($_GET['node'])): ?>
 <meta name="robots" content="noindex,nofollow">
 <?php endif; ?>

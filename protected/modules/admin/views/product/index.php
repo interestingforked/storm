@@ -65,9 +65,22 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php $this->widget('LinkPager', array(
-            'pages' => $pagination,
-        )); ?>
+        <div id="pager" class="pagination right">
+            <form>
+                <a class="first" href="#">&laquo;&laquo;</a>
+                <a class="prev previous" href="#">&laquo;</a>
+                <input type="text" class="pagedisplay"/>
+                <a class="next" href="#">&raquo;</a>
+                <a class="last" href="#">&raquo;&raquo;</a>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+            </form>
+        </div>
         <?php endif; ?> 
     </div>
     <div class="bendl"></div>

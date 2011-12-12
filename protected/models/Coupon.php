@@ -41,12 +41,12 @@ class Coupon extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('percentage, once, free_delivery, max_count', 'numerical', 'integerOnly' => true),
+            array('percentage, once, free_delivery, max_count, not_for_sale', 'numerical', 'integerOnly' => true),
             array('code, value', 'length', 'max' => 10),
             array('issue_date, term_date, created, used', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, percentage, once, free_delivery, max_count, code, value, issue_date, term_date, created, used', 'safe', 'on' => 'search'),
+            array('id, percentage, once, free_delivery, max_count, not_for_sale, code, value, issue_date, term_date, created, used', 'safe', 'on' => 'search'),
         );
     }
 
@@ -72,6 +72,7 @@ class Coupon extends CActiveRecord {
             'once' => 'Use once',
             'max_count' => 'Max use count',
             'free_delivery' => 'Free delivery',
+            'not_for_sale' => 'Not for sale',
             'code' => 'Code',
             'value' => 'Value',
             'issue_date' => 'Issue Date',

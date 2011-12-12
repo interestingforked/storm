@@ -26,6 +26,7 @@
         <script type="text/javascript" src="/js/admin/jquery.visualize.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.select_skin.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="/js/admin/jquery.tablesorter.pager.js"></script>
         <script type="text/javascript" src="/js/admin/ajaxupload.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.pngfix.js"></script>
         <script type="text/javascript" src="/js/admin/jquery-ui-1.8.13.custom.min.js"></script>

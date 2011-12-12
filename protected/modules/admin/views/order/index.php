@@ -8,7 +8,7 @@
         <?php if (!$orders OR count($orders) == 0): ?>
         <div class="message info"><p>No orders found!</p></div>
         <?php else: ?>
-        <table cellpadding="0" cellspacing="0" width="100%" class="sortable">
+        <table cellpadding="0" cellspacing="1" width="100%" class="sortable">
             <thead>
                 <tr>
                     <th>User</th>
@@ -48,10 +48,23 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-        <?php $this->widget('LinkPager', array(
-            'pages' => $pagination,
-        )); ?>
-        <?php endif; ?> 
+        <div id="pager" class="pagination right">
+            <form>
+                <a class="first" href="#">&laquo;&laquo;</a>
+                <a class="prev previous" href="#">&laquo;</a>
+                <input type="text" class="pagedisplay"/>
+                <a class="next" href="#">&raquo;</a>
+                <a class="last" href="#">&raquo;&raquo;</a>
+                <select class="pagesize">
+                    <option selected="selected" value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+            </form>
+        </div>
+        <?php endif;  ?> 
     </div>
     <div class="bendl"></div>
     <div class="bendr"></div>

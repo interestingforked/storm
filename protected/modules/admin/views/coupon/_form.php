@@ -29,6 +29,10 @@ echo $form->errorSummary($model);
     <?php echo $form->checkBox($model, 'free_delivery', array('class' => 'checkbox')); ?>
     <?php echo $form->labelEx($model, 'free_delivery'); ?>
     <span class="note error"><?php echo $form->error($model, 'free_delivery'); ?></span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <?php echo $form->checkBox($model, 'not_for_sale', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($model, 'not_for_sale'); ?>
+    <span class="note error"><?php echo $form->error($model, 'not_for_sale'); ?></span>
 </p>
 <p>
     <?php echo $form->labelEx($model, 'max_count'); ?><br/>

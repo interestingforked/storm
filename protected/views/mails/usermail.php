@@ -21,7 +21,7 @@
                                             <tbody>
                                                 <tr>
                                                     <td style="background-color: rgb(255, 255, 255);">
-                                                        <h2 style="margin-top: 20px; font: 15px/15px arial,sans-serif;">
+                                                        <h2 style="margin-top: 20px; font: 15px arial,sans-serif;">
                                                             <strong>Уважаемый клиент STORM London!</strong>
                                                         </h2>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">
@@ -31,7 +31,7 @@
                                                             Теперь расплачиваться за покупку стало гораздо удобнее - кредитной картой через платежную систему RBK Money. Возможны также и другие способы оплаты- интернет банкинг, терминалы, и др. Более подробно узнать о возможностях платежной системы вы можете на <a href="http://www.rbkmoney.ru">www.rbkmoney.ru</a>
                                                         </p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">
-                                                            В связи с изменениями обращаем ваше внимание, что для доступа к к разделу зарегистрированных пользователей сайта вам  потребуется пройти процедуру восстановления пароля, перейдя по ссылке <a href="<?php echo $link; ?>"><?php echo $link; ?></a>
+                                                            В связи с изменениями обращаем ваше внимание, что для доступа к к разделу зарегистрированных пользователей сайта вам  потребуется пройти процедуру восстановления пароля, перейдя по <a href="<?php echo $link; ?>">этой ссылке</a>
                                                         </p>
                                                         <p style="font-family: arial,sans-serif; font-size: 14px;">
                                                             Другие новости и акции смотрите на сайте <a href="http://www.stormlondon.ru">www.stormlondon.ru</a>

@@ -42,7 +42,7 @@ class Category extends CActiveRecord {
         return array(
             'getparent' => array(self::BELONGS_TO, 'Category', 'parent_id'),
             'childs' => array(self::HAS_MANY, 'Category', 'parent_id', 'order' => 'sort ASC'),
-            'products' => array(self::MANY_MANY, 'Product', 'product_category(category_id, product_id)'),
+            'products' => array(self::MANY_MANY, 'Product', 'product_category(category_id, product_id)', 'order' => 'sort ASC'),
         );
     }
 

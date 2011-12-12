@@ -6,17 +6,10 @@ class ArticleController extends AdminController {
         $this->pageTitle = 'News';
 
         $criteria = new CDbCriteria();
-        $count = Article::model()->count($criteria);
-        $pagination = new CPagination($count);
-
-        $pagination->pageSize = 15;
-        $pagination->applyLimit($criteria);
-        
         $articles = Article::model()->sorted()->findAll($criteria);
 
         $this->render('index', array(
             'articles' => $articles,
-            'pagination' => $pagination
         ));
     }
 
