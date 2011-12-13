@@ -77,7 +77,7 @@ return array(
         'adminEmail' => 'webmaster@example.com',
         'languages' => array(
             'ru' => 'Russian',
-        //'lv' => 'Latvian'
+            //'lv' => 'Latvian'
         ),
         'defaultLanguage' => 'ru',
         'images' => '/images/products/',

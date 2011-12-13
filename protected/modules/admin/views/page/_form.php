@@ -27,6 +27,10 @@ echo $form->errorSummary(array($pageModel, $contentModel));
     <span class="note error"><?php echo $form->error($pageModel, 'slug'); ?></span>
 </p>
 <p>
+    <?php echo $form->labelEx($contentModel, 'language'); ?><br/>
+    <?php echo $form->dropDownList($contentModel,'language', $this->languages, array('class' => 'styled small')); ?>
+</p>
+<p>
     <?php echo $form->labelEx($pageModel, 'sort'); ?><br/>
     <?php echo $form->textField($pageModel,'sort', array('class' => 'text tiny')); ?>
     <span class="note error"><?php echo $form->error($pageModel, 'sort'); ?></span>

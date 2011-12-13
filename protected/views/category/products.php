@@ -41,7 +41,7 @@ if ($viewAll) {
     <?php endif; ?>
 </div>
 <div class="celection">
-    <em style="margin-bottom:4px;">Сортировать по:</em>
+    <em style="margin-bottom:4px;"><?php echo Yii::t('app', 'Сортировать по'); ?>:</em>
 <noindex><em>
         <?php 
         if (isset($_GET['orderby']) AND $_GET['orderby'] == 'price'): 
@@ -117,7 +117,6 @@ foreach ($products as $product):
     </p>
 </div>
 <?php
-    //if (in_array($c, array(3,6,9,))) {
     if ($c % 3 == 0) {
         echo '<div class="hr-products"><hr/></div>';
     }

@@ -17,13 +17,13 @@ $this->pageTitle = Yii::app()->name . ' - ' . $page->content->title;
         ?>
         <h2><?php echo CHtml::link($article->content->title, array('/'.$page->slug.'/'.$article->slug)); ?></h2>
         <p><?php 
-		if ($article->content->additional)
-			echo $article->content->additional;
-		else
-			echo $article->content->body; 
-		?></p>
+        if ($article->content->additional)
+                echo $article->content->additional;
+        else
+                echo $article->content->body; 
+        ?></p>
     </div>
     <?php endforeach; ?>
     <div class="hr-title"><hr></div>
-    <div class="archive-link"><?php echo CHtml::link('Архив новостей', array('/'.$page->slug.'-archive')); ?></div>
+    <div class="archive-link"><?php echo CHtml::link(Yii::t('app', 'Архив новостей'), array('/'.$page->slug.'-archive')); ?></div>
 </div>

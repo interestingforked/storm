@@ -37,6 +37,7 @@ echo CHtml::endForm();
 $(document).ready(function () {
     $("#paymentForm").submit();
     $("#rules_agree").click(function () {
+        
         var checked = $("#rules_agree").attr('checked');
         $("#submit_button").attr('disabled', !checked);
         $("#submit_button").css('color', '#FBF80B');

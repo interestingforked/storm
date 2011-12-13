@@ -10,7 +10,7 @@ if ( ! empty($this->metaTitle))
 <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <?php if (isset($_GET['orderby']) OR isset($_GET['viewall']) OR isset($_GET['node'])): ?>
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="noindex,nofollow"/>
 <?php endif; ?>
 <meta name="description" content="<?php echo CHtml::encode($this->metaDescription); ?>" />
 <meta name="keywords" content="<?php echo CHtml::encode($this->metaKeywords); ?>" />

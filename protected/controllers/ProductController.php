@@ -60,7 +60,7 @@ class ProductController extends Controller {
                 $notify->email = $_POST['email'];
                 $notify->save();
                 
-                Yii::app()->user->setFlash('notification', 'Когда данный товар появится на складе, вам будет выслано уведомление.');
+                Yii::app()->user->setFlash('notification', Yii::t('app', 'Когда данный товар появится на складе, вам будет выслано уведомление.'));
             }
             Yii::app()->controller->redirect($_POST['returnUrl'].'#notification');
         } else {

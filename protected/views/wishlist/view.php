@@ -25,8 +25,8 @@ $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Wishlist');
             $colors = array();
             $sizes = array();
             foreach ($item['product']->productNodes AS $node):
-			 if ($node->active == 0)
-				continue;
+             if ($node->active == 0)
+                continue;
              if ( ! empty($node->color))
                 $colors[$node->id] = $node->color;
              if ( ! empty($node->size))

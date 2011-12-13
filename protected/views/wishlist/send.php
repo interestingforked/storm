@@ -17,16 +17,16 @@ $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Wishlist');
         <table>
             <tr>
                 <td style="width:50%;">
-                    <label>Введите адреса эл. почты, один в строчку:</label>
+                    <label><?php echo Yii::t('app', 'Введите адреса эл. почты, один в строчку'); ?>:</label>
                     <textarea style="width:85%;height:10em;" name="emails"></textarea>
                 </td>
                 <td style="width:50%">
-                    <label>Ваше сообщение:</label>
+                    <label><?php echo Yii::t('app', 'Ваше сообщение'); ?>:</label>
                     <textarea style="width:100%;height:10em;" name="message"></textarea>
                 </td>
             </tr>
             <tr>
-                <td><span style="font-size:85%;">STORM использует данный адрес эл.почты лишь для отсылки вашего списка предпочтений</span></td>
+                <td><span style="font-size:85%;"><?php echo Yii::t('app', 'STORM использует данный адрес эл.почты лишь для отсылки вашего списка предпочтений'); ?></span></td>
                 <td></td>
             </tr>
         </table>

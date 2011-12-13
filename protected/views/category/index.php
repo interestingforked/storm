@@ -11,7 +11,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $category->content->title;
 <?php 
 foreach ($category->childs AS $child): 
 if ($child->active != 1) {
-	continue;
+    continue;
 }
 $childCategory = Category::model()->getCategory($child->slug);
 ?>

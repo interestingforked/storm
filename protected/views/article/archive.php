@@ -34,11 +34,11 @@ $this->pageTitle = Yii::app()->name . ' - ' . $title;
         <div class="news-line">
             <h2><?php echo CHtml::link($article->content->title, array('/'.$pageModel->slug.'/' . $article->slug)); ?></h2>
             <p><?php 
-			if ($article->content->additional)
-				echo $article->content->additional;
-			else
-				echo $article->content->body; 
-			?></p>
+            if ($article->content->additional)
+                    echo $article->content->additional;
+            else
+                    echo $article->content->body; 
+            ?></p>
         </div>
     <?php 
     if ($c == $limit)

@@ -2,11 +2,6 @@
 $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Order overview');
 ?>
 
-<script type="text/javascript">
-$(document).ready(function () {
-});
-</script>
-
 <p class="order-step"><?php echo Yii::t('app', 'Step'); ?>:
     <?php echo CHtml::link('1', array('/checkout')); ?>
     <?php echo CHtml::link('2', array('/checkout/deliveryaddress')); ?>

@@ -14,12 +14,12 @@ class SiteController extends Controller {
     public function actionIndex() {
         $page = Page::model()->getPageByPlugin('article');
         $articles = Article::model()->getHomeArticle();
-        
+
         $leftBlock = Block::model()->getBlock(1);
         $rightBlock = Block::model()->getBlock(2);
-		
-		$this->metaTitle = Yii::app()->params['indexTitle'];
-		
+
+        $this->metaTitle = Yii::app()->params['indexTitle'];
+
         $this->render('index', array(
             'articles' => $articles,
             'page' => $page,

@@ -59,7 +59,7 @@ $(document).ready(function () {
             <?php if ($pointId == 'MOW'): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="1" checked="checked"/></td>
-                <td><?php if ($sale) echo 'Акция'; ?>
+                <td><?php if ($sale) echo Yii::t('app', 'Акция'); ?>
                     0.00 <?php echo Yii::app()->params['currency']; ?>
                 </td>
                 <td><?php echo Yii::t('app', 'Free shipping'); ?></td>
@@ -72,7 +72,7 @@ $(document).ready(function () {
                 <td>
                 <?php 
                     if ($sale) 
-                        echo 'Акция 0.00';
+                        echo Yii::t('app', 'Акция').' 0.00';
                     else
                         echo $ponyExpress->tariff_including_vat.Yii::app()->params['currency']; 
                 ?>

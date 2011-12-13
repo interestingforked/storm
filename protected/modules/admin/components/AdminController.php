@@ -6,11 +6,26 @@ class AdminController extends CController {
     public $pageTitle = '';
     public $menu = array();
     public $user = null;
+    public $languages;
     
     protected $classifier;
 
     public function init() {
         parent::init();
+        
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if (!$user) {
+            $this->redirect(array('/user/login'));
+        }
+        if ($user->superuser != 1) {
+            $this->redirect(array('/'));
+        }
+        $userProfile = $user->profile;
+        $this->user = array(
+            'user' => $user,
+            'profile' => $userProfile,
+            'fullname' => $userProfile->firstname.' '.$userProfile->lastname
+        );
         
         $activeMenuId = $this->getId();
         $this->menu = array(
@@ -84,21 +99,8 @@ class AdminController extends CController {
                 'active' => ($activeMenuId == 'newsletter')
             ),
         );
-        
-        $user = User::model()->findByPk(Yii::app()->user->id);
-        if (!$user) {
-            $this->redirect(array('/user/login'));
-        }
-        if ($user->superuser != 1) {
-            $this->redirect(array('/'));
-        }
-        $userProfile = $user->profile;
-        $this->user = array(
-            'user' => $user,
-            'profile' => $userProfile,
-            'fullname' => $userProfile->firstname.' '.$userProfile->lastname
-        );
-        
+
+        $this->languages = Yii::app()->params['languages'];
         $this->classifier = Classifier::model();
     }
 

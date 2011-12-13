@@ -9,7 +9,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $article->content->title;
         <?php 
         $image = Attachment::model()->getAttachment('article', $article->id);
         if ($image) {
-			$imageLink = Yii::app()->params['articles'].$image->image;
+            $imageLink = Yii::app()->params['articles'].$image->image;
             echo CHtml::link(CHtml::image(Image::thumb($imageLink, 200), $article->content->title), $imageLink, array('class' => 'modal'));
         }
         ?>

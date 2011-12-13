@@ -50,7 +50,7 @@ $this->pageTitle = Html::formatTitle($product->content->title, $product->content
                  <p class="side">
                  <?php
                  if ($images):
-                    echo CHtml::link('Смотреть картинки&nbsp;&gt;',
+                    echo CHtml::link(Yii::t('app', 'Смотреть картинки').'&nbsp;&gt;',
                         Yii::app()->params['images'].$images[0]->image,
                         array('rel' => 'group', 'title' => $images[0]->alt)
                     );

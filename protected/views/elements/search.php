@@ -12,5 +12,5 @@ $(document).ready(function() {
 </script>
 <form id="search-form" action="<?php echo CHtml::normalizeUrl(array('/search')); ?>">
 	 <input class="poisk" type="text" name="query" id="query" />
-	 <input class="submit" type="submit" value="Искать" name="" />
+	 <input class="submit" type="submit" value="<?php echo Yii::t('app', 'Искать'); ?>" name="" />
 	</form>
