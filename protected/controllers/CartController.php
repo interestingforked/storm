@@ -37,6 +37,9 @@ class CartController extends Controller {
                 }
             }
         }
+        
+        $saleSum = 0;
+        
         $cart = $this->cart->getList();
         $cartItems = array();
         foreach ($this->cart->getItems() AS $cartItem) {
@@ -44,9 +47,13 @@ class CartController extends Controller {
             if ( ! $product) {
                 continue;
             }
+            $productNode = $product->getProduct($cartItem['product_node_id']);
+            if ($productNode->mainNode->sale) {
+                $saleSum += $productNode->mainNode->price;
+            }
             $cartItems[] = array(
                 'item' => $cartItem,
-                'product' => $product->getProduct($cartItem['product_node_id'])
+                'product' => $productNode
             );
         }
         
@@ -58,6 +65,9 @@ class CartController extends Controller {
             if ($coupon) {
                 $discountType = ($coupon->percentage == 1) ? 'percentage' : 'value';
                 $discount = $coupon->value;
+                if ($coupon->not_for_sale != 1) {
+                    $saleSum = 0;
+                }
             }
         }
         
@@ -74,6 +84,7 @@ class CartController extends Controller {
             'cartItems' => $this->cart->getItems(),
             'countries' => $countries,
             'discount' => $discount,
+            'saleSum' => $saleSum,
             'discountType' => $discountType,
             'referer' => $referer,
         ));
@@ -82,7 +93,7 @@ class CartController extends Controller {
     public function actionCoupon() {
         if ($_POST) {
             $coupon = Coupon::model()->checkCode($_POST['code']);
-            if ($coupon) {
+            if ($coupon AND !$this->cart->getCoupon()) {
                 $this->cart->setCoupon($coupon->id);
             }
         }

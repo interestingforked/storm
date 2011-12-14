@@ -33,6 +33,10 @@ echo $form->errorSummary($model);
     <?php echo $form->checkBox($model, 'not_for_sale', array('class' => 'checkbox')); ?>
     <?php echo $form->labelEx($model, 'not_for_sale'); ?>
     <span class="note error"><?php echo $form->error($model, 'not_for_sale'); ?></span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <?php echo $form->checkBox($model, 'only_rbk', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($model, 'only_rbk'); ?>
+    <span class="note error"><?php echo $form->error($model, 'only_rbk'); ?></span>
 </p>
 <p>
     <?php echo $form->labelEx($model, 'max_count'); ?><br/>

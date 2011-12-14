@@ -2,8 +2,16 @@
 $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('app', 'Delivery method'); 
 
 $sale = false;
+$freeDelivery = false;
+$freeDeliveryWithMOW250 = false;
+$onlyRBK = false;
 if ($order->total > 3499) {
     $sale = true;
+}
+if ($coupon AND ($coupon->issue_date <= date('Y-m-d') AND $coupon->term_date >= date('Y-m-d'))) {
+    $freeDelivery = $coupon->free_delivery == 1;
+    $onlyRBK = $coupon->only_rbk == 1;
+    $freeDeliveryWithMOW250 = ($coupon->code == 'RBK-STAFF-XMAS-2011' AND $coupon->free_delivery == 1 AND $pointId == 'MOW');
 }
 ?>
 
@@ -11,7 +19,11 @@ if ($order->total > 3499) {
 function setRates(value) {
     switch (value) {
         case '1':
-            $('#delivery_cost').val(0);
+            var cost = 0;
+            if (<?php echo ($freeDeliveryWithMOW250 ? 'true' : 'false') ?>) {
+                cost = 250;
+            }
+            $('#delivery_cost').val(cost);
             $('#delivery_days').val(0);
             break;
         case '2':
@@ -56,7 +68,17 @@ $(document).ready(function () {
                 <th align="left"><?php echo Yii::t('app', 'Delivery method'); ?></th>
                 <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
             </tr>
-            <?php if ($pointId == 'MOW'): ?>
+            <?php if ($pointId == 'MOW' AND $freeDeliveryWithMOW250): ?>
+            <tr>
+                <td><input type="radio" name="delivery_method" value="1" checked="checked"/></td>
+                <td><?php if ($sale) echo Yii::t('app', 'Акция'); ?>
+                    250 <?php echo Yii::app()->params['currency']; ?>
+                </td>
+                <td><?php echo Yii::t('app', 'Free shipping'); ?></td>
+                <td></td>
+            </tr>
+            <?php endif; ?>
+            <?php if ($pointId == 'MOW' AND !$freeDeliveryWithMOW250): ?>
             <tr>
                 <td><input type="radio" name="delivery_method" value="1" checked="checked"/></td>
                 <td><?php if ($sale) echo Yii::t('app', 'Акция'); ?>
@@ -102,14 +124,14 @@ $(document).ready(function () {
                 <th align="left"><?php echo Yii::t('app', 'Payment method'); ?></th>
                 <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
             </tr>
-            <?php if ($pointId == 'MOW' AND $order->preorder != 1): ?>
+            <?php if (!$onlyRBK AND ($pointId == 'MOW' AND $order->preorder != 1)): ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="1" checked="checked"/></td>
                 <td><?php echo Yii::t('app', 'Оплата курьеру при получение'); ?></td>
                 <td></td>
             </tr>
             <?php endif; ?>
-            <?php if($countryId != 811): ?>
+            <?php if(!$onlyRBK AND $countryId != 811): ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="3"/></td>
                 <td><?php echo Yii::t('app', 'Банковский перевод'); ?></td>

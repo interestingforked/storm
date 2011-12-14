@@ -191,6 +191,7 @@ function changeNode(formId, nodeId) {
         <td></td>
         <td><br/><?php echo Yii::t('app', 'Coupon discount'); ?>:</td>
         <td><br/><b><?php 
+                    $available['total_price'] = $available['total_price'] - $saleSum;
                     if ($discountType == 'percentage') {
                         echo number_format($discount, 0,'.','').' %';
                         $available['total_price'] = $available['total_price'] - ($available['total_price'] / 100 * $discount);
@@ -198,6 +199,7 @@ function changeNode(formId, nodeId) {
                         echo $discount.Yii::app()->params['currency']; 
                         $available['total_price'] = $available['total_price'] - $discount;
                     }
+                    $available['total_price'] = $available['total_price'] + $saleSum;
                     ?>
             </b></td>
         <td></td>

@@ -194,6 +194,10 @@ class CheckoutController extends Controller {
         if (!$order) {
             Yii::app()->controller->redirect(array('/checkout'));
         }
+        $coupon = false;
+        if ($order->coupon_id AND $order->coupon_id > 0) {
+            $coupon = Coupon::model()->findByPk($order->coupon_id);
+        }
 
         $weight = 0;
         $items = $this->cart->getItems();
@@ -228,6 +232,7 @@ class CheckoutController extends Controller {
             'order' => $order,
             'pointId' => $shippingData->point_id,
             'countryId' => $shippingData->country_id,
+            'coupon' => $coupon,
         ));
     }
 
@@ -247,6 +252,8 @@ class CheckoutController extends Controller {
             $order->save();
         }
 
+        $saleSum = 0;
+        
         $cart = $this->cart->getList();
         if ($cart) {
             $cartItems = array();
@@ -267,6 +274,9 @@ class CheckoutController extends Controller {
                     $this->cart->changeQuantity($item['product_id'], $item['product_node_id'], $productNode->mainNode->quantity);
                     $item['quantity'] = $productNode->mainNode->quantity;
                 }
+                if ($productNode->mainNode->sale) {
+                    $saleSum += $productNode->mainNode->price;
+                }
                 $cartItems[] = array(
                     'item' => $item,
                     'product' => $productNode,
@@ -286,11 +296,22 @@ class CheckoutController extends Controller {
             if ($coupon) {
                 $discountType = ($coupon->percentage == 1) ? 'percentage' : 'value';
                 $discount = $coupon->value;
+                if ($coupon->not_for_sale == 1) {
+                    $totalPrice = $order->total - $saleSum;
+                }
                 if ($discountType == 'percentage')
-                    $totalPrice = $order->total - ($order->total / 100 * $coupon->value);
+                    $totalPrice = $totalPrice - ($order->total / 100 * $coupon->value);
                 else
-                    $totalPrice = $order->total - $coupon->value;
+                    $totalPrice = $totalPrice - $coupon->value;
+                if ($coupon->not_for_sale == 1) {
+                    $totalPrice = $totalPrice + $saleSum;
+                }
             }
+        }
+        
+        if ($totalPrice != $order->total) {
+            $order->total = $totalPrice;
+            $order->save();
         }
 
         $rbkServiceForm = '';
