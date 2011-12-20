@@ -42,6 +42,10 @@ class ProductController extends Controller {
         if ($categoryPage) {
             $categoryId = $categoryId.(($categoryOrder)?'&':'?').'page='.$categoryPage;
         }
+        $categoryViewAll = $session->get('categoryViewAll');
+        if ($categoryViewAll) {
+            $categoryId = $categoryId.(($categoryOrder)?'&':'?').'viewall='.$categoryViewAll;
+        }
         
         $this->breadcrumbs[] = $product->content->title;
         $this->render('index', array(

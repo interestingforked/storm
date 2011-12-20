@@ -24,5 +24,39 @@ class TaskCommand extends CConsoleCommand {
             }
         }
     }
+    
+    public function actionNewsletters() {
+        $newsletter = Newsletter::model()->notSent()->find();
+        if ($newsletter) {
+            $newsletterUsers = $newsletter->users;
+            if ($newsletterUsers) {
+                $c = 0;
+                $sent = 0;
+                $max = Yii::app()->params['newslettersMaxMailSend'];
+                foreach ($newsletterUsers AS $newsletterUser) {
+                    if ($newsletterUser->sent) {
+                        $sent++;
+                        continue;
+                    }
+                    if ($c == $max) {
+                        break;
+                    }
+                    $c++;
+                    $message = $newsletter->message;
+                    $subject = $newsletter->subject;
+                    $adminEmail = Yii::app()->params['adminEmail'];
+                    $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
+                    if (mail($newsletterUser->email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $message, $headers)) {
+                        $newsletterUser->sent = new CDbExpression('CURRENT_TIMESTAMP');
+                        $newsletterUser->save();
+                    }
+                }
+                if ($c < $max) {
+                    $newsletter->sent = new CDbExpression('CURRENT_TIMESTAMP');
+                    $newsletter->save();
+                }
+            }
+        }
+    }
 
 }

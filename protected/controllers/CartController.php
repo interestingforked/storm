@@ -15,7 +15,7 @@ class CartController extends Controller {
             }
             if ($_POST['action'] == 'addItem') {
                 $this->cart->addItem($_POST['productId'], $_POST['productNodeId'], $_POST['price']);
-                $referer = (isset($_SERVER["HTTP_REFERER"])) ? preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/","",$_SERVER["HTTP_REFERER"]) : '/';
+                $referer = (isset($_SERVER["HTTP_REFERER"])) ? ((preg_match('/product/',$_SERVER["HTTP_REFERER"])==0)?preg_replace("/(\/[a-zA-Z0-9\-]+\-[0-9]+)/","",$_SERVER["HTTP_REFERER"]):"") : '/';
             }
             if ($_POST['action'] == 'removeItem') {
                 $this->cart->removeItem($_POST['productId'], $_POST['productNodeId']);
@@ -75,6 +75,25 @@ class CartController extends Controller {
         $activeCountries = Country::model()->getActive();
         foreach ($activeCountries AS $activeCountry) {
             $countries[] = $activeCountry->title;
+        }
+        
+        $categoryLink = "";
+        $session = new CHttpSession();
+        $session->open();
+        $categoryOrder = $session->get('categoryOrder');
+        if ($categoryOrder) {
+            $categoryLink = $categoryLink.'?orderby='.$categoryOrder;
+        }
+        $categoryPage = $session->get('categoryPage');
+        if ($categoryPage) {
+            $categoryLink = $categoryLink.(($categoryOrder)?'&':'?').'page='.$categoryPage;
+        }
+        $categoryViewAll = $session->get('categoryViewAll');
+        if ($categoryViewAll) {
+            $categoryLink = $categoryLink.(($categoryOrder)?'&':'?').'viewall='.$categoryViewAll;
+        }
+        if ($referer != '/' AND !empty($categoryLink)) {
+            $referer .= $categoryLink;
         }
         
         $this->breadcrumbs[] = Yii::t('app', 'Cart');

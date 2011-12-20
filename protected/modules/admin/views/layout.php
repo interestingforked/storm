@@ -25,7 +25,9 @@
         <script type="text/javascript" src="/js/admin/facebox.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.visualize.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.select_skin.js"></script>
-        <script type="text/javascript" src="/js/admin/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="/js/admin/jquery.json-2.3.min.js"></script>
+        <script type="text/javascript" src="/js/admin/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/js/admin/jquery.tablesorter.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.tablesorter.pager.js"></script>
         <script type="text/javascript" src="/js/admin/ajaxupload.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.pngfix.js"></script>

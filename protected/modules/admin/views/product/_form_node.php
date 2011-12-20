@@ -30,10 +30,6 @@ echo $form->errorSummary($model);
 </p>
 <hr/>
 <p>
-    <?php echo $form->checkBox($model, 'main', array('class' => 'checkbox')); ?>
-    <?php echo $form->labelEx($model, 'main'); ?>
-    <span class="note error"><?php echo $form->error($model, 'main'); ?></span>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
     <?php echo $form->checkBox($model, 'new', array('class' => 'checkbox')); ?>
     <?php echo $form->labelEx($model, 'new'); ?>
     <span class="note error"><?php echo $form->error($model, 'new'); ?></span>

@@ -41,8 +41,8 @@ class Renderer {
     public function renderItemAsTableRow($item, $first = false, $last = false, $category = false) {
         echo '<tr><td><span style="padding:'.(($item['level'] > 1) ? ($item['level'] * 15) - 15 : 0).'px;"></span>';
         echo CHtml::link($item['linkTitle'], array('/admin/'.$item['controller'].'/edit/'.$item['id'])).'</td>';
-        echo '<td>'.($item['active'] ? 'Active' : 'Not active').'</td>';
-        echo '<td>'.date("Y-m-d", strtotime($item['created'])).'</td>';
+        echo '<td>'.($item['active'] ? 'Active' : 'Disabled').'</td>';
+        echo '<td>'.$item['created'].'</td>';
         if ($category) {
             echo '<td>'.CHtml::link('Products', array('/admin/product/index/'.$item['id'])).'</td>';
         }

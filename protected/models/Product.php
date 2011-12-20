@@ -80,6 +80,9 @@ class Product extends CActiveRecord {
             'orderBySort' => array(
                 'order' => 'sort ASC',
             ),
+            'active' => array(
+                'condition' => 'active = 1'
+            ),
         );
     }
 

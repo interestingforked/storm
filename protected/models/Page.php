@@ -59,6 +59,14 @@ class Page extends CActiveRecord {
         );
     }
     
+    public function scopes() {
+        return array(
+            'active' => array(
+                'condition' => 'active = 1'
+            ),
+        );
+    }
+    
     public function getAllPages() {
         return $this->findAll("parent_id > 0");
     }

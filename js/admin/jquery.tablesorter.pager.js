@@ -12,6 +12,7 @@
                 c.size = size;
                 c.totalPages = Math.ceil(c.totalRows / c.size);
                 c.pagerPositionSet = false;
+                $.cookie('table_pager__size', c.size);
                 moveToPage(table);
                 fixPosition(table);
             }
@@ -67,6 +68,7 @@
                 if (c.page < 0 || c.page > (c.totalPages - 1)) {
                     c.page = 0;
                 }
+                $.cookie('table_pager__page', c.page);
                 renderTable(table, c.rowsCopy);
             }
 

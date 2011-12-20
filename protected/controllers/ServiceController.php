@@ -74,7 +74,7 @@ class ServiceController extends Controller {
                 $order = Order::model()->getByOrderKey($_POST['orderId']);
                 if ($_POST['paymentStatus'] == 5) {
                     $order->rbk_payment_id = $_POST['paymentId'];
-                    $order->status = 3;
+                    $order->status = 4;
                     $order->save();
                     if ($order->sent != 1) {
                         if ($this->sendConfirmMail($order)) {

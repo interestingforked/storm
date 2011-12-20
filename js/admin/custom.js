@@ -14,8 +14,7 @@ $(function () {
     $('table.stats').each(function() {	
         if($(this).attr('rel')) {
             var statsType = $(this).attr('rel');
-        }
-        else {
+        } else {
             var statsType = 'area';
         }
 		
@@ -28,11 +27,30 @@ $(function () {
             colors: ['#6fb9e8', '#ec8526', '#9dc453', '#ddd74c']
         });
     });
-
+    
+    var tableSortList = []
+    var cookieSortList = $.evalJSON($.cookie("table_sort_list"))
+    if (cookieSortList && cookieSortList.length > 0) {
+        tableSortList = cookieSortList;
+    }
+    var tablePagerPage = $.cookie('table_pager__page');
+    if (tablePagerPage == null) {
+        tablePagerPage = 0
+    }
+    var tablePagerSize = $.cookie('table_pager__size');
+    if (tablePagerSize == null) {
+        tablePagerSize = 10
+    }
+    
     // Sort table
     $("table.sortable").tablesorter({
-        widgets: ['zebra']
-    }).tablesorterPager({container: $("#pager")});
+        widgets: ['zebra'], debug: false, sortList: tableSortList
+    }).tablesorterPager({
+        container: $("#pager"), 
+        page: tablePagerPage,
+        size: tablePagerSize
+    });
+    $('#pager option[value='+tablePagerSize+']').attr('selected', 'selected');
 	
     $('.block table tr th.header').css('cursor', 'pointer');
 
@@ -45,23 +63,27 @@ $(function () {
     $('.wysiwyg').wysiwyg({
         css: "/css/admin/wysiwyg.css",
         controls: {
-            bold          : { visible : true },
-            italic        : { visible : true },
-            underline     : { visible : true },
-            strikeThrough : { visible : true },
-            justifyLeft   : { visible : true },
-            justifyCenter : { visible : true },
-            justifyRight  : { visible : true },
-            justifyFull   : { visible : true },
-            indent  : { visible : true },
-            outdent : { visible : true },
-            subscript   : { visible : true },
-            superscript : { visible : true },
-            undo : { visible : true },
-            redo : { visible : true },
-            insertOrderedList    : { visible : true },
-            insertUnorderedList  : { visible : true },
-            insertHorizontalRule : { visible : true },
+            bold          : {visible : true},
+            italic        : {visible : true},
+            underline     : {visible : true},
+            strikeThrough : {visible : true},
+            justifyLeft   : {visible : true},
+            justifyCenter : {visible : true},
+            justifyRight  : {visible : true},
+            justifyFull   : {visible : true},
+            indent  : {visible : true},
+            outdent : {visible : true},
+            subscript   : {visible : true},
+            superscript : {visible : true},
+            undo : {visible : true},
+            redo : {visible : true},
+            insertOrderedList    : {visible : true},
+            insertUnorderedList  : {visible : true},
+            insertHorizontalRule : {visible : true},
+            createLink : {visible : true},
+            insertImage : {visible : true},
+            insertTable : {visible : true},
+            code : {visible : true},
             h4: {
                     visible: true,
                     className: 'h4',
@@ -86,12 +108,12 @@ $(function () {
                     tags: ['h6'],
                     tooltip: 'Header 6'
             },
-            cut   : { visible : true },
-            copy  : { visible : true },
-            paste : { visible : true },
-            html  : { visible: true },
-            increaseFontSize : { visible : true },
-            decreaseFontSize : { visible : true }
+            cut   : {visible : true},
+            copy  : {visible : true},
+            paste : {visible : true},
+            html  : {visible: true},
+            increaseFontSize : {visible : true},
+            decreaseFontSize : {visible : true}
         }
     });
 
@@ -185,7 +207,7 @@ $(function () {
     });
     
     // Image delete confirmation
-    $('a.delete, a.ban, a.disable').click(function() {
+    $('a.delete, a.ban, a.disable, a.activate').click(function() {
         if (confirm("Are you sure you want to " + $(this).attr('class') + " this item?")) {
             return true;
         } else {
@@ -247,7 +269,7 @@ $(function () {
         placesFirst : false
     })
     
-    $('#product-form .select_buttons').click(function(){
+    $('.select_buttons').click(function(){
         var arr = $(this).attr("name").split("2");
         var from = arr[0];
         var to = arr[1];
@@ -261,6 +283,16 @@ $(function () {
             $(this).attr('selected',true);
         });
         $('#selected_categories option').each(function(index) {
+            $(this).attr('selected',true);
+        });		
+        return true;
+    });
+    
+    $('#newsletter-form #submit').click(function() {
+        $('#users option').each(function(index) {
+            $(this).attr('selected',true);
+        });
+        $('#selected_users option').each(function(index) {
             $(this).attr('selected',true);
         });		
         return true;

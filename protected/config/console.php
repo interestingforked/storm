@@ -37,5 +37,6 @@ return array(
         'baseUrl' => 'http://storm.cc',
         'thumbUrl' => '/assets/thumb.php',
         'images' => '/images/products/',
+        'newslettersMaxMailSend' => 50,
     ),
 );

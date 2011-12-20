@@ -31,7 +31,7 @@
                     <td><?php echo CHtml::link($fullname, array('/admin/order/user/'.$order->user_id)); ?></td>
                     <td><?php echo $order->quantity; ?></td>
                     <td><?php echo $order->total; ?></td>
-                    <td><?php echo ($order->coupon_id > 0 ? 'Yes' : '-'); ?></td>
+                    <td><?php echo ($order->coupon_id > 0 ? 'Yes' : 'No'); ?></td>
                     <td><?php 
                         switch ($order->status) {
                             case 1: echo 'New order'; break;

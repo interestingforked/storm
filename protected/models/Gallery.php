@@ -16,50 +16,23 @@ class Gallery extends CActiveRecord {
 
     public $content;
 
-    /**
-     * Returns the static model of the specified AR class.
-     * @return Article the static model class
-     */
     public static function model($className=__CLASS__) {
         return parent::model($className);
     }
 
-    /**
-     * @return string the associated database table name
-     */
     public function tableName() {
         return 'gallery';
     }
 
-    /**
-     * @return array validation rules for model attributes.
-     */
     public function rules() {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
             array('active, deleted, sort, heading, pagination', 'numerical', 'integerOnly' => true),
             array('slug', 'length', 'max' => 250),
             array('created', 'safe'),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
             array('id, active, deleted, sort, slug, heading, pagination, created', 'safe', 'on' => 'search'),
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations() {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
     public function attributeLabels() {
         return array(
             'id' => 'ID',
@@ -73,14 +46,7 @@ class Gallery extends CActiveRecord {
         );
     }
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-     */
     public function search() {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
@@ -106,7 +72,16 @@ class Gallery extends CActiveRecord {
     public function scopes() {
         return array(
             'ordered' => array(
+                'order' => 'hot DESC, created DESC',
+            ),
+            'sorted' => array(
                 'order' => 'sort ASC',
+            ),
+            'sorted2' => array(
+                'order' => 'page_id ASC, sort ASC',
+            ),
+            'active' => array(
+                'condition' => 'active = 1'
             ),
         );
     }

@@ -138,8 +138,8 @@ class Order extends CActiveRecord {
             return 'Оплата наличными курьеру';
         if ($order->payment_method == 2 AND $order->status == 2)
             return 'Оплата ожидается через RBK';
-        if ($order->payment_method == 2 AND $order->status == 3)
-            return 'Оплачено';
+        if ($order->payment_method == 2 AND $order->status == 4)
+            return 'Оплачено через RBK';
     }
 
 }

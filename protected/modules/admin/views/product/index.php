@@ -46,7 +46,7 @@
                         ?>
                     </td>
                     <?php endif; ?>
-                    <td><?php echo ($product->active ? 'Active' : 'Not active'); ?></td>
+                    <td><?php echo ($product->active ? 'Active' : 'Disabled'); ?></td>
                     <td><?php echo $product->created; ?></td>
                     <?php if ($categoryId): ?>
                     <td><?php echo $product->sort; ?></td>
@@ -73,7 +73,7 @@
                 <a class="next" href="#">&raquo;</a>
                 <a class="last" href="#">&raquo;&raquo;</a>
                 <select class="pagesize">
-                    <option selected="selected" value="10">10</option>
+                    <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>

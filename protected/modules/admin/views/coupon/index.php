@@ -40,9 +40,9 @@
                     <tr>
                     <td><?php echo CHtml::link($coupon->code, array('/admin/coupon/edit/'.$coupon->id)); ?></td>
                     <td><?php echo $coupon->value.($coupon->percentage ? ' %' : ''); ?></td>
-                    <td><?php echo (!$coupon->once ? 'Yes' : '-'); ?></td>
-                    <td><?php echo ($coupon->free_delivery ? 'Yes' : '-'); ?></td>
-                    <td><?php echo ($coupon->not_for_sale ? 'Yes' : '-'); ?></td>
+                    <td><?php echo (!$coupon->once ? 'Yes' : 'No'); ?></td>
+                    <td><?php echo ($coupon->free_delivery ? 'Yes' : 'No'); ?></td>
+                    <td><?php echo ($coupon->not_for_sale ? 'Yes' : 'No'); ?></td>
                     <td><?php echo $orderCount; ?></td>
                     <td><?php echo $coupon->max_count; ?></td>
                     <td><?php echo $coupon->issue_date; ?></td>

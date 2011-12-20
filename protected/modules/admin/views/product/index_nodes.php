@@ -4,6 +4,7 @@
         <div class="bheadr"></div>
         <h2>Product nodes</h2>
         <ul class="tabs">
+            <li><a href="/admin/product">Back to product list</a></li>
             <li><a href="/admin/product/addnode/<?php echo $productId; ?>">Add product node</a></li>
         </ul>
     </div>
@@ -25,6 +26,7 @@
                     <th>Color</th>
                     <th>Size</th>
                     <th>Date created</th>
+                    <th>Sort</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -37,16 +39,17 @@
             ?>
                 <tr>
                     <td><?php echo CHtml::link($product->content->title, array('/admin/product/edit/'.$product->id)); ?></td>
-                    <td><?php echo ($product->active ? 'Active' : 'Not active'); ?></td>
-                    <td><?php echo ($productNode->main ? 'Yes' : '-'); ?></td>
-                    <td><?php echo ($productNode->new ? 'Yes' : '-'); ?></td>
-                    <td><?php echo ($productNode->sale ? 'Yes' : '-'); ?></td>
-                    <td><?php echo ($productNode->preorder ? 'Yes' : '-'); ?></td>
+                    <td><?php echo ($productNode->active ? 'Active' : 'Disabled'); ?></td>
+                    <td><?php echo ($productNode->main ? 'Yes' : 'No'); ?></td>
+                    <td><?php echo ($productNode->new ? 'Yes' : 'No'); ?></td>
+                    <td><?php echo ($productNode->sale ? 'Yes' : 'No'); ?></td>
+                    <td><?php echo ($productNode->preorder ? 'Yes' : 'No'); ?></td>
                     <td><?php echo $productNode->price; ?></td>
                     <td><?php echo $productNode->quantity; ?></td>
                     <td><?php echo $this->classifier->getValue('color', $productNode->color, '-'); ?></td>
                     <td><?php echo $this->classifier->getValue('size', $productNode->size, '-'); ?></td>
-                    <td><?php echo $product->created; ?></td>
+                    <td><?php echo $productNode->created; ?></td>
+                    <td><?php echo $productNode->sort; ?></td>
                     <td class="delete">
                         <?php echo CHtml::link(CHtml::image('/images/admin/arrow_up.png'), array('/admin/product/movenu/'.$productNode->id)); ?>
                         <?php echo CHtml::link(CHtml::image('/images/admin/arrow_down.png'), array('/admin/product/movend/'.$productNode->id)); ?>

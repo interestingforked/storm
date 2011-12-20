@@ -20,15 +20,15 @@ class SearchController extends Controller {
         $records = Content::model()->findAll($criteria);
 
         $slugs = array();
-        $articles = Article::model()->findAll();
+        $articles = Article::model()->active()->findAll();
         foreach ($articles AS $article) {
             $slugs['article_' . $article->id] = $article->slug;
         }
-        $pages = Page::model()->findAll();
+        $pages = Page::model()->active()->findAll();
         foreach ($pages AS $page) {
             $slugs['page_' . $page->id] = $page->slug;
         }
-        $products = Product::model()->findAll();
+        $products = Product::model()->active()->findAll();
         foreach ($products AS $product) {
             $slugs['product_' . $product->id] = $product->slug;
         }

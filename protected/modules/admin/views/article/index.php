@@ -29,7 +29,7 @@
             ?>
                 <tr>
                     <td><?php echo CHtml::link($article->content->title, array('/admin/article/edit/'.$article->id)); ?></td>
-                    <td><?php echo ($article->active ? 'Active' : 'Not active'); ?></td>
+                    <td><?php echo ($article->active ? 'Active' : 'Disabled'); ?></td>
                     <td>
                         <?php 
                         if ($article->hot) 
@@ -37,7 +37,7 @@
                         else if($article->home):
                             echo 'Home'; 
                         else:
-                            echo '-'; 
+                            echo 'None'; 
                         endif;
                         ?>
                     </td>

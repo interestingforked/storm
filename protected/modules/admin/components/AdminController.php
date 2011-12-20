@@ -37,7 +37,14 @@ class AdminController extends CController {
             array(
                 'label' => 'Pages', 
                 'url' => array('/admin/page'),
-                'active' => ($activeMenuId == 'page')
+                'active' => ($activeMenuId == 'page'),
+                'items' => array(
+                    array(
+                        'label' => 'Gallery', 
+                        'url' => array('/admin/gallery'),
+                        'active' => ($activeMenuId == 'gallery')
+                    ),
+                )
             ),
             array(
                 'label' => 'News', 

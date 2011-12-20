@@ -12,17 +12,17 @@ class CategoryController extends Controller {
             }
             foreach ($parentCategories as $parentCategory) {
                 $this->breadcrumbs[$parentCategory->content->title] = array(
-                    '/'.$parentCategory->slug,
+                    '/' . $parentCategory->slug,
                 );
             }
         }
         $this->breadcrumbs[] = $category->content->title;
-        
+
         $this->metaTitle = $category->content->meta_title;
         $this->metaDescription = $category->content->meta_description;
         $this->metaKeywords = $category->content->meta_keywords;
         $this->background = $category->content->background;
-        
+
         if ($category->childs) {
             $this->render('index', array(
                 'category' => $category,
@@ -39,13 +39,13 @@ class CategoryController extends Controller {
                     if (isset($_GET['orderby'])) {
                         switch ($_GET['orderby']) {
                             case 'price':
-                                $products[$productContent->mainNode->price.$productContent->id] = $productContent;
+                                $products[$productContent->mainNode->price . $productContent->id] = $productContent;
                                 break;
                             case 'name':
-                                $products[$productContent->content->title.$productContent->id] = $productContent;
+                                $products[$productContent->content->title . $productContent->id] = $productContent;
                                 break;
                             default:
-                                $products[$productContent->sort.$productContent->id] = $productContent;
+                                $products[$productContent->sort . $productContent->id] = $productContent;
                         }
                     } else {
                         $products[] = $product;
@@ -66,17 +66,21 @@ class CategoryController extends Controller {
                 }
                 $nextpage = $page + 1;
                 $prevpage = $page - 1;
-                
+
                 $session = new CHttpSession();
                 $session->open();
                 if (isset($_GET['orderby']))
                     $session->add('categoryOrder', $_GET['orderby']);
-				else
-					$session->remove('categoryOrder');
+                else
+                    $session->remove('categoryOrder');
                 if (isset($_GET['page']))
                     $session->add('categoryPage', $_GET['page']);
-				else
-					$session->remove('categoryPage');
+                else
+                    $session->remove('categoryPage');
+                if (isset($_GET['viewall']))
+                    $session->add('categoryViewAll', $_GET['viewall']);
+                else
+                    $session->remove('categoryViewAll');
 
                 $this->render('products', array(
                     'category' => $category,
@@ -95,7 +99,6 @@ class CategoryController extends Controller {
                 ));
             }
         }
-        
     }
 
 }

@@ -61,6 +61,9 @@ class Article extends CActiveRecord {
             'sorted' => array(
                 'order' => 'sort ASC',
             ),
+            'active' => array(
+                'condition' => 'active = 1'
+            ),
         );
     }
 
