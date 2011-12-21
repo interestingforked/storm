@@ -4,24 +4,32 @@ class ProductController extends AdminController {
 
     public function actionIndex($id = null) {
         $this->pageTitle = 'Products';
-
+        
         $session = new CHttpSession();
         $session->open();
         
-        $criteria = new CDbCriteria();
+        $connection = Yii::app()->db;
         if ($id != null) {
-            $criteria->together = true;
-            $criteria->distinct = true;
-            $criteria->with = 'categories';
-            $criteria->order = 't.sort ASC';
-            $criteria->condition = 'categories.id = '.$id;
+            $sql = "SELECT DISTINCT p.id as p_id, p.active as p_active, p.slug as p_slug, p.sort as p_sort, p.created as p_created, "
+                ."cp.title as p_title, c.id as c_id, c.slug as c_slug, c.sort as c_sort, cc.title as c_title "
+                ."FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru' "
+                ."LEFT OUTER JOIN product_category pc ON p.id = pc.product_id LEFT OUTER JOIN categories c ON c.id = pc.category_id "
+                ."LEFT JOIN contents cc ON cc.module = 'category' AND cc.module_id = c.id AND cc.language = 'ru' "
+                ."WHERE c.id = {$id} AND p.deleted = 0 ORDER BY p.sort";
 
             $session->add('lastViewedCategory', $id);
         } else {
+            $sql = "SELECT DISTINCT p.id as p_id, p.active as p_active, p.slug as p_slug, p.sort as p_sort, p.created as p_created, cp.title as p_title "
+                ."FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru' "
+                ."WHERE p.deleted = 0 ORDER BY p.sort";
+            
             $session->remove('lastViewedCategory');
         }
-        $products = Product::model()->notDeleted()->findAll($criteria);
-
+        $command = $connection->createCommand($sql);
+        $dataReader = $command->query();
+        
+        $products = $dataReader->readAll();
+        
         $this->render('index', array(
             'products' => $products,
             'categoryId' => $id,

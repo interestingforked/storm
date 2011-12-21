@@ -10,7 +10,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $pluginPage->content->title;
 $c = 0;
 foreach ($galleries AS $gallery): 
     if ($gallery->heading) {
-        echo '<div class="row"><h1>'.$gallery->slug.'</h1></div>';
+        echo '<div class="row"><h1>'.$gallery->content->title.'</h1></div>';
         continue;
     }
     $c++;

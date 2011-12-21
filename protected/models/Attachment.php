@@ -143,6 +143,7 @@ class Attachment extends CActiveRecord {
             
             switch ($module) {
                 case 'page': $directory = 'pages'; break;
+                case 'gallery': $directory = 'gallery'; break;
                 default: $directory = 'images';
             }
 

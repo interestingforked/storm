@@ -5,6 +5,7 @@
         <h2>Galleries</h2>
         <ul class="tabs">
             <li><a href="/admin/gallery/add">Add gallery</a></li>
+            <li><a href="/admin/gallery/addheading">Add gallery heading</a></li>
         </ul>
     </div>
     <div class="block_content">
@@ -47,7 +48,12 @@
                     </td>
                     <td class="delete">
                         <?php echo CHtml::link('View', array('/'.$page->slug.'/'.$gallery->slug), array('target' => '_blank')); ?>
-                        <?php echo CHtml::link('Edit', array('/admin/gallery/edit/'.$gallery->id)); ?>
+                        <?php 
+                        if ($gallery->heading)
+                            echo CHtml::link('Edit', array('/admin/gallery/editheading/'.$gallery->id)); 
+                        else
+                            echo CHtml::link('Edit', array('/admin/gallery/edit/'.$gallery->id)); 
+                        ?>
                         <?php echo CHtml::link('Delete', array('/admin/gallery/delete/'.$gallery->id), array('class' => 'delete')); ?>
                     </td>
                 </tr>

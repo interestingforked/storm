@@ -15,9 +15,6 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <?php if (!$categoryId): ?>
-                    <th>Categories</th>
-                    <?php endif; ?>
                     <th>Status</th>
                     <th>Date created</th>
                     <?php if ($categoryId): ?>
@@ -30,36 +27,23 @@
             <tbody>
             <?php 
             foreach ($products AS $product):
-                $product->content = Content::model()->getModuleContent('product', $product->id);
             ?>
                 <tr>
-                    <td><?php echo CHtml::link($product->content->title, array('/admin/product/nodes/'.$product->id)); ?></td>
-                    <?php if (!$categoryId): ?>
-                    <td>
-                        <?php
-                        $categoryArray = array();
-                        foreach ($product->categories AS $category) {
-                            $category->content = Content::model()->getModuleContent('category', $category->id);
-                            $categoryArray[] = CHtml::link($category->content->title, array('/admin/category/edit/'.$category->id));
-                        }
-                        echo implode(" / ", $categoryArray);
-                        ?>
-                    </td>
-                    <?php endif; ?>
-                    <td><?php echo ($product->active ? 'Active' : 'Disabled'); ?></td>
-                    <td><?php echo $product->created; ?></td>
+                    <td><?php echo CHtml::link($product['p_title'], array('/admin/product/nodes/'.$product['p_id'])); ?></td>
+                    <td><?php echo ($product['p_active'] ? 'Active' : 'Disabled'); ?></td>
+                    <td><?php echo $product['p_created']; ?></td>
                     <?php if ($categoryId): ?>
-                    <td><?php echo $product->sort; ?></td>
+                    <td><?php echo $product['p_sort']; ?></td>
                     <td class="delete">
-                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_up.png'), array('/admin/product/movepu/'.$product->id.($categoryId?'?category_id='.$categoryId:''))); ?>
-                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_down.png'), array('/admin/product/movepd/'.$product->id.($categoryId?'?category_id='.$categoryId:''))); ?>
+                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_up.png'), array('/admin/product/movepu/'.$product['p_id'].($categoryId?'?category_id='.$categoryId:''))); ?>
+                        <?php echo CHtml::link(CHtml::image('/images/admin/arrow_down.png'), array('/admin/product/movepd/'.$product['p_id'].($categoryId?'?category_id='.$categoryId:''))); ?>
                     </td>
                     <?php endif; ?>
                     <td class="delete">
-                        <?php echo CHtml::link('View', array('/product/'.$product->slug.'-'.$product->id), array('target' => '_blank')); ?>
-                        <?php echo CHtml::link('Product nodes', array('/admin/product/nodes/'.$product->id)); ?>
-                        <?php echo CHtml::link('Edit', array('/admin/product/edit/'.$product->id)); ?>
-                        <?php echo CHtml::link('Delete', array('/admin/product/delete/'.$product->id), array('class' => 'delete')); ?>
+                        <?php echo CHtml::link('View', array('/product/'.$product['p_slug'].'-'.$product['p_id']), array('target' => '_blank')); ?>
+                        <?php echo CHtml::link('Product nodes', array('/admin/product/nodes/'.$product['p_id'])); ?>
+                        <?php echo CHtml::link('Edit', array('/admin/product/edit/'.$product['p_id'])); ?>
+                        <?php echo CHtml::link('Delete', array('/admin/product/delete/'.$product['p_id']), array('class' => 'delete')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
