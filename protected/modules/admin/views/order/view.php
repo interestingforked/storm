@@ -28,6 +28,7 @@
                     case 1: echo 'New order'; break;
                     case 2: echo 'Waiting for payment'; break;
                     case 3: echo 'Completed'; break;
+					case 3: echo 'Completed (RBK)'; break;
                 } ?></li>
                 <li><strong>Payment method</strong>: 
                 <?php switch ($order->payment_method) {
@@ -48,6 +49,7 @@
         <div class="sidebar_content" id="sb2">
             <div style="width:45%;float:left;">
             <h3>Payment details</h3>
+			<?php if ($paymentDetails): ?>
             <ul class="list">
                 <li><strong>Name</strong>: <?php echo $paymentDetails->name; ?></li>
                 <li><strong>Surname</strong>: <?php echo $paymentDetails->surname; ?></li>
@@ -61,9 +63,13 @@
                 <li><strong>Flat</strong>: <?php echo $paymentDetails->flat; ?></li>
                 <li><strong>Postcode</strong>: <?php echo $paymentDetails->postcode; ?></li>
             </ul>
+			<?php else: ?>
+			<strong>None</strong>
+			<?php endif; ?>
             </div>
             <div style="width:45%;float:left;">
             <h3>Shipping details</h3>
+			<?php if ($shippingDetails): ?>
             <ul class="list">
                 <li><strong>Name</strong>: <?php echo $shippingDetails->name; ?></li>
                 <li><strong>Surname</strong>: <?php echo $shippingDetails->surname; ?></li>
@@ -77,6 +83,9 @@
                 <li><strong>Flat</strong>: <?php echo $shippingDetails->flat; ?></li>
                 <li><strong>Postcode</strong>: <?php echo $shippingDetails->postcode; ?></li>
             </ul>
+			<?php else: ?>
+			<strong>None</strong>
+			<?php endif; ?>
             </div>
             <div style="clear:both;"></div>
         </div>

@@ -32,7 +32,8 @@ return array(
         ),
     ),
     'params' => array(
-        'adminEmail' => 'webmaster@example.com',
+        'adminEmail' => 'info@stormlondon.ru',
+		'sentToAdminEmails' => 'info@stormlondon.ru,stormriga@gmail.com',
         'defaultLanguage' => 'ru',
         'baseUrl' => 'http://storm.cc',
         'thumbUrl' => '/assets/thumb.php',

@@ -4,6 +4,9 @@ class CategoryController extends Controller {
 
     public function actionIndex($id) {
         $category = Category::model()->getCategory($id);
+		if (!$category) {
+			throw new CHttpException(404,'The requested page does not exist.');
+		}
         if ($category->parent_id > 1) {
             $parentCategories = array();
             $slugs = explode('/', $id);

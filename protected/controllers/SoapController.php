@@ -118,7 +118,8 @@ class SoapController extends CController {
             'application.modules.user.components.*',
         ));
         $row = 0;
-        $handle = fopen(Yii::app()->basePath.'/../assets/StormWatchesCustomers.csv', "r");
+        $handle = fopen(Yii::app()->basePath.'/../assets/StormWatchesCustomers0000000000000.csv', "r");
+		echo '<pre>';
         while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
             $row++;
             if ($row == 1) continue;
@@ -157,20 +158,70 @@ class SoapController extends CController {
                 $profile->age = 3;
                 if ($profile->save()) {
                     $mail = $this->renderPartial('//mails/usermail', array('link' => $link), true);
-                    $subject = 'Уважаемый клиент STORM London!';
+                    $subject = 'Новости STORM London';
                     $email = $model->email;
                     $headers = "MIME-Version: 1.0\r\nFrom: info@stormlondon.ru\r\nReply-To: info@stormlondon.ru\r\nContent-Type: text/html; charset=utf-8";
-                    //mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers);
+                    mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers);
                 } else {
                     print_r($profile->getErrors());
                     print_r($data);
                 }
             } else {
                 print_r($model->getErrors());
+				print_r($data);
             }
         }
         fclose($handle);
+		echo '</pre>';
     }
+	
+	public function actionSendUsers() {
+        Yii::app()->setImport(array(
+            'admin.models.*',
+            'admin.components.*',
+            'application.modules.*',
+            'application.modules.user.*',
+            'application.modules.user.models.*',
+            'application.modules.user.components.*',
+        ));
+        $handle = fopen(Yii::app()->basePath.'/../assets/emails2asfdsafaf.txt', "r");
+		echo '<pre>';
+        while (($data = fgets($handle, 1000)) !== FALSE) {
+			echo '<b>'.trim($data).'</b>';
+            $model = User::model()->notsafe()->findByAttributes(array('email' => trim($data)));
+			if (!$model) {
+				echo ' - <b>FAIL</b><br>';
+				continue;
+			}
+            $link = 'http://' . $_SERVER['HTTP_HOST'] . '/ru/user/recovery?activkey='.$model->activkey.'&email='.$model->email;
+			echo ' - <small>'.$link.'</small>';
+            $mail = $this->renderPartial('//mails/usermail', array('link' => $link), true);
+			$subject = 'Новости STORM London';
+			$email = $model->email;
+			$headers = "MIME-Version: 1.0\r\nFrom: info@stormlondon.ru\r\nReply-To: info@stormlondon.ru\r\nContent-Type: text/html; charset=utf-8";
+			mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers);
+			echo ' - <b>SENT!</b><br>';
+        }
+        fclose($handle);
+		echo '</pre>';
+    }
+	
+	public function actionMailsend() {
+		echo '<pre>';
+		$message = file_get_contents(Yii::app()->basePath.'/../assets/mail.html');
+		$handle = fopen(Yii::app()->basePath.'/../assets/email_list____.txt', "r");
+		while (($data = fgets($handle, 1000)) !== FALSE) {
+			echo '<b>'.trim($data).'</b>';
+            $mail = $message;
+			$subject = 'STORM - Бесплатная доставка по всей РОССИИ';
+			$email = trim($data);
+			$headers = "MIME-Version: 1.0\r\nFrom: info@stormlondon.ru\r\nReply-To: info@stormlondon.ru\r\nContent-Type: text/html; charset=utf-8";
+			mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers);
+			echo ' - <b>SENT!</b><br>';
+        }
+        fclose($handle);
+		echo '</pre>';
+	}
 
 }
 

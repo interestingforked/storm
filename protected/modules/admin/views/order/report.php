@@ -5,6 +5,16 @@
         <h2>Orders</h2>
     </div>
     <div class="block_content">
+        <?php echo CHtml::beginForm(); ?>
+        <table cellpadding="0" cellspacing="1" width="100%">
+            <tr>
+                <td><label for="start_date">Start date</label><br/><?php echo CHtml::textField('start_date', $orderStartDate, array('class' => 'text date_picker')); ?></td>
+                <td><label for="start_date">End date</label><br/><?php echo CHtml::textField('end_date', $orderEndDate, array('class' => 'text date_picker')); ?></td>
+                <td><label for="status">Status</label><br/><?php echo CHtml::dropDownList('status', $orderStatus, $orderStatuses, array('class' => 'styled small')); ?></td>
+                <td><br/><?php echo CHtml::submitButton('Filter', array('class' => 'submit small')); ?></td>
+            </tr>
+        </table>
+        <?php echo CHtml::endForm(); ?>
         <?php if (!$orders OR count($orders) == 0): ?>
         <div class="message info"><p>No orders found!</p></div>
         <?php else: ?>
@@ -37,7 +47,7 @@
                             case 1: echo 'New order'; break;
                             case 2: echo 'Waiting for payment'; break;
                             case 3: echo 'Completed'; break;
-							case 4: echo 'Completed (RBK)'; break;
+                            case 4: echo 'Completed (RBK)'; break;
                         }
                     ?></td>
                     <td><?php echo $order->created; ?></td>

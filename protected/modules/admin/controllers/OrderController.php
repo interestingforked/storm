@@ -28,6 +28,45 @@ class OrderController extends AdminController {
         ));
     }
     
+    public function actionReport() {
+        $this->pageTitle = 'Order reports';
+
+        $orderStartDate = date('Y-m-d');
+        $orderEndDate = date('Y-m-d');
+        $orderStatus = 0;
+        $orderStatuses = array(
+            0 => '-',
+            1 => 'New order',
+            2 => 'Waiting for payment',
+            3 => 'Completed',
+            4 => 'Completed (RBK)',
+        );
+        
+        $criteria = new CDbCriteria();
+        if ($_POST) {
+            $orderStartDate = $_POST['start_date'];
+            $orderEndDate = $_POST['end_date'];
+            $orderStatus = $_POST['status'];
+            
+            $criteria->addCondition("created >= '{$orderStartDate}'");
+            $criteria->addCondition("created <= '{$orderEndDate}'");
+            if ($orderStatus > 0) {
+                $criteria->addCondition('status = '.$orderStatus);
+            }
+        }
+        
+        $criteria->order = 'created DESC';
+        $orders = Order::model()->findAll($criteria);
+
+        $this->render('report', array(
+            'orders' => $orders,
+            'orderStartDate' => $orderStartDate,
+            'orderEndDate' => $orderEndDate,
+            'orderStatus' => $orderStatus,
+            'orderStatuses' => $orderStatuses,
+        ));
+    }
+    
     public function actionView($id) {
         $this->pageTitle = 'Order info';
         

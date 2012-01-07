@@ -11,6 +11,9 @@ class ProductController extends Controller {
         if (count($id) > 0) {
             $categoryId = implode('/', $id);
             $category = Category::model()->getCategory($categoryId);
+			if (!$category) {
+				throw new CHttpException(404,'The requested page does not exist.');
+			}
             if ($category->parent_id > 1) {
                 $parentCategories = array();
                 $slugs = explode('/', $categoryId);
@@ -24,9 +27,15 @@ class ProductController extends Controller {
         $productId = explode('-', $productId);
         $productId = end($productId);
         $productModel = Product::model()->findByPk($productId);
+		if (!$productModel) {
+			throw new CHttpException(404,'The requested page does not exist.');
+		}
         
         $nodeId = (isset($_GET['node']) AND $_GET['node'] > 0) ? $_GET['node'] : 0;
         $product = $productModel->getProduct($nodeId);
+		if (!$product) {
+			throw new CHttpException(404,'The requested page does not exist.');
+		}
         
         $this->metaTitle = $product->content->meta_title;
         $this->metaDescription = $product->content->meta_description;
@@ -57,7 +66,7 @@ class ProductController extends Controller {
     
     public function actionNotify() {
         if ($_POST) {
-            if (Notifying::model()->checkNotify($_POST) == 0) {
+            if ($_POST['email'] AND Notifying::model()->checkNotify($_POST) == 0) {
                 $notify = new Notifying();
                 $notify->product_id = $_POST['productId'];
                 $notify->product_node_id = $_POST['productNodeId'];

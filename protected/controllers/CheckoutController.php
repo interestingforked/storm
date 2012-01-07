@@ -90,6 +90,10 @@ class CheckoutController extends Controller {
                 $order->ip = Yii::app()->request->getUserHostAddress();
                 $order->save();
             }
+			if ($cart->coupon_id) {
+				$order->coupon_id = $cart->coupon_id;
+				$order->save();
+			}
             if ($preorder != 0) {
                 $order->preorder = 1;
                 $order->save();
@@ -220,6 +224,9 @@ class CheckoutController extends Controller {
             $order->shipping_method = $_POST['delivery_method'];
             $order->payment_method = $_POST['payment_method'];
             $order->shipping = $_POST['delivery_cost'];
+			if ($order->payment_method == 2) {
+			    $order->coupon_id = 2;
+			}
             if ($order->save()) {
                 Yii::app()->controller->redirect(array('/checkout/orderoverview'));
             } else {
@@ -469,11 +476,12 @@ class CheckoutController extends Controller {
                 ), true);
         $adminSubject = 'STORM - Подтверждение заказа';
         $adminEmail = Yii::app()->params['adminEmail'];
+		$sentToAdminEmails = Yii::app()->params['sentToAdminEmails'];
         
         $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
         
         if ($adminOnly) {
-            return mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers);
+            return mail($sentToAdminEmails, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers);
         }
         
         $mail = $this->renderPartial('//mails/confirm', array(
@@ -487,7 +495,7 @@ class CheckoutController extends Controller {
         $email = Yii::app()->user->email;
 
         return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
-                AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
+                AND mail($sentToAdminEmails, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
     }
 
 }

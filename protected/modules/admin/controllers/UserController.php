@@ -12,6 +12,54 @@ class UserController extends AdminController {
             'users' => $users,
         ));
     }
+    
+    public function actionReport() {
+        $this->pageTitle = 'User reports';
+
+        $userStartDate = time();
+        $userEndDate = time();
+        $userStatus = 0;
+        $userStatuses = array(
+            0 => 'Просто зарегестрированные',
+            1 => 'Сделавшие покупку',
+            2 => 'Подписчики на новости',
+            3 => 'Зарегестрировавшиеся в определенный промежуток времени',
+        );
+
+        $sql = "SELECT id, username, email, createtime, lastvisit, superuser, status FROM `users` `t` WHERE ";
+        if ($_POST) {
+            $userStartDate = strtotime($_POST['start_date']);
+            $userEndDate = strtotime($_POST['end_date']);
+            $userStatus = $_POST['status'];
+
+            if ($userStatus == 1) {
+                $sql .= "id IN (SELECT user_id FROM orders WHERE status > 1) ";
+            }
+            if ($userStatus == 2) {
+                $sql .= "id IN (SELECT user_id FROM profiles WHERE newsletters = 1) ";
+            }
+            if ($userStatus == 3) {
+                $sql .= "createtime >= {$userStartDate} AND createtime <= {$userEndDate} ";
+            }
+        } else {
+            $sql .= "true ";
+        }
+        
+        $sql .= "ORDER BY createtime DESC";
+
+        $users = User::model()->findAllBySql($sql);
+        
+        $userStartDate = strftime('%Y-%m-%d', $userStartDate);
+        $userEndDate = strftime('%Y-%m-%d', $userEndDate);
+        
+        $this->render('report', array(
+            'users' => $users,
+            'userStartDate' => $userStartDate,
+            'userEndDate' => $userEndDate,
+            'userStatus' => $userStatus,
+            'userStatuses' => $userStatuses,
+        ));
+    }
 
     public function actionEdit($id) {
         $this->pageTitle = 'Users / Edit user';

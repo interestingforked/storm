@@ -73,12 +73,18 @@ class Page extends CActiveRecord {
 
     public function getPage($slug) {
         $page = $this->findByAttributes(array('slug' => $slug));
+		if (!$page) {
+			return false;
+		}
         $page->content = Content::model()->getModuleContent('page', $page->id);
         return $page;
     }
     
     public function getPageByPlugin($plugin) {
         $page = $this->findByAttributes(array('plugin' => $plugin));
+		if (!$page) {
+			return false;
+		}
         $page->content = Content::model()->getModuleContent('page', $page->id);
         return $page;
     }

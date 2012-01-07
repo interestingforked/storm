@@ -72,7 +72,7 @@ class NewsletterController extends AdminController {
         $model->start = new CDbExpression('CURRENT_TIMESTAMP');
         $model->save();
         
-        $users = User::model()->active()->findAll();
+        $users = User::model()->findAll();
         foreach ($users AS $user) {
             $newsletterUser = new NewsletterUser;
             $newsletterUser->isNewRecord = true;
@@ -81,6 +81,7 @@ class NewsletterController extends AdminController {
             $newsletterUser->user_id = $user->id;
             $newsletterUser->email = $user->email;
             $newsletterUser->save();
+			
         }
         
         $this->redirect(array('/admin/newsletter'));

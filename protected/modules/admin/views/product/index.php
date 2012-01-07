@@ -29,7 +29,7 @@
             foreach ($products AS $product):
             ?>
                 <tr>
-                    <td><?php echo CHtml::link($product['p_title'], array('/admin/product/nodes/'.$product['p_id'])); ?></td>
+                    <td><?php echo CHtml::link($product['p_title'], array('/admin/product/edit/'.$product['p_id'])); ?></td>
                     <td><?php echo ($product['p_active'] ? 'Active' : 'Disabled'); ?></td>
                     <td><?php echo $product['p_created']; ?></td>
                     <?php if ($categoryId): ?>

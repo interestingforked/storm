@@ -4,6 +4,9 @@ class PageController extends Controller {
 
     public function actionIndex($id) {
         $page = Page::model()->getPage($id);
+		if (!$page) {
+			throw new CHttpException(404,'The requested page does not exist.');
+		}
         if ($page->parent_id > 1) {
             $parentPages = array();
             $slugs = explode('/', $id);

@@ -5,13 +5,20 @@ $sale = false;
 $freeDelivery = false;
 $freeDeliveryWithMOW250 = false;
 $onlyRBK = false;
-if ($order->total > 3499) {
-    $sale = true;
-}
 if ($coupon AND ($coupon->issue_date <= date('Y-m-d') AND $coupon->term_date >= date('Y-m-d'))) {
     $freeDelivery = $coupon->free_delivery == 1;
     $onlyRBK = $coupon->only_rbk == 1;
-    $freeDeliveryWithMOW250 = ($coupon->code == 'RBK-STAFF-XMAS-2011' AND $coupon->free_delivery == 1 AND $pointId == 'MOW');
+	if ($coupon->code == 'RBK-STAFF-XMAS-2011') {
+		if ($order->total > 3499) {
+			$sale = true;
+		} else {
+			$freeDeliveryWithMOW250 = ($coupon->free_delivery == 1 AND $pointId == 'MOW');
+		}
+	}
+} else {
+	if ($order->total > 3499) {
+		$sale = true;
+	}
 }
 ?>
 
@@ -68,7 +75,7 @@ $(document).ready(function () {
                 <th align="left"><?php echo Yii::t('app', 'Delivery method'); ?></th>
                 <th align="left"><?php echo Yii::t('app', 'Additional info'); ?></th>
             </tr>
-            <?php if ($pointId == 'MOW' AND $freeDeliveryWithMOW250): ?>
+            <?php if ($pointId == 'MOW' AND $freeDeliveryWithMOW250): ?> 
             <tr>
                 <td><input type="radio" name="delivery_method" value="1" checked="checked"/></td>
                 <td><?php if ($sale) echo Yii::t('app', 'Акция'); ?>
@@ -116,7 +123,12 @@ $(document).ready(function () {
     <input type="hidden" name="delivery_days" id="delivery_days" value="0.00"/>
     
     <div class="hr-title"><hr/></div>
-    
+	<?php if ($pointId == 'MOW'): ?>
+	<p><b>Важно</b>: При покупке часов и аксессуаров на нашем сайте выбери оплату через RBK<br/>
+	Money и получи скидку - 10%!<br/>
+	Акция действует в период с 15.12.2011 по 10.01.2012.</p>
+	<?php endif; ?>
+	
     <table class="delivery-method" cellspacing="10">
         <tbody>
             <tr>
@@ -127,15 +139,8 @@ $(document).ready(function () {
             <?php if (!$onlyRBK AND ($pointId == 'MOW' AND $order->preorder != 1)): ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="1" checked="checked"/></td>
-                <td><?php echo Yii::t('app', 'Оплата курьеру при получение'); ?></td>
+                <td><?php echo Yii::t('app', 'Оплата курьеру при получении'); ?></td>
                 <td></td>
-            </tr>
-            <?php endif; ?>
-            <?php if(!$onlyRBK AND $countryId != 811): ?>
-            <tr>
-                <td><input type="radio" name="payment_method" value="3"/></td>
-                <td><?php echo Yii::t('app', 'Банковский перевод'); ?></td>
-                <td><?php echo Yii::t('app', 'Вам будет выслан счет по электронной почте'); ?></td>
             </tr>
             <?php else: ?>
             <tr>

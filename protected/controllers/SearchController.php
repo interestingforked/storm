@@ -28,7 +28,7 @@ class SearchController extends Controller {
         foreach ($pages AS $page) {
             $slugs['page_' . $page->id] = $page->slug;
         }
-        $products = Product::model()->active()->findAll();
+        $products = Product::model()->notDeleted()->active()->findAll();
         foreach ($products AS $product) {
             $slugs['product_' . $product->id] = $product->slug;
         }

@@ -1,3 +1,16 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#product_notify').submit(function () {
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var email = $('#email-field', this).val();
+        if (re.test(email)) {
+            return true;
+        }
+		alert('<?php echo Yii::t('app', 'Введите пожалуйста правильный E-mail адрес!'); ?>');
+        return false;
+    });
+});
+</script>
 <?php 
 $this->pageTitle = Html::formatTitle($product->content->title, $product->content->meta_title). ' - ' . $this->pageTitle;
 
@@ -133,7 +146,7 @@ $this->pageTitle = Html::formatTitle($product->content->title, $product->content
                     <?php if ($product->mainNode->notify != 0): ?>
                     <span id="email" style="padding:5px 0 0 0;">
                     <?php 
-                    echo CHtml::beginForm(array('/product/notify'));
+                    echo CHtml::beginForm(array('/product/notify'), 'post', array('id' => 'product_notify'));
                     echo CHtml::hiddenField('productId', $product->id);
                     echo CHtml::hiddenField('productNodeId', $product->mainNode->id);
                     echo CHtml::hiddenField('returnUrl', Yii::app()->request->requestUri);

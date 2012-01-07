@@ -112,7 +112,7 @@ class CartController extends Controller {
     public function actionCoupon() {
         if ($_POST) {
             $coupon = Coupon::model()->checkCode($_POST['code']);
-            if ($coupon AND !$this->cart->getCoupon()) {
+            if ($coupon) {
                 $this->cart->setCoupon($coupon->id);
             }
         }

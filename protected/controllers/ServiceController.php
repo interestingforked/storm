@@ -116,10 +116,11 @@ class ServiceController extends Controller {
                 ), true);
         $adminSubject = 'STORM - Подтверждение заказа';
         $adminEmail = Yii::app()->params['adminEmail'];
+		$sentToAdminEmails = Yii::app()->params['sentToAdminEmails'];
 
         $headers = "MIME-Version: 1.0\r\nFrom: {$adminEmail}\r\nReply-To: {$adminEmail}\r\nContent-Type: text/html; charset=utf-8";
         return (mail($email, '=?UTF-8?B?' . base64_encode($subject) . '?=', $mail, $headers)
-                AND mail($adminEmail, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
+                AND mail($sentToAdminEmails, '=?UTF-8?B?' . base64_encode($adminSubject) . '?=', $adminMail, $headers));
     }
 
 }

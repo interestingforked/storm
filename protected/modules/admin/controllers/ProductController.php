@@ -49,11 +49,16 @@ class ProductController extends AdminController {
         $pagination->applyLimit($criteria);
         
         $products = ProductNode::model()->findAll($criteria);
+		
+		$session = new CHttpSession();
+        $session->open();
+		$categoryId = $session->get('lastViewedCategory');
 
         $this->render('index_nodes', array(
             'productId' => $id,
             'products' => $products,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+			'categoryId' => $categoryId,
         ));
     }
 
@@ -152,6 +157,9 @@ class ProductController extends AdminController {
         }
 
         if (isset($_POST['ProductNode'])) {
+			if ($_POST['ProductNode']['price'] == 0) {
+				$_POST['ProductNode']['price'] = null;
+			}
             $model->attributes = $_POST['ProductNode'];
             $model->product_id = $id;
 
@@ -305,6 +313,9 @@ class ProductController extends AdminController {
         $attachmentModels = Attachment::model()->getAttachments('productNode', $id);
         
         if (isset($_POST['ProductNode'])) {
+			if ($_POST['ProductNode']['price'] == 0) {
+				$_POST['ProductNode']['price'] = null;
+			}
             $model->attributes = $_POST['ProductNode'];
             
             $attachments = array();

@@ -197,6 +197,13 @@ ul.dash li {margin-bottom: 8px;}
 div.gallery {width:531px;margin:0 auto;margin-top:20px;}
 div.gallery .row {margin:40px 0;}
 div.gallery .item {float:left;padding:0 15px;}
+table.gal-magazine {margin:15px 0;}
+table.gal-magazine td{vertical-align:top;}
+table.gal-magazine h3 {font-weight:bold;}
+table.gal-magazine td.sec{padding-left:30px;}
+table.gal-magazine p {font-size:75%;}
+table.gal-magazine a {text-decoration:none;font-size:90%;}
+table.gal-magazine img {margin-bottom:15px;}
 /* PRODUCT  */
 
 #products {

@@ -21,6 +21,11 @@
         <script type="text/javascript" src="/js/admin/jquery.img.preload.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.filestyle.mini.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.wysiwyg.js"></script>
+		<script type="text/javascript" src="/js/admin/controls/wysiwyg.colorpicker.js"></script>
+		<script type="text/javascript" src="/js/admin/controls/wysiwyg.cssWrap.js"></script>
+		<script type="text/javascript" src="/js/admin/controls/wysiwyg.image.js"></script>
+		<script type="text/javascript" src="/js/admin/controls/wysiwyg.link.js"></script>
+		<script type="text/javascript" src="/js/admin/controls/wysiwyg.table.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.date_input.pack.js"></script>
         <script type="text/javascript" src="/js/admin/facebox.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.visualize.js"></script>

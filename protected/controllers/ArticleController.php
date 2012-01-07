@@ -19,6 +19,9 @@ class ArticleController extends Controller {
         $page = Page::model()->getPageByPlugin('article');
 
         $article = Article::model()->getArticleBySlug($id);
+		if (!$article) {
+			throw new CHttpException(404,'The requested page does not exist.');
+		}
 
         $this->background = $page->content->background;
         $this->breadcrumbs[$page->content->title] = array('/' . $page->slug);

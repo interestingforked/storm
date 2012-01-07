@@ -26,7 +26,7 @@ class NewsletterUser extends CActiveRecord {
 
     public function rules() {
         return array(
-            array('newsletter_id, user_id, email, sent', 'required'),
+            array('newsletter_id, user_id, email', 'required'),
             array('newsletter_id, user_id', 'length', 'max' => 11),
             array('email', 'length', 'max' => 250),
             array('id, newsletter_id, user_id, email, sent', 'safe', 'on' => 'search'),
@@ -63,5 +63,13 @@ class NewsletterUser extends CActiveRecord {
             'criteria' => $criteria,
         ));
     }
+	
+	public function countUsersByNewsletter($newsletterId) {
+		$criteria = new CDbCriteria;
+		$criteria->addCondition("newsletter_id = {$newsletterId}");
+		$criteria->addCondition("sent is not null");
+		
+		return $this->count($criteria);
+	}
 
 }

@@ -64,6 +64,9 @@ class Category extends CActiveRecord {
     
     public function getCategory($slug) {
         $category = $this->findByAttributes(array('slug' => $slug));
+		if (!$category) {
+			return false;
+		}
         $category->content = Content::model()->getModuleContent('category', $category->id);
         return $category;
     }

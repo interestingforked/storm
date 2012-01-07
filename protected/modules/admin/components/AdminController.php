@@ -76,17 +76,19 @@ class AdminController extends CController {
                         'url' => array('/admin/coupon'),
                         'active' => ($activeMenuId == 'coupon')
                     ),
-                    array(
-                        'label' => 'Reports', 
-                        'url' => array('/admin/productreport'),
-                        'active' => ($activeMenuId == 'productreport')
-                    ),
                 )
             ),
             array(
                 'label' => 'Users', 
                 'url' => array('/admin/user'),
-                'active' => ($activeMenuId == 'user')
+                'active' => ($activeMenuId == 'user'),
+                'items' => array(
+                    array(
+                        'label' => 'Reports', 
+                        'url' => array('/admin/user/report'),
+                        'active' => ($activeMenuId == 'user')
+                    ),
+                )
             ),
             array(
                 'label' => 'Orders', 
@@ -95,8 +97,8 @@ class AdminController extends CController {
                 'items' => array(
                     array(
                         'label' => 'Reports', 
-                        'url' => array('/admin/productreport'),
-                        'active' => ($activeMenuId == 'productreport')
+                        'url' => array('/admin/order/report'),
+                        'active' => ($activeMenuId == 'order')
                     ),
                 )
             ),

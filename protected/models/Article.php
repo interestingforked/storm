@@ -95,6 +95,9 @@ class Article extends CActiveRecord {
 
     public function getArticleBySlug($slug) {
         $article = $this->findByAttributes(array('slug' => $slug));
+		if (!$article) {
+			return false;
+		}
         $article->content = Content::model()->getModuleContent('article', $article->id);
         return $article;
     }

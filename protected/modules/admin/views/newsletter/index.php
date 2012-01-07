@@ -25,11 +25,11 @@
             <tbody>
             <?php 
             foreach ($newsletters AS $newsletter):
-                $userCount = 0;
+                $userCount = NewsletterUser::model()->countUsersByNewsletter($newsletter->id);
             ?>
                 <tr>
                     <tr>
-                    <td><?php echo CHtml::link($newsletter->subject, array('/admin/newsletters/edit/'.$newsletter->id)); ?></td>
+                    <td><?php echo CHtml::link($newsletter->subject, array('/admin/newsletter/edit/'.$newsletter->id)); ?></td>
                     <td><?php echo $userCount; ?></td>
                     <td><?php echo $newsletter->start; ?></td>
                     <td><?php echo $newsletter->sent; ?></td>

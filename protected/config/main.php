@@ -62,19 +62,20 @@ return array(
         'log' => array(
             'class' => 'CLogRouter',
             'routes' => array(
-                /*
+                
                 array(
                     'class' => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
                     'ipFilters' => array('127.0.0.1'),
                 ),
-                 */
+                 
             ),
         ),
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
-        'adminEmail' => 'webmaster@example.com',
+        'adminEmail' => 'info@stormlondon.ru',
+		'sentToAdminEmails' => 'info@stormlondon.ru,stormriga@gmail.com',
         'languages' => array(
             'ru' => 'Russian',
             //'lv' => 'Latvian'

@@ -8,7 +8,7 @@ class GalleryController extends Controller {
         $galleries = Gallery::model()->getGalleries($pluginPage->id);
 
         $total = count($galleries);
-        $limit = 3;
+        $limit = 9;
         $offset = 0;
 
         $page = (isset($_GET['page']) AND $_GET['page'] > 0) ? $_GET['page'] : 1;

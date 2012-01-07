@@ -10,7 +10,7 @@ class UrlManager extends CUrlManager {
             $route = preg_replace("/[a-z]{2}\/gii/", "gii", $route);
         } else if (preg_match('/crud/', $route) > 0) {
             $route = preg_replace("/[a-z]{2}\/crud/", "crud", $route);
-        } else if (preg_match('/admin/', $route) > 0) {
+		} else if (preg_match('/admin/', $route) > 0) {
             $route = preg_replace("/[a-z]{2}\/admin/", "admin", $route);
         }
         if (preg_match("/user\/(page|category|product)/", $route) > 0) {

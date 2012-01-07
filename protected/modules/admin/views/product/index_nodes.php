@@ -4,7 +4,7 @@
         <div class="bheadr"></div>
         <h2>Product nodes</h2>
         <ul class="tabs">
-            <li><a href="/admin/product">Back to product list</a></li>
+            <li><a href="/admin/product<?php echo ($categoryId ? '/index/'.$categoryId : ''); ?>">Back to product list</a></li>
             <li><a href="/admin/product/addnode/<?php echo $productId; ?>">Add product node</a></li>
         </ul>
     </div>
