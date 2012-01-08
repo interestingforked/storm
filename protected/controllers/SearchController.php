@@ -6,8 +6,9 @@ class SearchController extends Controller {
         $pageTitle = Yii::t('app', 'Search result');
 
         $criteria = new CDbCriteria;
-
-        $query = trim($_GET['query']);
+        
+        $query = (isset($_GET['query'])) ? $_GET['query'] : '@@@@@@@@@@@';
+        $query = trim($query);
         $criteria->addSearchCondition('title', $query);
         $criteria->addSearchCondition('meta_title', $query, true, 'OR');
 

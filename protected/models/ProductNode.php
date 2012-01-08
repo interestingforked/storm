@@ -27,7 +27,7 @@ class ProductNode extends CActiveRecord {
      * Returns the static model of the specified AR class.
      * @return ProductNode the static model class
      */
-    public static function model($className=__CLASS__) {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
@@ -86,7 +86,7 @@ class ProductNode extends CActiveRecord {
             'sort' => 'Sort',
             'color' => 'Color',
             'size' => 'Size',
-			'never_runs_out' => 'Never runs out',
+            'never_runs_out' => 'Never runs out',
             'deleted' => 'Deleted',
             'created' => 'Created',
         );
@@ -94,8 +94,18 @@ class ProductNode extends CActiveRecord {
 
     public function defaultScope() {
         return array(
-            'condition' => 'deleted = 0',
             'order' => 'sort ASC',
+        );
+    }
+    
+    public function scopes() {
+        return array(
+            'active' => array(
+                'condition' => 'active = 1'
+            ),
+            'notDeleted' => array(
+                'condition' => 'deleted = 0'
+            ),
         );
     }
 

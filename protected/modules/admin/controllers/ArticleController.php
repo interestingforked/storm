@@ -6,7 +6,7 @@ class ArticleController extends AdminController {
         $this->pageTitle = 'News';
 
         $criteria = new CDbCriteria();
-        $articles = Article::model()->sorted()->findAll($criteria);
+        $articles = Article::model()->notDeleted()->sorted()->findAll($criteria);
 
         $this->render('index', array(
             'articles' => $articles,

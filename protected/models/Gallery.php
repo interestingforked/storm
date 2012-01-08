@@ -64,7 +64,6 @@ class Gallery extends CActiveRecord {
 
     public function defaultScope() {
         return array(
-            'condition' => 'deleted = 0',
             'order' => 'sort ASC',
         );
     }
@@ -83,11 +82,14 @@ class Gallery extends CActiveRecord {
             'active' => array(
                 'condition' => 'active = 1'
             ),
+            'notDeleted' => array(
+                'condition' => 'deleted = 0'
+            ),
         );
     }
 
     public function getGalleries($pageId) {
-        $galleries = $this->findAllByAttributes(array('page_id' => $pageId));
+        $galleries = $this->notDeleted()->findAllByAttributes(array('page_id' => $pageId));
         foreach ($galleries AS $gallery) {
             $gallery->content = Content::model()->getModuleContent('gallery', $gallery->id);
         }
@@ -95,7 +97,7 @@ class Gallery extends CActiveRecord {
     }
 
     public function getGalleryBySlug($slug) {
-        $gallery = $this->findByAttributes(array('slug' => $slug));
+        $gallery = $this->notDeleted()->findByAttributes(array('slug' => $slug));
         $gallery->content = Content::model()->getModuleContent('gallery', $gallery->id);
         return $gallery;
     }

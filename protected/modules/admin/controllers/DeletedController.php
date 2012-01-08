@@ -113,7 +113,7 @@ class DeletedController extends AdminController {
         switch ($module) {
             case 'product':
                 $model = Product::model()->findByPk($id);
-                if ($model->deleted == 1) {
+                if ($model AND $model->deleted == 1) {
                     foreach ($model->productNodes AS $node) {
                         $node->delete();
                     }
@@ -129,13 +129,25 @@ class DeletedController extends AdminController {
                 break;
             case 'productnode':
                 $model = ProductNode::model()->findByPk($id);
-                if ($model->deleted == 1) {
+                if ($model AND $model->deleted == 1) {
+                    $cartItems = CartItem::model()->findAllByAttributes(array(
+                        'product_node_id' => $model->id,
+                    ));
+                    foreach ($cartItems AS $cartItem) {
+                        $cartItem->delete();
+                    }
+                    $wishlistItems = WishlistItem::model()->findAllByAttributes(array(
+                        'product_node_id' => $model->id,
+                    ));
+                    foreach ($wishlistItems AS $wishlistItem) {
+                        $wishlistItem->delete();
+                    }
                     $model->delete();
                 }
                 break;
             case 'page':
                 $model = Page::model()->findByPk($id);
-                if ($model->deleted == 1) {
+                if ($model AND $model->deleted == 1) {
                     $contents = Content::model()->findAllByAttributes(array(
                         'module' => 'page',
                         'module_id' => $model->id,
@@ -148,7 +160,7 @@ class DeletedController extends AdminController {
                 break;
             case 'article':
                 $model = Article::model()->findByPk($id);
-                if ($model->deleted == 1) {
+                if ($model AND $model->deleted == 1) {
                     $contents = Content::model()->findAllByAttributes(array(
                         'module' => 'article',
                         'module_id' => $model->id,
@@ -161,7 +173,7 @@ class DeletedController extends AdminController {
                 break;
             case 'gallery':
                 $model = Gallery::model()->findByPk($id);
-                if ($model->deleted == 1) {
+                if ($model AND $model->deleted == 1) {
                     $contents = Content::model()->findAllByAttributes(array(
                         'module' => 'gallery',
                         'module_id' => $model->id,

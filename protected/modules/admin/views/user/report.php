@@ -11,6 +11,7 @@
                 <td><label for="start_date">Registered from</label><br/><?php echo CHtml::textField('start_date', $userStartDate, array('class' => 'text date_picker')); ?></td>
                 <td><label for="start_date">Registered to</label><br/><?php echo CHtml::textField('end_date', $userEndDate, array('class' => 'text date_picker')); ?></td>
                 <td><label for="status">Status</label><br/><?php echo CHtml::dropDownList('status', $userStatus, $userStatuses, array('class' => 'styled small')); ?></td>
+                <td><br/><?php echo CHtml::checkBox('tocsv', false, array('class' => 'checkbox')); ?> &nbsp; <label for="tocsv">Get CSV format</label></td>
                 <td><br/><?php echo CHtml::submitButton('Filter', array('class' => 'submit small')); ?></td>
             </tr>
         </table>

@@ -16,7 +16,7 @@ class Article extends CActiveRecord {
 
     public $content;
 
-    public static function model($className=__CLASS__) {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
@@ -48,7 +48,6 @@ class Article extends CActiveRecord {
 
     public function defaultScope() {
         return array(
-            'condition' => 'deleted = 0',
             'order' => 'created DESC',
         );
     }
@@ -64,6 +63,9 @@ class Article extends CActiveRecord {
             'active' => array(
                 'condition' => 'active = 1'
             ),
+            'notDeleted' => array(
+                'condition' => 'deleted = 0'
+            ),
         );
     }
 
@@ -76,17 +78,17 @@ class Article extends CActiveRecord {
 
     public function getArticles($limit = false) {
         if ($limit)
-            $articles = $this->recently($limit)->ordered()->findAll();
+            $articles = $this->notDeleted()->recently($limit)->ordered()->findAll();
         else
-            $articles = $this->findAll();
+            $articles = $this->notDeleted()->findAll();
         foreach ($articles AS $article) {
             $article->content = Content::model()->getModuleContent('article', $article->id);
         }
         return $articles;
     }
-    
+
     public function getHomeArticle($limit = false) {
-        $articles = $this->recently(3)->findAllByAttributes(array('home' => 1));
+        $articles = $this->notDeleted()->recently(3)->findAllByAttributes(array('home' => 1));
         foreach ($articles AS $article) {
             $article->content = Content::model()->getModuleContent('article', $article->id);
         }
@@ -94,10 +96,10 @@ class Article extends CActiveRecord {
     }
 
     public function getArticleBySlug($slug) {
-        $article = $this->findByAttributes(array('slug' => $slug));
-		if (!$article) {
-			return false;
-		}
+        $article = $this->notDeleted()->findByAttributes(array('slug' => $slug));
+        if (!$article) {
+            return false;
+        }
         $article->content = Content::model()->getModuleContent('article', $article->id);
         return $article;
     }

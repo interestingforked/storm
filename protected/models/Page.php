@@ -54,7 +54,6 @@ class Page extends CActiveRecord {
     
     public function defaultScope() {
         return array(
-            'condition' => 'deleted = 0',
             'order' => 'sort ASC',
         );
     }
@@ -64,15 +63,18 @@ class Page extends CActiveRecord {
             'active' => array(
                 'condition' => 'active = 1'
             ),
+            'notDeleted' => array(
+                'condition' => 'deleted = 0'
+            ),
         );
     }
     
     public function getAllPages() {
-        return $this->findAll("parent_id > 0");
+        return $this->notDeleted()->findAll("parent_id > 0");
     }
 
     public function getPage($slug) {
-        $page = $this->findByAttributes(array('slug' => $slug));
+        $page = $this->notDeleted()->findByAttributes(array('slug' => $slug));
 		if (!$page) {
 			return false;
 		}
@@ -81,7 +83,7 @@ class Page extends CActiveRecord {
     }
     
     public function getPageByPlugin($plugin) {
-        $page = $this->findByAttributes(array('plugin' => $plugin));
+        $page = $this->notDeleted()->findByAttributes(array('plugin' => $plugin));
 		if (!$page) {
 			return false;
 		}
@@ -93,7 +95,7 @@ class Page extends CActiveRecord {
         $subitems = array();
         if ($this->childs)
             foreach ($this->childs as $child) {
-                if ($child->active != 1)
+                if ($child->active != 1 OR $child->deleted == 1)
                     continue;
                 $subitems[] = $child->getListed($id, $visibleAll);
             }
@@ -124,6 +126,8 @@ class Page extends CActiveRecord {
         }
         if ($this->childs)
             foreach ($this->childs as $child) {
+                if ($child->deleted == 1)
+                    continue;
                 $subitems[] = $child->getTableRows($level);
             }
         if ($this->id != 1) {

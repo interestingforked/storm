@@ -41,6 +41,7 @@ class ProductController extends AdminController {
 
         $criteria = new CDbCriteria();
         $criteria->addCondition("product_id = {$id}");
+        $criteria->addCondition("deleted = 0");
         
         $count = ProductNode::model()->count($criteria);
         $pagination = new CPagination($count);

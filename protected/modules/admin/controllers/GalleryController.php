@@ -6,7 +6,7 @@ class GalleryController extends AdminController {
         $this->pageTitle = 'Gallery';
 
         $criteria = new CDbCriteria();
-        $galleries = Gallery::model()->sorted2()->findAll($criteria);
+        $galleries = Gallery::model()->notDeleted()->sorted2()->findAll($criteria);
 
         $this->render('index', array(
             'galleries' => $galleries,

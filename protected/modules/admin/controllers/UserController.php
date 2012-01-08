@@ -26,23 +26,21 @@ class UserController extends AdminController {
             3 => 'Зарегестрировавшиеся в определенный промежуток времени',
         );
 
-        $sql = "SELECT id, username, email, createtime, lastvisit, superuser, status FROM `users` `t` WHERE ";
+        $sql = "SELECT id, username, email, createtime, lastvisit, superuser, status FROM `users` `t` WHERE true ";
         if ($_POST) {
             $userStartDate = strtotime($_POST['start_date']);
             $userEndDate = strtotime($_POST['end_date']);
             $userStatus = $_POST['status'];
 
             if ($userStatus == 1) {
-                $sql .= "id IN (SELECT user_id FROM orders WHERE status > 1) ";
+                $sql .= "AND id IN (SELECT user_id FROM orders WHERE status > 1) ";
             }
             if ($userStatus == 2) {
-                $sql .= "id IN (SELECT user_id FROM profiles WHERE newsletters = 1) ";
+                $sql .= "AND id IN (SELECT user_id FROM profiles WHERE newsletters = 1) ";
             }
             if ($userStatus == 3) {
-                $sql .= "createtime >= {$userStartDate} AND createtime <= {$userEndDate} ";
+                $sql .= "AND createtime >= {$userStartDate} AND createtime <= {$userEndDate} ";
             }
-        } else {
-            $sql .= "true ";
         }
         
         $sql .= "ORDER BY createtime DESC";
@@ -51,6 +49,55 @@ class UserController extends AdminController {
         
         $userStartDate = strftime('%Y-%m-%d', $userStartDate);
         $userEndDate = strftime('%Y-%m-%d', $userEndDate);
+        
+        if (isset($_POST['tocsv']) AND $_POST['tocsv'] == 1) {
+            $dataArray = array();
+            $dataArray[] = array(
+                'Firstname', 'Lastname', 'Username', 'E-mail', 'Sex', 'Age', 'Newsletters', 'Status', 'Created'
+            );
+            foreach ($users AS $user) {
+                $profile = $user->profile;
+                $sex = ($profile->sex ? 'Мужской' : 'Женский');
+                $age = Profile::range('1==Младше 18;2==18-25;3==26-35;4==36+', $profile->getAttribute('age'));
+                $newsletter = ($profile->newsletters ? 'Да' : 'Нет');
+                switch ($user->status) {
+                    case User::STATUS_BANED:
+                        $status = 'Banned'; break;
+                    case User::STATUS_NOACTIVE:
+                        $status = 'Not active'; break;
+                    case User::STATUS_ACTIVE:
+                        $status = 'Active'; break;
+                    default:
+                        $status = '-'; break;
+                }
+                $created = date('Y-m-d G:j:s', $user->createtime);
+                $userData = array(
+                    $profile->firstname,
+                    $profile->lastname,
+                    $user->username,
+                    $user->email,
+                    $sex,
+                    $age,
+                    $newsletter,
+                    $user->status,
+                    $status,
+                    $created
+                );
+                $dataArray[] = $userData;
+            }
+            
+            $fp = fopen(Yii::app()->basePath.'/../assets/file.csv', 'w');
+            foreach ($dataArray as $fields) {
+                fputcsv($fp, $fields);
+            }
+            fclose($fp);
+            $file = file_get_contents(Yii::app()->basePath.'/../assets/file.csv');
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment;filename=file.csv');
+            $file = iconv('utf-8', 'windows-1251', $file);
+            echo $file;
+            exit;
+        }
         
         $this->render('report', array(
             'users' => $users,

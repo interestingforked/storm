@@ -88,8 +88,10 @@ class Product extends CActiveRecord {
 
     public function getProduct($id = 0) {
         $this->content = Content::model()->getModuleContent('product', $this->id);
-        $nodes = array();
         foreach ($this->productNodes AS $node) {
+            if ($node->deleted == 1) {
+                continue;
+            }
             if ($id == $node->id) {
                 $this->mainNode = $node;
             }
