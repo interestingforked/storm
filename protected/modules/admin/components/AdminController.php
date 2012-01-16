@@ -44,6 +44,11 @@ class AdminController extends CController {
                         'url' => array('/admin/gallery'),
                         'active' => ($activeMenuId == 'gallery')
                     ),
+                    array(
+                        'label' => 'Blocks', 
+                        'url' => array('/admin/block'),
+                        'active' => ($activeMenuId == 'block')
+                    ),
                 )
             ),
             array(

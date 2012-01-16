@@ -78,9 +78,9 @@ class Article extends CActiveRecord {
 
     public function getArticles($limit = false) {
         if ($limit)
-            $articles = $this->notDeleted()->recently($limit)->ordered()->findAll();
+            $articles = $this->notDeleted()->active()->recently($limit)->ordered()->findAll();
         else
-            $articles = $this->notDeleted()->findAll();
+            $articles = $this->notDeleted()->active()->findAll();
         foreach ($articles AS $article) {
             $article->content = Content::model()->getModuleContent('article', $article->id);
         }
@@ -88,7 +88,7 @@ class Article extends CActiveRecord {
     }
 
     public function getHomeArticle($limit = false) {
-        $articles = $this->notDeleted()->recently(3)->findAllByAttributes(array('home' => 1));
+        $articles = $this->notDeleted()->active()->recently(3)->findAllByAttributes(array('home' => 1));
         foreach ($articles AS $article) {
             $article->content = Content::model()->getModuleContent('article', $article->id);
         }
@@ -96,7 +96,7 @@ class Article extends CActiveRecord {
     }
 
     public function getArticleBySlug($slug) {
-        $article = $this->notDeleted()->findByAttributes(array('slug' => $slug));
+        $article = $this->notDeleted()->active()->findByAttributes(array('slug' => $slug));
         if (!$article) {
             return false;
         }

@@ -11,6 +11,8 @@
  * @property string $created
  */
 class Block extends CActiveRecord {
+    
+    public $content;
 
     /**
      * Returns the static model of the specified AR class.
@@ -88,6 +90,9 @@ class Block extends CActiveRecord {
     
     public function getBlock($position) {
         $block = $this->findByAttributes(array('position' => $position));
+        if ( ! $block) {
+            return false;
+        }
         $content = Content::model()->getModuleContent('block', $block->id);
         return $content->body;
     }
