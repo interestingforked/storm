@@ -15,7 +15,7 @@ class Page extends CActiveRecord {
 
     public $content;
 
-    public static function model($className=__CLASS__) {
+    public static function model($className = __CLASS__) {
         return parent::model($className);
     }
 
@@ -26,14 +26,13 @@ class Page extends CActiveRecord {
     public function rules() {
         return array(
             array('slug', 'required'),
-            array('active, sort, deleted', 'numerical', 'integerOnly' => true),
+            array('active, sort, deleted, multipage', 'numerical', 'integerOnly' => true),
             array('parent_id', 'length', 'max' => 11),
             array('slug', 'length', 'max' => 250),
-			array('plugin', 'length', 'max' => 100),
-            array('id, parent_id, active, sort, plugin, deleted, slug, created', 'safe', 'on' => 'search'),
+            array('plugin', 'length', 'max' => 100),
+            array('id, parent_id, active, sort, plugin, deleted, multipage, slug, created', 'safe', 'on' => 'search'),
         );
     }
-
 
     public function relations() {
         return array(
@@ -52,13 +51,13 @@ class Page extends CActiveRecord {
             'created' => 'Created',
         );
     }
-    
+
     public function defaultScope() {
         return array(
             'order' => 'sort ASC',
         );
     }
-    
+
     public function scopes() {
         return array(
             'active' => array(
@@ -69,38 +68,40 @@ class Page extends CActiveRecord {
             ),
         );
     }
-    
+
     public function getAllPages() {
         return $this->notDeleted()->findAll("parent_id > 0");
     }
 
     public function getPage($slug) {
         $page = $this->notDeleted()->findByAttributes(array('slug' => $slug));
-		if (!$page) {
-			return false;
-		}
+        if (!$page) {
+            return false;
+        }
         $page->content = Content::model()->getModuleContent('page', $page->id);
         return $page;
     }
-    
+
     public function getPageByPlugin($plugin) {
         $page = $this->notDeleted()->findByAttributes(array('plugin' => $plugin));
-		if (!$page) {
-			return false;
-		}
+        if (!$page) {
+            return false;
+        }
         $page->content = Content::model()->getModuleContent('page', $page->id);
         return $page;
     }
-    
+
     public function getListed($id = '', $visibleAll = false) {
         $subitems = array();
         if ($this->childs)
             foreach ($this->childs as $child) {
                 if ($child->active != 1 OR $child->deleted == 1)
                     continue;
+                if ($this->multipage == 1)
+                    continue;
                 $subitems[] = $child->getListed($id, $visibleAll);
             }
-        
+
         $pageContent = Content::model()->getModuleContent('page', $this->id);
         $active = (preg_match("/" . str_replace("/", "\/", $this->slug) . "/", $id) > 0);
         $parent = $this->getparent;
@@ -118,7 +119,7 @@ class Page extends CActiveRecord {
             $returnarray = array_merge($returnarray, array('items' => $subitems));
         return $returnarray;
     }
-    
+
     public function getTableRows($level = 0) {
         $subitems = array();
         $returnRows = array();
@@ -142,9 +143,10 @@ class Page extends CActiveRecord {
                 'active' => $this->active,
                 'created' => $this->created,
                 'additional' => $this->plugin,
+                'multipage' => $this->multipage,
             );
         }
-        
+
         if ($subitems != '')
             $returnRows = array_merge($returnRows, array('items' => $subitems));
         return $returnRows;

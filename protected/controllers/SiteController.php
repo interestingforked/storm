@@ -19,6 +19,8 @@ class SiteController extends Controller {
         $rightBlock = Block::model()->getBlock(2);
 
         $this->metaTitle = Yii::app()->params['indexTitle'];
+        $this->metaDescription = Yii::app()->params['metaDescription'];
+        $this->metaKeywords = Yii::app()->params['metaKeywords'];
 
         $this->render('index', array(
             'articles' => $articles,

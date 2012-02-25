@@ -3,7 +3,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . $pluginPage->content->title;
 ?>
 
 <h1><?php echo $pluginPage->content->title; ?></h1>
-<?php if (count($galleries) > 0): ?>
+<?php if (count($galleries) > 0 AND $pages > 1): ?>
 <div class="filter">
     <div class="pages">
     <em>
@@ -25,17 +25,22 @@ $this->pageTitle = Yii::app()->name . ' - ' . $pluginPage->content->title;
 </div>
 <?php endif; ?>
 <div class="hr-title"><hr/></div>
-<?php echo $pluginPage->content->body; ?>
+<?php 
+if ($page == 1):
+    echo $pluginPage->content->body; 
+endif;
+?>
 <div class="gallery">
 <?php 
 $i = 0;
 $c = 0;
+$t = count($galleries);
 foreach ($galleries AS $gallery): 
     $i++;
     if ($offset >= $i)
         continue;
     $c++;
-    if ($c % 3 == 0)
+    if ($c % 4 == 0 OR $c == 1)
         echo '<div class="row">';
     echo '<div class="item">';
     $image = '';
@@ -46,7 +51,7 @@ foreach ($galleries AS $gallery):
     }
     echo CHtml::link($image, array('/'.$pluginPage->slug.'/'.$gallery->slug)); 
     echo '</div>';
-    if ($c % 3 == 0)
+    if ($c % 3 == 0 OR $c == $t)
         echo '</div>';
     if ($c == $limit)
         break;

@@ -180,7 +180,7 @@ $(function () {
     });
     
     // Image delete confirmation
-    $('a.delete, a.ban, a.disable, a.activate').click(function() {
+    $('a.delete, a.ban, a.disable, a.activate, a.delete').click(function() {
         if (confirm("Are you sure you want to " + $(this).attr('class') + " this item?")) {
             return true;
         } else {

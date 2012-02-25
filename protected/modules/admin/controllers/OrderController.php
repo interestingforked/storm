@@ -21,7 +21,10 @@ class OrderController extends AdminController {
         if (!$user) {
             $this->redirect(array('/admin/order'));
         }
-        $orders = $user->orders;
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'user_id = '.$user->id;
+        $criteria->order = 'created DESC';
+        $orders = Order::model()->findAll($criteria);
 
         $this->render('index', array(
             'orders' => $orders,

@@ -112,11 +112,13 @@ return array(
                 '46.38.182.210'
             )
         ),
-        'indexTitle' => 'Часы STORM – Официальный сайт STORM London – Мужские часы – Женские часы',
         'adminIcons' => array(
             'arrow_up' => '/images/admin/arrow_up.png',
             'arrow_down' => '/images/admin/arrow_down.png',
             'empty' => '/images/admin/empty.gif',
         ),
+        'indexTitle' => 'Часы STORM – Официальный сайт STORM London – Мужские часы – Женские часы',
+        'metaDescription' => 'Часы STORM – Официальный сайт STORM London – Мужские часы – Женские часы',
+        'metaKeywords' => 'Мужские часы, Женские часы',
     ),
 );

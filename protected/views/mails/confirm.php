@@ -40,7 +40,7 @@
                                                                             <?php echo $payment->name.' '.$payment->surname; ?><br>
                                                                             <?php echo $payment->phone; ?><br/>
                                                                             <?php echo $payment->email; ?><br/>
-                                                                            <?php echo $payment->house.', '.$payment->street; ?><br/>
+                                                                            <?php echo $payment->flat.', '.$payment->house.', '.$payment->street; ?><br/>
                                                                             <?php echo $payment->city.', '.$payment->district; ?><br/>
                                                                             <?php echo $payment->postcode; ?><br/>
                                                                             <?php echo Country::model()->getCountryName($payment->country_id); ?></p>
@@ -50,7 +50,7 @@
                                                                             <?php echo $shipping->name.' '.$shipping->surname; ?><br>
                                                                             <?php echo $shipping->phone; ?><br/>
                                                                             <?php echo $shipping->email; ?><br/>
-                                                                            <?php echo $shipping->house.', '.$shipping->street; ?><br/>
+                                                                            <?php echo $shipping->flat.', '.$shipping->house.', '.$shipping->street; ?><br/>
                                                                             <?php echo $shipping->city.', '.$shipping->district; ?><br/>
                                                                             <?php echo $shipping->postcode; ?><br/>
                                                                             <?php echo Country::model()->getCountryName($shipping->country_id); ?></p>

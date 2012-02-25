@@ -47,6 +47,10 @@ class PageController extends AdminController {
                     $attachments[] = $v;
                 }
             }
+            if ($pageModel->parent_id > 1) {
+                $parent = Page::model()->findByPk($pageModel->parent_id);
+                $pageModel->slug = $parent->slug.'/'.$pageModel->slug;
+            }
             
             $transaction = Yii::app()->db->beginTransaction();
             if ($pageModel->save()) {

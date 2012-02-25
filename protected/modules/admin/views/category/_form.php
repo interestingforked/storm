@@ -62,6 +62,11 @@ echo $form->errorSummary(array($categoryModel, $contentModel));
     <?php echo $form->fileField($categoryModel,'image', array('class' => 'file', 'id' => 'fileupload')); ?>
     <span id="uploadmsg">Max size 3Mb</span>
 </p>
+<?php if (!$categoryModel->isNewRecord): ?>
+<p>
+    <img src="<?php echo Yii::app()->params['categories'].$categoryModel->image; ?>"/>
+</p>
+<?php endif; ?>
 <hr/>
 <div id="tempAttachments"></div>
 <p>

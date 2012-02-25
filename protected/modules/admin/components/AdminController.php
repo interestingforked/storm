@@ -81,6 +81,11 @@ class AdminController extends CController {
                         'url' => array('/admin/coupon'),
                         'active' => ($activeMenuId == 'coupon')
                     ),
+                    array(
+                        'label' => 'Reports', 
+                        'url' => array('/admin/product/report'),
+                        'active' => ($activeMenuId == 'product')
+                    ),
                 )
             ),
             array(

@@ -38,6 +38,10 @@ echo $form->errorSummary(array($pageModel, $contentModel));
     <?php echo $form->checkBox($pageModel, 'active', array('class' => 'checkbox')); ?>
     <?php echo $form->labelEx($pageModel, 'active'); ?>
     <span class="note error"><?php echo $form->error($pageModel, 'active'); ?></span>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    <?php echo $form->checkBox($pageModel, 'multipage', array('class' => 'checkbox')); ?>
+    <?php echo $form->labelEx($pageModel, 'multipage'); ?>
+    <span class="note error"><?php echo $form->error($pageModel, 'multipage'); ?></span>
 </p>
 <p>
     <?php echo $form->labelEx($pageModel, 'plugin'); ?><br/>

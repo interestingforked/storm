@@ -176,5 +176,21 @@ class UserController extends AdminController {
 
         $this->redirect(array('/admin/user'));
     }
+    
+    public function actionDelete($id) {
+        $model = User::model()->findByPk($id);
+        $transaction = Yii::app()->db->beginTransaction();
+        $profile = $model->profile;
+        if ($profile->delete()) {
+            if ($model->delete()) {
+                $transaction->commit();
+            } else {
+                $transaction->rollback();
+            }
+        } else {
+            $transaction->rollback();
+        }
+        $this->redirect(array('/admin/user'));
+    }
 
 }

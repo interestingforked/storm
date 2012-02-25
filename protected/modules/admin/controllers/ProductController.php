@@ -62,6 +62,25 @@ class ProductController extends AdminController {
 			'categoryId' => $categoryId,
         ));
     }
+    
+    public function actionReport() {
+        $this->pageTitle = 'Product report';
+
+        $connection = Yii::app()->db;
+        $sql = "SELECT DISTINCT p.id AS p_id, p.active AS p_active, p.slug AS p_slug, p.created AS p_created, cp.title AS p_title, ps.total AS p_total, "
+            ."pn.size AS pn_size, pn.color AS pn_color "
+            ."FROM products p LEFT JOIN contents cp ON cp.module = 'product' AND cp.module_id = p.id AND cp.language = 'ru', product_nodes pn, "
+            ."(SELECT product_id, product_node_id, COUNT(quantity) AS total FROM order_items GROUP BY product_id, product_node_id ORDER BY total DESC) ps "
+            ."WHERE p.deleted = 0 AND pn.deleted = 0 AND p.id = ps.product_id AND pn.id = ps.product_node_id ORDER BY ps.total DESC ";
+        $command = $connection->createCommand($sql);
+        $dataReader = $command->query();
+        
+        $products = $dataReader->readAll();
+        
+        $this->render('report', array(
+            'products' => $products,
+        ));
+    }
 
     public function actionAdd() {
         $this->pageTitle = 'Products / Add product';
@@ -453,6 +472,12 @@ class ProductController extends AdminController {
         $model->deleted = 1;
         $model->save();
 
+        $nodes = $model->productNodes;
+        foreach ($nodes as $node) {
+            $node->deleted = 1;
+            $node->save();
+        }
+        
         $this->redirect(array('/admin/product'));
     }
     

@@ -40,6 +40,11 @@ $(document).ready(function() {
         'titleFormat':formatTitle, 
         'cyclic':true
     });
+    $('.showUserOrderInfo').click(function () {
+        var orderInfo = $(this).attr('rel');
+        $('#orderInfo' + orderInfo).toggle();
+        return false;
+    });
 });
 </script>
 

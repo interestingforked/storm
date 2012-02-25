@@ -50,6 +50,7 @@
                         <?php echo CHtml::link('Enable', array('/admin/user/enable/'.$user->id)); ?>
                         <?php echo CHtml::link('Disable', array('/admin/user/disable/'.$user->id), array('class' => 'disable')); ?>
                         <?php echo CHtml::link('Ban', array('/admin/user/ban/'.$user->id), array('class' => 'ban')); ?>
+                        <?php echo CHtml::link('Delete', array('/admin/user/delete/'.$user->id), array('class' => 'delete')); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
