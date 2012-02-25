@@ -19,6 +19,8 @@ $this->pageTitle = Html::formatTitle($product->content->title, $product->content
  $images = array();
  $distinctColor = array();
  foreach ($product->productNodes AS $node):
+		if ($node->deleted != 0)
+            continue;
         if ($node->active == 0)
             continue;
         if ( ! empty($node->color)) {

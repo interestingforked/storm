@@ -26,10 +26,11 @@ class Page extends CActiveRecord {
     public function rules() {
         return array(
             array('slug', 'required'),
-            array('active, sort', 'numerical', 'integerOnly' => true),
+            array('active, sort, deleted', 'numerical', 'integerOnly' => true),
             array('parent_id', 'length', 'max' => 11),
             array('slug', 'length', 'max' => 250),
-            array('id, parent_id, active, sort, slug, created', 'safe', 'on' => 'search'),
+			array('plugin', 'length', 'max' => 100),
+            array('id, parent_id, active, sort, plugin, deleted, slug, created', 'safe', 'on' => 'search'),
         );
     }
 

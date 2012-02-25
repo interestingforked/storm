@@ -113,6 +113,7 @@
                                 <tr>
                                     <td style="background-color: rgb(255, 255, 255);" height="28"><img alt="" src="<?php echo Yii::app()->getBaseUrl(true); ?>/images/spacer.gif" height="28" width="550"></td>
                                 </tr>
+								<tr><td><p style="font-family: arial,sans-serif; font-size: 12px;">ООО "СТОРМ-99", ИНН: 7717645358, КПП: 774301001, Е: info@stormlondon.ru  Т: +7 495 646 0648</p></td></tr>
                                 <tr>
                                     <td style="padding: 10px 0px; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" align="center" valign="top"><strong style="line-height: 11px; font-family: tahoma,sans-serif; font-size: 11px;"><img alt="" src="<?php echo Yii::app()->getBaseUrl(true); ?>/images/email-logo2.gif" align="bottom" border="0" height="10" width="33"> </strong></td>
                                 </tr>
@@ -120,7 +121,7 @@
                                     <td align="center">
                                         <table style="font-family: arial,sans-serif; color: rgb(173, 173, 173); font-size: 9px;" align="center" border="0" cellpadding="0" cellspacing="0" width="497">
                                             <tbody>
-                                                <tr>
+											     <tr>
                                                     <td><img alt="" src="<?php echo Yii::app()->getBaseUrl(true); ?>/images/spacer.gif" height="20" width="497"><br>
                                                     </td>
                                                 </tr>

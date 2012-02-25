@@ -42,8 +42,8 @@ img, div { behavior: url(/css/iepngfix.htc) }
 /*****************/
 #layout {margin:0 auto; width:980px; height:100%;position:relative;}
 #container {width: 100%; position: relative;}
-#container:after, .coupon:after, .filter:after, .gallery:after, .gallery .row:after {content: '.';display: block;clear: both;visibility: hidden;height: 0;}
-* html #container, .coupon, .filter, .gallery, .galery .row {zoom:1;}
+#container:after, .coupon:after, .filter:after, .gallery:after,.vintage-pr .row:after, .gallery .row:after {content: '.';display: block;clear: both;visibility: hidden;height: 0;}
+* html #container, .coupon, .filter, .gallery, .galery .row,.vintage-pr .row {zoom:1;}
 #right-wrapper {width: 100%;float: left;overflow: hidden;position:relative;}
 #col-right {margin-left: 200px; width:780px;}
 #col-left {
@@ -195,8 +195,12 @@ ul.dash li {margin-bottom: 8px;}
 
 /*Gallery*/
 div.gallery {width:531px;margin:0 auto;margin-top:20px;}
-div.gallery .row {margin:40px 0;}
-div.gallery .item {float:left;padding:0 15px;}
+div.vintage-pr {width:631px;margin:0 auto;margin-top:20px;}
+div.gallery .row, div.vintage-pr .row {margin:40px 0;}
+div.gallery .item {float:left;padding:0 15px;text-align:center;}
+div.vintage-pr .item {float:left;padding:0 35px 60px 35px;text-align:center;}
+div.vintage-pr .item p{margin:0 auto;padding-top:20px;font-weight:bold;font-size:110%;}
+div.vintage-pr .item span{display:block;}
 table.gal-magazine {margin:15px 0;}
 table.gal-magazine td{vertical-align:top;}
 table.gal-magazine h3 {font-weight:bold;}

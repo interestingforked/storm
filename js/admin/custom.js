@@ -60,62 +60,35 @@ $(function () {
     });
 
     // Set WYSIWYG editor
-    $('.wysiwyg').wysiwyg({
-        css: "/css/admin/wysiwyg.css",
-        controls: {
-            bold          : {visible : true},
-            italic        : {visible : true},
-            underline     : {visible : true},
-            strikeThrough : {visible : true},
-            justifyLeft   : {visible : true},
-            justifyCenter : {visible : true},
-            justifyRight  : {visible : true},
-            justifyFull   : {visible : true},
-            indent  : {visible : true},
-            outdent : {visible : true},
-            subscript   : {visible : true},
-            superscript : {visible : true},
-            undo : {visible : true},
-            redo : {visible : true},
-            insertOrderedList    : {visible : true},
-            insertUnorderedList  : {visible : true},
-            insertHorizontalRule : {visible : true},
-            createLink : {visible : true},
-            insertImage : {visible : true},
-            insertTable : {visible : true},
-            code : {visible : true},
-            h4: {
-                    visible: true,
-                    className: 'h4',
-                    command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
-                    arguments: ($.browser.msie || $.browser.safari) ? '<h4>' : 'h4',
-                    tags: ['h4'],
-                    tooltip: 'Header 4'
-            },
-            h5: {
-                    visible: true,
-                    className: 'h5',
-                    command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
-                    arguments: ($.browser.msie || $.browser.safari) ? '<h5>' : 'h5',
-                    tags: ['h5'],
-                    tooltip: 'Header 5'
-            },
-            h6: {
-                    visible: true,
-                    className: 'h6',
-                    command: ($.browser.msie || $.browser.safari) ? 'formatBlock' : 'heading',
-                    arguments: ($.browser.msie || $.browser.safari) ? '<h6>' : 'h6',
-                    tags: ['h6'],
-                    tooltip: 'Header 6'
-            },
-            cut   : {visible : true},
-            copy  : {visible : true},
-            paste : {visible : true},
-            html  : {visible: true},
-            increaseFontSize : {visible : true},
-            decreaseFontSize : {visible : true}
+    elRTE.prototype.options.panels.web2pyPanel = [
+    'bold', 'italic', 'underline', 'forecolor', 'justifyleft', 'justifyright',
+    'justifycenter', 'justifyfull', 'formatblock', 'insertorderedlist', 'insertunorderedlist',
+    'link', 'image', 'flash'
+    ];
+    elRTE.prototype.options.toolbars.web2pyToolbar = ['web2pyPanel', 'tables'];
+    var opts = {
+        absoluteURLs: false,
+        cssClass : 'el-rte',
+        lang     : 'en',
+        height   : 420,
+        toolbar  : 'web2pyToolbar',
+        cssfiles : ['http://elrte.org/release/elrte/css/elrte-inner.css'],
+        fmOpen : function(callback) {
+            $('<div id="myelfinder" />').elfinder({
+                url : '/assets/connector.php',
+                placesFirst : false,
+                lang : 'en',
+                dialog : {
+                    width : 900, 
+                    modal : true, 
+                    title : 'elFinder - file manager for web'
+                },
+                closeOnEditorCallback : true,
+                editorCallback : callback
+            })
         }
-    });
+    }
+    $('.wysiwyg').elrte(opts);
 
     // Modal boxes - to all links with rel="facebox"
     $('a[rel*=facebox]').facebox()

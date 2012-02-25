@@ -54,7 +54,8 @@ class PageController extends AdminController {
                 $contentModel->module_id = $pageModel->id;
                 $contentModel->language = Yii::app()->params['defaultLanguage'];
                 
-                $contentModel->background = Attachment::model()->saveImage($contentModel->background, 'background');
+                if ($contentModel->background)
+                    $contentModel->background = Attachment::model()->saveImage($contentModel->background, 'background');
                 
                 if ($contentModel->save()) {
                     $result = Attachment::model()->saveAttachments($attachments, 'page', $pageModel->id, $pageModel->slug);

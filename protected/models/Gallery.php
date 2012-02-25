@@ -28,8 +28,9 @@ class Gallery extends CActiveRecord {
         return array(
             array('page_id, active, deleted, sort, heading, pagination', 'numerical', 'integerOnly' => true),
             array('slug', 'length', 'max' => 250),
+            array('template', 'length', 'max' => 20),
             array('created', 'safe'),
-            array('id, page_id, active, deleted, sort, slug, heading, pagination, created', 'safe', 'on' => 'search'),
+            array('id, page_id, active, deleted, sort, slug, heading, pagination, template, created', 'safe', 'on' => 'search'),
         );
     }
 

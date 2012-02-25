@@ -43,7 +43,7 @@
                 <li><strong>Shipping sum</strong>: <?php echo $order->shipping; ?></li>
                 <li><strong>Discount</strong>: <?php echo $order->discount; ?></li>
                 <li><strong>IP address</strong>: <?php echo $order->ip; ?></li>
-                <li><strong>Comment</strong>: <?php echo $order->comment; ?></li>
+                <li><strong>Comment</strong>: <?php echo $shippingDetails->notes; ?></li>
             </ul>
         </div>
         <div class="sidebar_content" id="sb2">
@@ -95,6 +95,8 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th>Product</th>
+						<th>Color</th>
+						<th>Size</th>
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>Subtotal</th>
@@ -111,6 +113,8 @@
                     <tr>
                         <td><?php echo CHtml::image(Image::thumb(Yii::app()->params['images'].$attachedImage->image, 60));; ?></td>
                         <td><?php echo CHtml::link($product->content->title, array('/product/'.$product->slug.'-'.$product->id), array('target' => '_blank')); ?></td>
+						<td><?php echo $this->classifier->getValue('color', $product->mainNode->color, '-'); ?></td>
+						<td><?php echo $this->classifier->getValue('size', $product->mainNode->size, '-'); ?></td>
                         <td><?php echo $item->quantity; ?></td>
                         <td><?php echo $item->price; ?></td>
                         <td><?php echo $item->subtotal; ?></td>

@@ -5,6 +5,7 @@ $sale = false;
 $freeDelivery = false;
 $freeDeliveryWithMOW250 = false;
 $onlyRBK = false;
+/*
 if ($coupon AND ($coupon->issue_date <= date('Y-m-d') AND $coupon->term_date >= date('Y-m-d'))) {
     $freeDelivery = $coupon->free_delivery == 1;
     $onlyRBK = $coupon->only_rbk == 1;
@@ -16,10 +17,8 @@ if ($coupon AND ($coupon->issue_date <= date('Y-m-d') AND $coupon->term_date >= 
 		}
 	}
 } else {
-	if ($order->total > 3499) {
-		$sale = true;
-	}
-}
+*/
+
 ?>
 
 <script type="text/javascript">
@@ -124,9 +123,11 @@ $(document).ready(function () {
     
     <div class="hr-title"><hr/></div>
 	<?php if ($pointId == 'MOW'): ?>
+	<?php /*
 	<p><b>Важно</b>: При покупке часов и аксессуаров на нашем сайте выбери оплату через RBK<br/>
 	Money и получи скидку - 10%!<br/>
 	Акция действует в период с 15.12.2011 по 10.01.2012.</p>
+	*/ ?>
 	<?php endif; ?>
 	
     <table class="delivery-method" cellspacing="10">
@@ -142,13 +143,12 @@ $(document).ready(function () {
                 <td><?php echo Yii::t('app', 'Оплата курьеру при получении'); ?></td>
                 <td></td>
             </tr>
-            <?php else: ?>
+            <?php endif; ?>
             <tr>
                 <td><input type="radio" name="payment_method" value="2"/></td>
                 <td><?php echo Yii::t('app', 'On-line оплата'); ?></td>
                 <td><?php echo Yii::t('app', 'Оплата производится через RBK Money'); ?></td>
             </tr>
-            <?php endif; ?>
         </tbody>
     </table> 
     

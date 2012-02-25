@@ -69,11 +69,10 @@ class CategoryController extends AdminController {
         $contentModel = Content::model()->getModuleContent('category', $id);
 
         if (isset($_POST['Category'])) {
-            $categoryModel->attributes = $_POST['Category'];
-            
             if (empty($_POST['Category']['image'])) {
                 unset($_POST['Category']['image']);
             }
+			$categoryModel->attributes = $_POST['Category'];
             $contentModel->attributes = $_POST['Content'];
             
             if (!empty($_POST['Category']['image'])) {
@@ -84,7 +83,7 @@ class CategoryController extends AdminController {
             if ($categoryModel->save()) {
                 if ($contentModel->save()) {
                     $transaction->commit();
-                    $this->redirect(array('/admin/category'));
+                    //$this->redirect(array('/admin/category'));
                 } else {
                     $transaction->rollback();
                     $errors = $contentModel->getErrors();

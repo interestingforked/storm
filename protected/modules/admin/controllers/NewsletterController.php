@@ -19,9 +19,13 @@ class NewsletterController extends AdminController {
         $errors = array();
 
         $model = new Newsletter;
+        $model->message = $this->renderPartial('template_2', null, true);
 
         if (isset($_POST['Newsletter'])) {
             $model->attributes = $_POST['Newsletter'];
+            $model->message = $this->renderPartial('template_1', array(
+                'content' => $model->message
+            ), true);
 
             $transaction = Yii::app()->db->beginTransaction();
             if ($model->save()) {
@@ -49,6 +53,9 @@ class NewsletterController extends AdminController {
 
         if (isset($_POST['Newsletter'])) {
             $model->attributes = $_POST['Newsletter'];
+            $model->message = $this->renderPartial('template_1', array(
+                'content' => $model->message
+            ), true);
 
             $transaction = Yii::app()->db->beginTransaction();
             if ($model->save()) {

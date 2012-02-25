@@ -13,6 +13,7 @@
             @import url("/css/admin/fileuploader.css");
             @import url("/css/admin/smoothness/jquery-ui-1.8.13.custom.css");
             @import url("/css/admin/elfinder.css");
+			@import url("/css/admin/elrte.min.css");
         </style>
         <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=7" /><![endif]-->
         <!--[if lt IE 8]><style type="text/css" media="all">@import url("/css/admin/ie.css");</style><![endif]-->
@@ -20,12 +21,6 @@
         <script type="text/javascript" src="/js/admin/jquery.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.img.preload.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.filestyle.mini.js"></script>
-        <script type="text/javascript" src="/js/admin/jquery.wysiwyg.js"></script>
-		<script type="text/javascript" src="/js/admin/controls/wysiwyg.colorpicker.js"></script>
-		<script type="text/javascript" src="/js/admin/controls/wysiwyg.cssWrap.js"></script>
-		<script type="text/javascript" src="/js/admin/controls/wysiwyg.image.js"></script>
-		<script type="text/javascript" src="/js/admin/controls/wysiwyg.link.js"></script>
-		<script type="text/javascript" src="/js/admin/controls/wysiwyg.table.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.date_input.pack.js"></script>
         <script type="text/javascript" src="/js/admin/facebox.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.visualize.js"></script>
@@ -37,6 +32,7 @@
         <script type="text/javascript" src="/js/admin/ajaxupload.js"></script>
         <script type="text/javascript" src="/js/admin/jquery.pngfix.js"></script>
         <script type="text/javascript" src="/js/admin/jquery-ui-1.8.13.custom.min.js"></script>
+		<script type="text/javascript" src="/js/admin/elrte.min.js"></script>
         <script type="text/javascript" src="/js/admin/elfinder.min.js"></script>
         <script type="text/javascript" src="/js/admin/custom.js"></script>
     </head>

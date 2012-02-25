@@ -10,6 +10,11 @@ class GalleryController extends Controller {
         $total = count($galleries);
         $limit = 9;
         $offset = 0;
+        
+        $template = $galleries[0]->template;
+        if ($template == 'vintage') {
+            $limit = 6;
+        }
 
         $page = (isset($_GET['page']) AND $_GET['page'] > 0) ? $_GET['page'] : 1;
         $pages = ceil($total / $limit);
@@ -20,6 +25,7 @@ class GalleryController extends Controller {
         $nextpage = $page + 1;
         $prevpage = $page - 1;
 
+
         $this->background = $pluginPage->content->background;
         $this->breadcrumbs[] = $pluginPage->content->title;
         if (count($galleries) > 0 AND $galleries[0]->pagination != 1) {
@@ -28,7 +34,7 @@ class GalleryController extends Controller {
                 'galleries' => $galleries,
             ));
         } else {
-            $this->render('index', array(
+            $this->render($template, array(
                 'pluginPage' => $pluginPage,
                 'galleries' => $galleries,
                 'total' => $total,

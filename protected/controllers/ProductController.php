@@ -36,6 +36,9 @@ class ProductController extends Controller {
 		if (!$product) {
 			throw new CHttpException(404,'The requested page does not exist.');
 		}
+		if ($nodeId > 0 AND !isset($product->mainNode->id)) {
+			$product = $productModel->getProduct(0);
+		}
         
         $this->metaTitle = $product->content->meta_title;
         $this->metaDescription = $product->content->meta_description;

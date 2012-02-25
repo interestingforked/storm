@@ -224,9 +224,6 @@ class CheckoutController extends Controller {
             $order->shipping_method = $_POST['delivery_method'];
             $order->payment_method = $_POST['payment_method'];
             $order->shipping = $_POST['delivery_cost'];
-			if ($order->payment_method == 2) {
-			    $order->coupon_id = 2;
-			}
             if ($order->save()) {
                 Yii::app()->controller->redirect(array('/checkout/orderoverview'));
             } else {
@@ -325,10 +322,13 @@ class CheckoutController extends Controller {
 
         if ($_POST) {
             if ($order->coupon_id) {
-                if ($discountType == 'percentage')
-                    $order->discount = '- ' . $coupon->value . ' %';
-                else
-                    $order->discount = '- ' . $coupon->value . Yii::app()->params['currency'];
+				$coupon = Coupon::model()->getActiveCoupon($order->coupon_id);
+				if ($coupon) {
+					if ($discountType == 'percentage')
+						$order->discount = '- ' . $coupon->value . ' %';
+					else
+						$order->discount = '- ' . $coupon->value . Yii::app()->params['currency'];
+				}
             }
             $order->key = Order::model()->getMaxNumber(date('ym'));
             if ($order->save()) {

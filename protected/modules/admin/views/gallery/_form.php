@@ -30,6 +30,10 @@ echo $form->errorSummary(array($model, $contentModel));
     <?php echo $form->dropDownList($contentModel,'language', $this->languages, array('class' => 'styled small')); ?>
 </p>
 <p>
+    <?php echo $form->labelEx($model, 'template'); ?><br/>
+    <?php echo $form->dropDownList($model,'template', array('gallery' => 'Gallery', 'vintage' => 'Vintage'), array('class' => 'styled small')); ?>
+</p>
+<p>
     <?php echo $form->labelEx($model, 'sort'); ?><br/>
     <?php echo $form->textField($model,'sort', array('class' => 'text tiny')); ?>
     <span class="note error"><?php echo $form->error($model, 'sort'); ?></span>

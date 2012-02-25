@@ -28,6 +28,11 @@ echo $form->errorSummary($model);
     <?php echo $form->textField($model,'quantity', array('class' => 'text tiny')); ?>
     <span class="note error"><?php echo $form->error($model, 'quantity'); ?></span>
 </p>
+<p>
+    <?php echo $form->labelEx($model, 'code'); ?><br/>
+    <?php echo $form->textField($model,'code', array('class' => 'text small')); ?>
+    <span class="note error"><?php echo $form->error($model, 'code'); ?></span>
+</p>
 <hr/>
 <p>
     <?php echo $form->checkBox($model, 'new', array('class' => 'checkbox')); ?>

@@ -24,7 +24,7 @@ class TaskCommand extends CConsoleCommand {
             }
         }
     }
-    
+
     public function actionNewsletters() {
         $newsletter = Newsletter::model()->notSent()->find();
         if ($newsletter) {
@@ -57,6 +57,71 @@ class TaskCommand extends CConsoleCommand {
                 }
             }
         }
+    }
+
+    public function actionUpdateQuantity() {
+        $filePath = Yii::app()->params['filePath'];
+        $fileDate = date('ymd');
+
+        $task = new UpdateQuantityTask();
+        $task->started = date('Y-m-d G:i:s');
+        $task->date = $fileDate;
+        $task->process = date('Y-m-d G:i:s').' : '.'Task started' . "\r\n";
+
+        $ruFile = $filePath . 'STOCK_R1_' . $fileDate . '.txt';
+        $lvFile = $filePath . 'STOCK_L2_' . $fileDate . '.txt';
+
+        $productArray = array();
+
+        $task->process .= date('Y-m-d G:i:s').' : '.'Start reading files' . "\r\n";
+        $task->process .= date('Y-m-d G:i:s').' : '.'Start reading ' . $ruFile . "\r\n";
+        $fileHandler = fopen($ruFile, 'r');
+        if ($fileHandler) {
+            while (($buffer = fgets($fileHandler, 4096)) !== false) {
+                $code = trim(substr($buffer, 0, 20));
+                $quantity = trim(substr($buffer, 20, 12));
+                $productArray[$code] = (int) $quantity;
+            }
+            fclose($fileHandler);
+        }
+        unset($fileHandler);
+
+        $task->process .= date('Y-m-d G:i:s').' : '.'Start reading ' . $lvFile . "\r\n";
+        $fileHandler = fopen($lvFile, 'r');
+        if ($fileHandler) {
+            while (($buffer = fgets($fileHandler, 4096)) !== false) {
+                $code = trim(substr($buffer, 0, 20));
+                $quantity = trim(substr($buffer, 20, 12));
+                if (isset($productArray[$code]))
+                    $productArray[$code] += (int) $quantity;
+                else
+                    $productArray[$code] = (int) $quantity;
+            }
+            fclose($fileHandler);
+        }
+        unset($fileHandler);
+        unset($code);
+        unset($quantity);
+
+        $task->process .= date('Y-m-d G:i:s').' : '.'Reading completed' . "\r\n";
+        $task->process .= date('Y-m-d G:i:s').' : '.'Updating' . "\r\n";
+
+        foreach ($productArray as $code => $quantity) {
+            $model = ProductNode::model()->findByAttributes(array(
+                'code' => $code
+                    ));
+            if ($model) {
+                $task->process .= date('Y-m-d G:i:s').' : '.'Found ' . $code . ' (' . $model->quantity . ')';
+                if ($model->quantity = $quantity) {
+                    $task->process .= ' and quantity updated to ' . $quantity . "\r\n";
+                    $model->save();
+                }
+            }
+        }
+
+        $task->process .= date('Y-m-d G:i:s').' : '.'Task ended' . "\r\n";
+        $task->ended = date('Y-m-d G:i:s');
+        $task->save();
     }
 
 }

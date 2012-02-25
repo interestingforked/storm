@@ -105,7 +105,7 @@ class ServiceController extends Controller {
             'user' => $user
                 ), true);
         $subject = 'STORM - Подтверждение заказа';
-        $email = Yii::app()->user->email;
+        $email = $user->email;
 
         $adminMail = $this->renderPartial('//mails/admin_confirm', array(
             'order' => $order,

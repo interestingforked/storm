@@ -33,11 +33,12 @@ return array(
     ),
     'params' => array(
         'adminEmail' => 'info@stormlondon.ru',
-		'sentToAdminEmails' => 'info@stormlondon.ru,stormriga@gmail.com',
+        'sentToAdminEmails' => 'info@stormlondon.ru,stormriga@gmail.com',
         'defaultLanguage' => 'ru',
         'baseUrl' => 'http://storm.cc',
         'thumbUrl' => '/assets/thumb.php',
         'images' => '/images/products/',
         'newslettersMaxMailSend' => 50,
+        'filePath' => 'z:/home/storm.cc/www/protected/data/',
     ),
 );
