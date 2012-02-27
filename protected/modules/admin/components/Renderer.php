@@ -33,7 +33,7 @@ class Renderer {
                     break;
             }
             if (isset($item['items']) && count($item['items'])) {
-                if (!($renderType == self::RENDER_OPTION_LIST && $item['multipage'] == 1))
+                if (!(isset($item['multipage']) && $renderType == self::RENDER_OPTION_LIST && $item['multipage'] == 1))
                     $this->renderRecursive($item['items'], $value, $renderType);
             }
         }

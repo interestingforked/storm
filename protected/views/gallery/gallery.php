@@ -40,7 +40,7 @@ foreach ($galleries AS $gallery):
     if ($offset >= $i)
         continue;
     $c++;
-    if ($c % 4 == 0 OR $c == 1)
+    if (in_array($c, array(1,4,7)))
         echo '<div class="row">';
     echo '<div class="item">';
     $image = '';
@@ -51,7 +51,7 @@ foreach ($galleries AS $gallery):
     }
     echo CHtml::link($image, array('/'.$pluginPage->slug.'/'.$gallery->slug)); 
     echo '</div>';
-    if ($c % 3 == 0 OR $c == $t)
+    if (in_array($c, array(3,6,9)) OR $c == $t)
         echo '</div>';
     if ($c == $limit)
         break;

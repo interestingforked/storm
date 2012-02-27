@@ -9,6 +9,7 @@
         echo $this->renderPartial('_form', array(
             'errors' => $errors,
             'model' => $model,
+            'userStatuses' => $userStatuses
         ));
         ?>
     </div>

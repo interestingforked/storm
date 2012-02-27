@@ -17,6 +17,16 @@ class NewsletterController extends AdminController {
         $this->pageTitle = 'Newsletters / Add newsletter';
 
         $errors = array();
+        
+        $userStatuses = array(
+            0 => 'Просто зарегестрированные',
+            1 => 'Сделавшие покупку',
+            2 => 'Подписчики на новости',
+            //3 => 'Пользователи выбравшие LV язык',
+            //4 => 'Пользователи выбравшие RU язык',
+            //5 => 'Подписчики на новости и выбравшие LV язык',
+            //6 => 'Подписчики на новости и выбравшие RU язык',
+        );
 
         $model = new Newsletter;
         $model->message = $this->renderPartial('template_2', null, true);
@@ -41,6 +51,7 @@ class NewsletterController extends AdminController {
             'errors' => $errors,
             'model' => $model,
             'title' => $model->subject,
+            'userStatuses' => $userStatuses
         ));
     }
     
@@ -48,6 +59,16 @@ class NewsletterController extends AdminController {
         $this->pageTitle = 'Newsletters / Add newsletter';
 
         $errors = array();
+        
+        $userStatuses = array(
+            0 => 'Просто зарегестрированные',
+            1 => 'Сделавшие покупку',
+            2 => 'Подписчики на новости',
+            //3 => 'Пользователи выбравшие LV язык',
+            //4 => 'Пользователи выбравшие RU язык',
+            //5 => 'Подписчики на новости и выбравшие LV язык',
+            //6 => 'Подписчики на новости и выбравшие RU язык',
+        );
 
         $model = Newsletter::model()->findByPk($id);
 
@@ -71,6 +92,7 @@ class NewsletterController extends AdminController {
             'errors' => $errors,
             'model' => $model,
             'title' => $model->subject,
+            'userStatuses' => $userStatuses
         ));
     }
     
@@ -79,7 +101,26 @@ class NewsletterController extends AdminController {
         $model->start = new CDbExpression('CURRENT_TIMESTAMP');
         $model->save();
         
-        $users = User::model()->findAll();
+        $sql = "SELECT * FROM `users` `t` WHERE true ";
+        if ($model->filter == 1) {
+            $sql .= "AND id IN (SELECT user_id FROM orders WHERE status > 1) ";
+        }
+        if ($model->filter == 2) {
+            $sql .= "AND id IN (SELECT user_id FROM profiles WHERE newsletters = 1) ";
+        }
+        if ($model->filter == 3) {
+            $sql .= "AND id IN (SELECT user_id FROM profiles WHERE language = 'lv') ";
+        }
+        if ($model->filter == 4) {
+            $sql .= "AND id IN (SELECT user_id FROM profiles WHERE language = 'ru') ";
+        }
+        if ($model->filter == 5) {
+            $sql .= "AND id IN (SELECT user_id FROM profiles WHERE newsletters = 1 AND language = 'lv') ";
+        }
+        if ($model->filter == 6) {
+            $sql .= "AND id IN (SELECT user_id FROM profiles WHERE newsletters = 1 AND language = 'ru') ";
+        }
+        $users = User::model()->findAllBySql($sql);
         foreach ($users AS $user) {
             $newsletterUser = new NewsletterUser;
             $newsletterUser->isNewRecord = true;
@@ -87,8 +128,7 @@ class NewsletterController extends AdminController {
             $newsletterUser->newsletter_id = $model->id;
             $newsletterUser->user_id = $user->id;
             $newsletterUser->email = $user->email;
-            $newsletterUser->save();
-			
+            $newsletterUser->save();	
         }
         
         $this->redirect(array('/admin/newsletter'));

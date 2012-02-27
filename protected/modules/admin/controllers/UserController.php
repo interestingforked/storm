@@ -181,13 +181,15 @@ class UserController extends AdminController {
         $model = User::model()->findByPk($id);
         $transaction = Yii::app()->db->beginTransaction();
         $profile = $model->profile;
-        if ($profile->delete()) {
-            if ($model->delete()) {
-                $transaction->commit();
-            } else {
-                $transaction->rollback();
-            }
-        } else {
+        try {
+            $profile->delete();
+            NewsletterUser::model()->deleteAllByAttributes(array(
+                'user_id' => $model->id
+            ));
+            $model->delete();
+            $transaction->commit();
+        } catch (CDbException $ex) {
+            Yii::app()->user->setFlash('errorUserDelete', '<b>Cannot delete user!</b><br/>'.$ex->getMessage());
             $transaction->rollback();
         }
         $this->redirect(array('/admin/user'));

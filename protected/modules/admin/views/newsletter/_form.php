@@ -11,6 +11,10 @@ echo $form->errorSummary($model);
     <span class="note error"><?php echo $form->error($model, 'subject'); ?></span>
 </p>
 <p>
+    <?php echo $form->labelEx($model, 'filter'); ?><br/>
+    <?php echo $form->dropDownList($model, 'filter', $userStatuses, array('class' => 'styled medium')); ?>
+</p>
+<p>
     <?php echo $form->labelEx($model, 'message'); ?><br/>
     <?php echo $form->textArea($model,'message', array('class' => 'wysiwyg')); ?>
 </p>

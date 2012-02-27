@@ -23,9 +23,10 @@ class Newsletter extends CActiveRecord {
     public function rules() {
         return array(
             array('subject, message', 'required'),
+            array('filter', 'numerical', 'integerOnly' => true),
             array('subject', 'length', 'max' => 250),
             array('sent', 'safe'),
-            array('id, subject, message, start, sent, created', 'safe', 'on' => 'search'),
+            array('id, filter, subject, message, start, sent, created', 'safe', 'on' => 'search'),
         );
     }
 

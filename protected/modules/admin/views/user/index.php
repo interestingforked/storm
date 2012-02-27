@@ -5,6 +5,9 @@
         <h2>Users</h2>
     </div>
     <div class="block_content">
+        <?php if (Yii::app()->user->hasFlash('errorUserDelete')): ?>
+        <div class="message errormsg"><p><?php echo Yii::app()->user->getFlash('errorUserDelete'); ?></p></div>
+        <?php endif; ?>
         <?php if (!$users OR count($users) == 0): ?>
         <div class="message info"><p>No users found!</p></div>
         <?php else: ?>
